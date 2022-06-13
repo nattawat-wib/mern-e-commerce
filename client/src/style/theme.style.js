@@ -2,7 +2,7 @@ import { createTheme } from "@mui/material/styles";
 
 const defaultTheme = createTheme();
 
-export const mainTheme = createTheme({
+const light = createTheme({
     palette: {
         mode: 'light',
         primary: {
@@ -17,10 +17,6 @@ export const mainTheme = createTheme({
         //     dark: '#ff0000',
         //     contrastText: '#fff'
         // },
-        contrastThreshold: 2,
-        action: {
-            hover: '#00ff00'
-        }
     },
     shape: {
         borderRadius: 7
@@ -46,3 +42,29 @@ export const mainTheme = createTheme({
         }
     }
 })
+
+const dark = createTheme(light, {
+    palette: {
+        mode: 'dark',
+    }
+})
+
+const emotion = {
+    light: {
+        bg: '#fff'
+    },
+    dark: {
+        bg: '#121212'
+    }
+}
+
+export default {
+    mui: {
+        default: defaultTheme,
+        light,
+        dark
+    },
+    emotion: {
+        ...emotion
+    }
+}

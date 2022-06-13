@@ -1,23 +1,33 @@
-import { Button, TextField, Container, IconButton, Paper, Avatar, Stack, Dialog } from '@mui/material';
-
-import Skeleton from '@mui/material/Skeleton'
-
-import { ThemeProvider } from '@mui/material/styles';
-import { mainTheme } from './style/theme.style';
-
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import LoadingButton from '@mui/lab/LoadingButton';
-
 import './style/app.scss';
-import { useState } from 'react';
-import createPalette from '@mui/material/styles/createPalette';
+
+import ThemeContextProvider from './context/them-context';
+import { StyledEngineProvider } from '@mui/material/styles';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { CssBaseline } from '@mui/material';
+
+import WebpageLayout from './layout/webpage';
+// import ControlPanelLayout from './layout/control-panel';
+
+import Index from './page/webpage/index';
 
 const App = () => {
     return (
         <main>
-            <ThemeProvider theme={mainTheme}>
+            <StyledEngineProvider injectFirst>
+                <CssBaseline />
+                <ThemeContextProvider>
+                    <BrowserRouter>
+                        <Routes>
+                            <Route element={<WebpageLayout />}>
+                                <Route index element={<Index />} />
+                            </Route>
+                            {/* <Route element={<ControlPanelLayout />}>
 
-            </ThemeProvider>
+                            </Route> */}
+                        </Routes>
+                    </BrowserRouter>
+                </ThemeContextProvider>
+            </StyledEngineProvider>
         </main >
     )
 }

@@ -10,3 +10,13 @@ html {
     padding: 0;
     box-sizing: border-box;
 }
+
+.fit-img {
+    position: absolute;
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
