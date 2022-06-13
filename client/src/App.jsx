@@ -1,18 +1,25 @@
-import './style/app.scss';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import { TextField } from '@mui/material';
+import { Button, TextField, Container, IconButton, Paper, Avatar, Stack, Dialog } from '@mui/material';
 
-function App() {
+import Skeleton from '@mui/material/Skeleton'
+
+import { ThemeProvider } from '@mui/material/styles';
+import { mainTheme } from './style/theme.style';
+
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import LoadingButton from '@mui/lab/LoadingButton';
+
+import './style/app.scss';
+import { useState } from 'react';
+import createPalette from '@mui/material/styles/createPalette';
+
+const App = () => {
     return (
         <main>
-            <Container>
-                <img className='block mx-auto w-16' src="/image/favicon.png" alt="" />
-                <Button variant='contained'> teset </Button>
-                <TextField size='small' label='name' />
-            </Container>
-        </main>
+            <ThemeProvider theme={mainTheme}>
+
+            </ThemeProvider>
+        </main >
     )
 }
 
-export default App
+export default App;
