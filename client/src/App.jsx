@@ -23,9 +23,6 @@ const App = () => {
                                 <Route index element={<Index />} />
                                 <Route path='/:categoryId/:productSku' element={<ProductDetail />} />
                             </Route>
-                            {/* <Route element={<ControlPanelLayout />}>
-
-                            </Route> */}
                         </Routes>
                     </BrowserRouter>
                 </ThemeContextProvider>

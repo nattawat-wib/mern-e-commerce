@@ -6,7 +6,7 @@ const ProductCard = () => {
     return (
         <StyledProductCard>
             <Link to='/1/shirt'>
-                <figure className='m-0 relative w-full pt-[75%]'>
+                <figure className='relative w-full pt-[75%]'>
                     <img className='fit-img rounded-md' src='https://via.placeholder.com/500' />
                 </figure>
             </Link>

@@ -19,9 +19,9 @@ const light = createTheme({
         //     contrastText: '#fff'
         // },
     },
-    shape: {
-        borderRadius: 7
-    },
+    // shape: {
+    //     borderRadius: 7
+    // },
     typography: {
         button: {
             textTransform: 'none'
