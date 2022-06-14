@@ -11,6 +11,7 @@ const light = createTheme({
             dark: '#F7442D',
             contrastText: '#fff'
         },
+        light: '#fff'
         // secondary: {
         //     main: '#000fff',
         //     light: '#00ffff',
@@ -38,6 +39,13 @@ const light = createTheme({
                     // backgroundColor: 'rgba(255, 255, 255, .5)',
                     backdropFilter: 'blur(2px)',
                 }
+            }
+        },
+        MuiStack: {
+            defaultProps: {
+                direction: 'row',
+                alignItems: 'center',
+                justifyContent: 'center'
             }
         }
     }
