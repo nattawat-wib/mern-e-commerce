@@ -9,6 +9,7 @@ import WebpageLayout from './layout/webpage';
 // import ControlPanelLayout from './layout/control-panel';
 
 import Index from './page/webpage/index';
+import ProductDetail from './page/webpage/product-detail';
 
 const App = () => {
     return (
@@ -20,6 +21,7 @@ const App = () => {
                         <Routes>
                             <Route element={<WebpageLayout />}>
                                 <Route index element={<Index />} />
+                                <Route path='/:categoryId/:productSku' element={<ProductDetail />} />
                             </Route>
                             {/* <Route element={<ControlPanelLayout />}>
 

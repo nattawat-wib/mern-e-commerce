@@ -59,10 +59,12 @@ const dark = createTheme(light, {
 
 const emotion = {
     light: {
-        bg: '#fff'
+        bg: '#fff',
+        mui: light
     },
     dark: {
-        bg: '#121212'
+        bg: '#121212',
+        mui: dark
     }
 }
 
