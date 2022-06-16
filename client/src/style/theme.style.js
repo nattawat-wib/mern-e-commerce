@@ -48,6 +48,10 @@ const light = createTheme({
                 justifyContent: 'center'
             }
         }
+    },
+    typography: {
+        fontFamily: 'Noto Sans Thai, sans-serif',
+        // fontFamily: 'IBM Plex Sans Thai, sans-serif'
     }
 })
 

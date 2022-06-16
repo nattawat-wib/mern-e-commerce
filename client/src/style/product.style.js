@@ -18,7 +18,7 @@ export const StyledSnippetInput = styled(Stack)`
         -moz-appearance: textfield;
         margin: 0;
         font-size: 17px;
-        font-weight: 500;
+        font-weight: 600;
         
         &::-webkit-outer-spin-button,
         &::-webkit-inner-spin-button {

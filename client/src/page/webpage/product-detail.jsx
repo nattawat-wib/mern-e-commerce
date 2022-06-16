@@ -26,6 +26,10 @@ const ProductDetail = () => {
     const [quantity, setQuantity] = useState(0);
     const [sliderList, setSliderList] = useState([]);
 
+    const handleQuantity = e => {
+        setQuantity()
+    }
+
     return (
         <PageWrapper>
             <Container sx={{ py: 6 }} >
@@ -92,7 +96,7 @@ const ProductDetail = () => {
 
                                 </Grid>
                                 <Grid item xs={9}>
-                                    {/* <Grid container spacing={1}>
+                                    <Grid container spacing={1}>
                                         <Grid xs={2} item>
                                             <img className='w-full' src="/image/prodivers-list/DHL.png" alt="" />
                                         </Grid>
@@ -105,7 +109,7 @@ const ProductDetail = () => {
                                         <Grid xs={2} item>
                                             <img className='w-full' src="/image/prodivers-list/Fed Ex.png" alt="" />
                                         </Grid>
-                                    </Grid> */}
+                                    </Grid>
                                 </Grid>
                             </Grid>
 
@@ -125,9 +129,9 @@ const ProductDetail = () => {
                                         -
                                     </Button>
                                     <input
-                                        defaultValue={quantity}
-                                        min='0'
+                                        value={quantity}
                                         type='number'
+                                        readOnly
                                     />
                                     <Button
                                         onClick={() => setQuantity(prev => prev + 1)}
