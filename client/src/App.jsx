@@ -15,8 +15,8 @@ const App = () => {
     return (
         <main>
             <StyledEngineProvider injectFirst>
-                <CssBaseline />
                 <ThemeContextProvider>
+                    <CssBaseline />
                     <BrowserRouter>
                         <Routes>
                             <Route element={<WebpageLayout />}>

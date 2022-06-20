@@ -9,6 +9,7 @@ import { PageWrapper } from './../../style/util.style';
 import { StyledSnippetInput } from './../../style/product.style';
 import ReviewItem from './../../components/webpage/review-item';
 import Slider from "react-slick";
+import ProductCard from './../../components/webpage/product-card';
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -22,7 +23,6 @@ const ProductDetail = () => {
         slidesToScroll: 1,
         centerMode: true,
     };
-
     const [quantity, setQuantity] = useState(0);
     const [sliderList, setSliderList] = useState([]);
 
@@ -176,13 +176,22 @@ const ProductDetail = () => {
                     <Typography variant='h5' color='primary' sx={{ mb: 2 }}> Rating & Review </Typography>
                     {
                         new Array(10).fill(1).map((review, i) => {
-                            return(
+                            return (
                                 <ReviewItem key={i} review={ReviewItem} />
                             )
                         })
                     }
                 </Paper>
 
+                <Paper sx={{ my: 4, p: 4 }}>
+                    <Typography> Other Products </Typography>
+                    <Grid container >
+                        <Grid xs={6} md={3} item > <ProductCard /> </Grid>
+                        <Grid xs={6} md={3} item > <ProductCard /> </Grid>
+                        <Grid xs={6} md={3} item > <ProductCard /> </Grid>
+                        <Grid xs={6} md={3} item > <ProductCard /> </Grid>
+                    </Grid>
+                </Paper>
             </Container>
         </PageWrapper >
     )
