@@ -12,6 +12,7 @@ import Index from './page/webpage/index';
 import ProductDetail from './page/webpage/product-detail';
 import Cart from './page/webpage/cart';
 import Checkout from './page/webpage/checkout';
+import Member from './page/webpage/member';
 
 const App = () => {
     return (
@@ -26,6 +27,7 @@ const App = () => {
                                 <Route path='/:categoryId/:productSku' element={<ProductDetail />} />
                                 <Route path='/cart' element={<Cart />} />
                                 <Route path='/checkout' element={<Checkout />} />
+                                <Route path='/member' element={<Member />} />
                             </Route>
 
                             <Route element={<ControlPanelLayout />}>

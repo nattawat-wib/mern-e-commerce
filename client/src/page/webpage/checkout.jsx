@@ -10,7 +10,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 const Checkout = () => {
     return (
         <PageWrapper >
-            <Container sx={{ p: 4, pt: 3 }} >
+            <Container sx={{ pb: 4, pt: 3 }} >
                 <Button
                     component={Link}
                     to='/cart'

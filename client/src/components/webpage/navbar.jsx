@@ -77,7 +77,12 @@ const Navbar = () => {
                                     onClose={() => setProfileMenuParent(null)}
                                     anchorEl={ProfileMenuParent}
                                 >
-                                    <MenuItem dense={true} >
+                                    <MenuItem
+                                        component={Link}
+                                        to='/member'
+                                        dense={true}
+                                        onClick={() => setProfileMenuParent(null)}
+                                    >
                                         <ListItemIcon>  <AccountBoxIcon /> </ListItemIcon>
                                         User Account
                                     </MenuItem>
