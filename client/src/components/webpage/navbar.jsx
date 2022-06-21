@@ -1,25 +1,51 @@
-import { AppBar, Container, Box, Stack, Button, TextField, Typography, IconButton, InputAdornment, Tooltip } from '@mui/material';
+import { AppBar, Container, Box, Stack, Button, Typography, IconButton, InputAdornment, Tooltip, Menu, MenuItem, Avatar, ListItemIcon } from '@mui/material';
 
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 import { Link } from 'react-router-dom';
 import { StyledSearchBar } from './../../style/navbar.style';
 import RegisterDialog from './register-dialog';
+import LoginDialog from './login-dialog';
 import { useState } from 'react';
 import { useThemeContext } from './../../context/them-context';
+import DialogConfirm from './../util/dialog-confirm';
 
 const Navbar = () => {
-    const [member, setMember] = useState(false);
     const [isRegisterDialogOpen, setIsRegisterDialogOpen] = useState(false);
+    const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
+    const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
+    const [ProfileMenuParent, setProfileMenuParent] = useState(null);
+
+    const [member, setMember] = useState(true);
     const { isDarkTheme, setIsDarkTheme } = useThemeContext();
+
+    const handleLogout = () => {
+        setMember(false)
+        setIsConfirmDialogOpen(false)
+        alert('logout successfully')
+    }
 
     return (
         <AppBar position='sticky' sx={{ bgcolor: 'primary.dark' }}>
+            <DialogConfirm
+                isConfirmDialogOpen={isConfirmDialogOpen}
+                setIsConfirmDialogOpen={setIsConfirmDialogOpen}
+                callback={handleLogout}
+            />
             <RegisterDialog
                 isRegisterDialogOpen={isRegisterDialogOpen}
+                setIsRegisterDialogOpen={setIsRegisterDialogOpen}
+                setIsLoginDialogOpen={setIsLoginDialogOpen}
+            />
+            <LoginDialog
+                isLoginDialogOpen={isLoginDialogOpen}
+                setIsLoginDialogOpen={setIsLoginDialogOpen}
                 setIsRegisterDialogOpen={setIsRegisterDialogOpen}
             />
             <Container>
@@ -33,20 +59,39 @@ const Navbar = () => {
                     >
                         control panel
                     </Button>
-
                     {
                         member ?
                             <Stack>
                                 <Tooltip title='see your profile' arrow>
                                     <Button
+                                        onClick={e => setProfileMenuParent(e.target)}
                                         size='small'
                                         sx={{ color: 'light' }}
                                     >
+                                        <Avatar sx={{ width: 20, height: 20, mr: 1 }} />
                                         nutella tester
                                     </Button>
                                 </Tooltip>
+                                <Menu
+                                    open={!!ProfileMenuParent}
+                                    onClose={() => setProfileMenuParent(null)}
+                                    anchorEl={ProfileMenuParent}
+                                >
+                                    <MenuItem dense={true} >
+                                        <ListItemIcon>  <AccountBoxIcon /> </ListItemIcon>
+                                        User Account
+                                    </MenuItem>
+                                    <MenuItem dense={true} >
+                                        <ListItemIcon> <ShoppingBasketIcon /> </ListItemIcon>
+                                        Purchase History
+                                    </MenuItem>
+                                    <MenuItem dense={true} onClick={() => setIsConfirmDialogOpen(true)} >
+                                        <ListItemIcon> <LogoutIcon /> </ListItemIcon>
+                                        Logout
+                                    </MenuItem>
+                                </Menu>
                                 <Button
-                                    onClick={() => setMember(prev => !prev)}
+                                    onClick={() => setIsConfirmDialogOpen(true)}
                                     size='small'
                                     sx={{ color: 'light' }}
                                 >
@@ -56,13 +101,14 @@ const Navbar = () => {
                             :
                             <Stack>
                                 <Button
+                                    onClick={() => setIsRegisterDialogOpen(true)}
                                     size='small'
                                     sx={{ color: 'light' }}
                                 >
                                     register
                                 </Button>
                                 <Button
-                                    onClick={() => setIsRegisterDialogOpen(true)}
+                                    onClick={() => setIsLoginDialogOpen(true)}
                                     size='small'
                                     sx={{ color: 'light' }}
                                 >
@@ -97,7 +143,7 @@ const Navbar = () => {
                     />
                     <div>
                         <IconButton
-                        sx={{ color: 'light' }}
+                            sx={{ color: 'light' }}
                             onClick={() => setIsDarkTheme(prev => !prev)}
                         >
                             {
@@ -108,7 +154,11 @@ const Navbar = () => {
                             }
                         </IconButton>
 
-                        <IconButton sx={{ color: 'light' }}>
+                        <IconButton
+                            component={Link}
+                            to='/cart'
+                            sx={{ color: 'light' }}
+                        >
                             <ShoppingCartOutlinedIcon />
                         </IconButton>
 

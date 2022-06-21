@@ -6,10 +6,12 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { CssBaseline } from '@mui/material';
 
 import WebpageLayout from './layout/webpage';
-// import ControlPanelLayout from './layout/control-panel';
+import ControlPanelLayout from './layout/control-panel';
 
 import Index from './page/webpage/index';
 import ProductDetail from './page/webpage/product-detail';
+import Cart from './page/webpage/cart';
+import Checkout from './page/webpage/checkout';
 
 const App = () => {
     return (
@@ -22,6 +24,12 @@ const App = () => {
                             <Route element={<WebpageLayout />}>
                                 <Route index element={<Index />} />
                                 <Route path='/:categoryId/:productSku' element={<ProductDetail />} />
+                                <Route path='/cart' element={<Cart />} />
+                                <Route path='/checkout' element={<Checkout />} />
+                            </Route>
+
+                            <Route element={<ControlPanelLayout />}>
+                                <Route index element={<Index />} />
                             </Route>
                         </Routes>
                     </BrowserRouter>

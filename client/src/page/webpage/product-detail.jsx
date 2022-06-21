@@ -8,8 +8,14 @@ import { useState } from 'react';
 import { PageWrapper } from './../../style/util.style';
 import { StyledSnippetInput } from './../../style/product.style';
 import ReviewItem from './../../components/webpage/review-item';
-import Slider from "react-slick";
 import ProductCard from './../../components/webpage/product-card';
+import SnipperInput from '../../components/util/snippet-input';
+
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Thumbs } from 'swiper';
+import 'swiper/css';
+import "swiper/css/navigation";
+import "swiper/css/thumbs";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -23,50 +29,61 @@ const ProductDetail = () => {
         slidesToScroll: 1,
         centerMode: true,
     };
-    const [quantity, setQuantity] = useState(0);
+    // const [quantity, setQuantity] = useState(0);
     const [sliderList, setSliderList] = useState([]);
+
+    const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
     const handleQuantity = e => {
         setQuantity()
     }
-
+    console.log('thumbsSwiper', thumbsSwiper);
     return (
         <PageWrapper>
             <Container sx={{ py: 6 }} >
                 <Paper sx={{ p: 4 }} elevation={1}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} md={5} >
-                            <Slider
-                                asNavFor={sliderList[1]}
-                                ref={slider => sliderList.push(slider)}
+                            <Swiper
+                                modules={[Thumbs]}
+                                thumbs={{ swiper: thumbsSwiper }}
+                                effect='fade'
                             >
                                 {
                                     new Array(10).fill(1).map(number => {
                                         return (
-                                            <figure key={Date.now()} className='relative pt-[75%]'>
-                                                <img className='fit-img' src="https://via.placeholder.com/500" alt="" />
-                                            </figure>
+                                            <SwiperSlide key={Math.random()}>
+                                                <figure className='relative pt-[75%]'>
+                                                    <img className='fit-img' src="https://figopetinsurance.com/sites/default/files/styles/blog_detail/public/imagedogpug-standing-leavesblog.jpg" alt="" />
+                                                </figure>
+                                            </SwiperSlide>
                                         )
                                     })
                                 }
-                            </Slider>
-                            <Slider
-                                asNavFor={sliderList[0]}
-                                ref={slider => sliderList.push(slider)}
-                                slidesToShow={5}
-                                swipeToSlide={true}
-                                focusOnSelect={true}
+                            </Swiper>
+                            <Swiper
+                                navigation={true}
+                                slideNextClass={'opacity-50'}
+                                slidesPerView={5}
+                                modules={[Navigation, Thumbs]}
+                                onSwiper={setThumbsSwiper}
+                                watchSlidesProgress={true}
+                                style={{
+                                    "--swiper-navigation-color": "#fff",
+                                  }}                                
                             >
                                 {
                                     new Array(10).fill(1).map(number => {
                                         return (
-                                            <figure key={Date.now()} className='relative pt-[75%]'>
-                                                <img className='fit-img' src="https://via.placeholder.com/500" alt="" />
-                                            </figure>
+                                            <SwiperSlide key={Math.random()}>
+                                                <figure className='relative pt-[75%]'>
+                                                    <img className='fit-img' src="https://figopetinsurance.com/sites/default/files/styles/blog_detail/public/imagedogpug-standing-leavesblog.jpg" alt="" />
+                                                </figure>
+                                            </SwiperSlide>
                                         )
                                     })
                                 }
-                            </Slider>
+                            </Swiper>
                         </Grid>
                         <Grid item xs={12} md={7} >
                             <Typography variant='h6'>
@@ -120,7 +137,8 @@ const ProductDetail = () => {
                                     </Typography>
 
                                 </Grid>
-                                <StyledSnippetInput>
+                                <SnipperInput />
+                                {/* <StyledSnippetInput>
                                     <Button
                                         onClick={() => setQuantity(prev => prev - 1)}
                                         variant='outlined'
@@ -140,7 +158,7 @@ const ProductDetail = () => {
                                     >
                                         +
                                     </Button>
-                                </StyledSnippetInput>
+                                </StyledSnippetInput> */}
                             </Grid>
 
                             <Stack justifyContent='start' spacing={2} sx={{ mt: 4 }}>
@@ -185,11 +203,11 @@ const ProductDetail = () => {
 
                 <Paper sx={{ my: 4, p: 4 }}>
                     <Typography> Other Products </Typography>
-                    <Grid container >
-                        <Grid xs={6} md={3} item > <ProductCard /> </Grid>
-                        <Grid xs={6} md={3} item > <ProductCard /> </Grid>
-                        <Grid xs={6} md={3} item > <ProductCard /> </Grid>
-                        <Grid xs={6} md={3} item > <ProductCard /> </Grid>
+                    <Grid container spacing={2} >
+                        <Grid xs={12} sm={6} md={3} item > <ProductCard /> </Grid>
+                        <Grid xs={12} sm={6} md={3} item > <ProductCard /> </Grid>
+                        <Grid xs={12} sm={6} md={3} item > <ProductCard /> </Grid>
+                        <Grid xs={12} sm={6} md={3} item > <ProductCard /> </Grid>
                     </Grid>
                 </Paper>
             </Container>

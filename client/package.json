@@ -24,7 +24,8 @@
     "react-router-dom": "^6.3.0",
     "react-slick": "^0.29.0",
     "slick-carousel": "^1.8.1",
-    "styled-components": "^5.3.5"
+    "styled-components": "^5.3.5",
+    "swiper": "^8.2.4"
   },
   "devDependencies": {
     "@types/react": "^18.0.0",

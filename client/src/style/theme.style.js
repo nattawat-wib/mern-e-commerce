@@ -111,12 +111,14 @@ const dark = createTheme({
 const emotion = {
     light: {
         bg: '#fbfbfb',
-        searchBg: '#fff',
+        inputColor: '#121212',
+        inputBg: '#fff',
         mui: light
     },
     dark: {
         bg: '#3d3d3d',
-        searchBg: '#121212',
+        inputColor: '#fff',
+        inputBg: '#121212',
         mui: dark
     }
 }

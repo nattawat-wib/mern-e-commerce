@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { TextField } from '@mui/material';
 
 export const StyledSearchBar = styled(TextField)`
-    background-color: ${({theme}) => theme.searchBg};
+    background-color: ${({theme}) => theme.inputBg};
     border-radius: 4px;
     padding: 0;
     max-width: 700px;
