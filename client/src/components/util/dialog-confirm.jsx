@@ -2,8 +2,8 @@ import { Button, Dialog, DialogTitle, DialogContent, DialogActions, Divider } fr
 
 const ConfirmDialog = (
     {
-        isConfirmDialogOpen,
-        setIsConfirmDialogOpen,
+        isOpen,
+        setIsOpen,
         title = 'are you sure to confirm this action ?',
         content = 'are you sure, this action cannot be undone',
         callback
@@ -11,8 +11,8 @@ const ConfirmDialog = (
 ) => {
     return (
         <Dialog
-            open={isConfirmDialogOpen}
-            onClose={() => setIsConfirmDialogOpen(false)}
+            open={isOpen}
+            onClose={() => setIsOpen(false)}
         >
             <DialogTitle> {title} </DialogTitle>
             <DialogContent> {content} </DialogContent>
@@ -20,17 +20,22 @@ const ConfirmDialog = (
                 <Button
                     size='small'
                     variant='outlined'
-                    onClick={callback}
-                > 
-                Confirm 
+                    onClick={
+                        () => {
+                            callback()
+                            setIsOpen(false)
+                        }
+                    }
+                >
+                    Confirm
                 </Button>
                 <Button
                     size='small'
                     variant='contained'
-                    onClick={() => setIsConfirmDialogOpen(false)}
+                    onClick={() => setIsOpen(false)}
                 > Close </Button>
             </DialogActions>
-        </Dialog>
+        </Dialog >
     )
 }
 

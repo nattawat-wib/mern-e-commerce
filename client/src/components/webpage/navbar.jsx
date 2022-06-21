@@ -34,8 +34,8 @@ const Navbar = () => {
     return (
         <AppBar position='sticky' sx={{ bgcolor: 'primary.dark' }}>
             <DialogConfirm
-                isConfirmDialogOpen={isConfirmDialogOpen}
-                setIsConfirmDialogOpen={setIsConfirmDialogOpen}
+                isOpen={isConfirmDialogOpen}
+                setIsOpen={setIsConfirmDialogOpen}
                 callback={handleLogout}
             />
             <RegisterDialog
