@@ -1,15 +1,24 @@
-import { Container, Paper, Button, Typography, IconButton, Stack, Box, Grid } from '@mui/material';
+import { Container, Paper, Button, Typography, TextField, IconButton, Stack, Box, Grid, MenuItem, RadioGroup, FormLabel, FormControlLabel, Radio } from '@mui/material';
 import { PageWrapper } from "../../style/util.style";
 import { Link } from 'react-router-dom';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import { StyledCartFooter } from './../../style/product.style';
 import PersonPinCircleIcon from '@mui/icons-material/PersonPinCircle';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const Checkout = () => {
     return (
         <PageWrapper >
-            <Container sx={{ py: 4 }} >
+            <Container sx={{ p: 4, pt: 3 }} >
+                <Button
+                    component={Link}
+                    to='/cart'
+                    startIcon={<ArrowBackIcon />}
+                    size='small'
+                >
+                    Back to cart
+                </Button>
                 <Paper sx={{ p: 2, mb: 2 }}>
                     <Stack justifyContent='start' >
                         <PersonPinCircleIcon color='primary' />
@@ -66,24 +75,58 @@ const Checkout = () => {
                 </Paper>
 
                 <Paper sx={{ p: 2, mb: 2 }}>
-                    
-                    <Box alignItems='center' className='text-right' >
-                        <Typography>
-                            <b>Total Product </b>: 12
-                        </Typography>
-                        <Typography>
-                            <b> All Price </b>: 1,500
-                        </Typography>
-                        <br />
-                        <Button
-                            component={Link}
-                            to='/checkout'
-                            variant='contained'
-                            size='small'
-                        >
-                            Confirm Order
-                        </Button>
-                    </Box>
+                    <Grid container spacing={2}>
+                        <Grid xs={4} item>
+                            <TextField
+                                label='provider'
+                                select
+                                fullWidth
+                                size='small'
+                            >
+                                <MenuItem>
+                                    Kerry Express
+                                </MenuItem>
+                                <MenuItem>
+                                    Thai Post
+                                </MenuItem>
+                                <MenuItem>
+                                    Flash
+                                </MenuItem>
+                            </TextField>
+                        </Grid>
+                        <Grid xs={1} item></Grid>
+                        <Grid xs={3} item>
+                            <FormLabel> Payment Method </FormLabel>
+                            <RadioGroup>
+                                <FormControlLabel name='paymentMethod' value='1' control={<Radio />} label='Bank Transfer' />
+                                <FormControlLabel name='paymentMethod' disabled value='1' control={<Radio />} label='Credit Card' />
+                                <FormControlLabel name='paymentMethod' disabled value='1' control={<Radio />} label='Crash On Delivery' />
+                            </RadioGroup>
+                        </Grid>
+                        <Grid xs={4} item>
+                            <Box alignItems='center' className='text-right' >
+                                <Typography sx={{ mb: 1 }}>
+                                    <b>Total Product </b>: 12
+                                </Typography>
+                                <Typography sx={{ mb: 1 }}>
+                                    <b> All Price </b>: 1,500
+                                </Typography>
+                                <Typography sx={{ mb: 1 }}>
+                                    <b> Delivery Price </b>: 40
+                                </Typography>
+                                <br />
+                                <Button
+                                    component={Link}
+                                    to='/checkout'
+                                    variant='contained'
+                                    size='small'
+                                >
+                                    Confirm Order
+                                </Button>
+                            </Box>
+
+                        </Grid>
+                    </Grid>
                 </Paper>
             </Container>
         </PageWrapper >
