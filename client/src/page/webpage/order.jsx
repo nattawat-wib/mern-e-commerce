@@ -77,6 +77,16 @@ export default function Order() {
                     </StyledResponsiveStepper>
 
                     <Divider sx={{ my: 2 }} />
+                    <div className='flex justify-end'>
+                        <Button
+                            component={Link}
+                            to={`/confirm-slip/${Math.random().toString().slice(2)}`}
+                            variant='contained'
+                        >
+                            Pay
+                        </Button>
+                    </div>
+                    <Divider sx={{ my: 2 }} />
 
                     <Paper sx={{ mb: 2 }}>
                         <Stack justifyContent='start' >
@@ -117,7 +127,8 @@ export default function Order() {
                             )
                         })
                     }
-                    <Divider sx={{ mb: 2 }} />
+                    <Typography> Provider : Kerry Express </Typography>
+                    <Divider sx={{ my: 2 }} />
                     <div className='text-right'>
                         <span> Delivery Price : 50 </span>
                         <br />
