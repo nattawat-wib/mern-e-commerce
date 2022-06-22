@@ -1,6 +1,7 @@
 import { Divider, Paper, Container, Typography, Stack, Grid, Button } from '@mui/material';
 import { Box } from '@mui/system';
 import { PageWrapper } from '../../style/util.style';
+import { Link } from 'react-router-dom';
 
 export default function OrderHistory() {
     return (
@@ -40,17 +41,21 @@ export default function OrderHistory() {
                                 }
                                 <Box textAlign='right' className='font-bold' >
                                     <span> Delivery Price : 50 </span>
-                                    <br/>
+                                    <br />
                                     <span> Total Price : 3,560 </span>
                                 </Box>
                                 <Divider sx={{ my: 2 }} />
                                 <Stack justifyContent='end' spacing={2}>
                                     <Button
+                                        component={Link}
+                                        to={`/order/${Math.random().toString().slice(2)}`}
                                         variant='outlined'
                                     >
                                         More Info
                                     </Button>
                                     <Button
+                                        component={Link}
+                                        to={`/confirm-slip/${Math.random().toString().slice(2)}`}
                                         variant='contained'
                                     >
                                         Pay

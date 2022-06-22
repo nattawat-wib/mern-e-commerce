@@ -15,6 +15,7 @@ import Checkout from './page/webpage/checkout';
 import Member from './page/webpage/member';
 import OrderHistory from './page/webpage/order-history';
 import ConfirmSlip from './page/webpage/confirm-slip';
+import Order from './page/webpage/order';
 
 const App = () => {
     return (
@@ -31,7 +32,7 @@ const App = () => {
                                 <Route path='/checkout' element={<Checkout />} />
                                 <Route path='/member' element={<Member />} />
                                 <Route path='/order-history' element={<OrderHistory />} />
-                                <Route path='/order/:orderId' element={<OrderHistory />} />
+                                <Route path='/order/:orderId' element={<Order />} />
                                 <Route path='/confirm-slip/:orderId' element={<ConfirmSlip />} />
                             </Route>
 
