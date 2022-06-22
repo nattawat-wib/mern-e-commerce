@@ -22,6 +22,11 @@ html {
     left: 0;
 }
 
+.fix-img {
+    object-fit: cover;
+    object-position: center;
+}
+
 a {
     text-decoration: none;
 }
@@ -29,3 +34,4 @@ a {
 figure {
     margin: 0;
 }
+

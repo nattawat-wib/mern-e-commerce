@@ -7,6 +7,7 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import LogoutIcon from '@mui/icons-material/Logout';
+import PaymentIcon from '@mui/icons-material/Payment';
 
 import { Link } from 'react-router-dom';
 import { StyledSearchBar } from './../../style/navbar.style';
@@ -86,9 +87,14 @@ const Navbar = () => {
                                         <ListItemIcon>  <AccountBoxIcon /> </ListItemIcon>
                                         User Account
                                     </MenuItem>
-                                    <MenuItem dense={true} >
-                                        <ListItemIcon> <ShoppingBasketIcon /> </ListItemIcon>
-                                        Purchase History
+                                    <MenuItem
+                                        component={Link}
+                                        to='/order-history'
+                                        dense={true}
+                                        onClick={() => setProfileMenuParent(null)}
+                                    >
+                                        <ListItemIcon> <PaymentIcon /> </ListItemIcon>
+                                        Order History
                                     </MenuItem>
                                     <MenuItem dense={true} onClick={() => setIsConfirmDialogOpen(true)} >
                                         <ListItemIcon> <LogoutIcon /> </ListItemIcon>

@@ -13,6 +13,8 @@ import ProductDetail from './page/webpage/product-detail';
 import Cart from './page/webpage/cart';
 import Checkout from './page/webpage/checkout';
 import Member from './page/webpage/member';
+import OrderHistory from './page/webpage/order-history';
+import ConfirmSlip from './page/webpage/confirm-slip';
 
 const App = () => {
     return (
@@ -28,10 +30,12 @@ const App = () => {
                                 <Route path='/cart' element={<Cart />} />
                                 <Route path='/checkout' element={<Checkout />} />
                                 <Route path='/member' element={<Member />} />
-                                <Route path='/purchase-history' element={<Member />} />
+                                <Route path='/order-history' element={<OrderHistory />} />
+                                <Route path='/order/:orderId' element={<OrderHistory />} />
+                                <Route path='/confirm-slip/:orderId' element={<ConfirmSlip />} />
                             </Route>
 
-                            <Route element={<ControlPanelLayout />}>
+                            <Route path='/cp' element={<ControlPanelLayout />}>
                                 <Route index element={<Index />} />
                             </Route>
                         </Routes>

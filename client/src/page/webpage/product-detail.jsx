@@ -37,7 +37,7 @@ const ProductDetail = () => {
     const handleQuantity = e => {
         setQuantity()
     }
-    console.log('thumbsSwiper', thumbsSwiper);
+
     return (
         <PageWrapper>
             <Container sx={{ py: 6 }} >
@@ -70,7 +70,7 @@ const ProductDetail = () => {
                                 watchSlidesProgress={true}
                                 style={{
                                     "--swiper-navigation-color": "#fff",
-                                  }}                                
+                                }}
                             >
                                 {
                                     new Array(10).fill(1).map(number => {

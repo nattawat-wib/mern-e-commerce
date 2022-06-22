@@ -38,7 +38,7 @@ export default function Member() {
                                 <ListItemIcon> <PersonPinCircleIcon /> </ListItemIcon>
                                 Address
                             </ListItemButton>
-                            <ListItemButton component={Link} to='/purchase-history'>
+                            <ListItemButton component={Link} to='/order-history'>
                                 <ListItemIcon> <PaymentIcon /> </ListItemIcon>
                                 Purchase History
                             </ListItemButton>
