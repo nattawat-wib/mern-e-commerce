@@ -1,14 +1,32 @@
 import { Outlet } from 'react-router-dom'
+import { useLocation } from 'react-router-dom';
+import { useState } from 'react';
 
-import Navbar from './../components/webpage/navbar';
-import Footer from './../components/webpage/footer';
+import Navbar from './../components/control-panel/navbar';
+import Sidebar from '../components/control-panel/sidebar';
 
-const ControlPanelLayout = () => {
+const ControlPanelLayout = (prop) => {
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const location = useLocation();
+
     return (
         <>
-            <Navbar />
-            <Outlet />
-            <Footer />
+            {
+                location.pathname.includes('/cp/login') ?
+                    <Outlet />
+                    :
+                    <>
+                        <Sidebar
+                            isSidebarOpen={isSidebarOpen}
+                            setIsSidebarOpen={setIsSidebarOpen}
+                        />
+                        <Navbar
+                            isSidebarOpen={isSidebarOpen}
+                            setIsSidebarOpen={setIsSidebarOpen}
+                        />
+                        <Outlet />
+                    </>
+            }
         </>
     )
 }

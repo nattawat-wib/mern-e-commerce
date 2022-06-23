@@ -1,4 +1,4 @@
-import { Button, Container, Divider, Paper, Stack, Typography, Grid, Step, Stepper, StepLabel } from '@mui/material';
+import { Button, Container, Divider, Paper, Stack, Typography, Grid, Step, Stepper, StepLabel, Box } from '@mui/material';
 import { PageWrapper } from './../../style/util.style';
 import { StyledResponsiveStepper } from './../../style/product.style';
 
@@ -88,7 +88,7 @@ export default function Order() {
                     </div>
                     <Divider sx={{ my: 2 }} />
 
-                    <Paper sx={{ mb: 2 }}>
+                    <Box sx={{ mb: 2 }}>
                         <Stack justifyContent='start' >
                             <PersonPinCircleIcon color='primary' />
                             <Typography color='primary'> <b> Shipping Address </b> </Typography>
@@ -101,7 +101,7 @@ export default function Order() {
                                 It depends... NASA Headquarters has two different addresses: an official mailing address and a delivery address. Using the correct address can be crucial.
                             </Grid>
                         </Grid>
-                    </Paper>
+                    </Box>
 
                     <Divider sx={{ mb: 2 }} />
                     {

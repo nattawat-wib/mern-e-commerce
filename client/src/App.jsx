@@ -17,33 +17,35 @@ import OrderHistory from './page/webpage/order-history';
 import ConfirmSlip from './page/webpage/confirm-slip';
 import Order from './page/webpage/order';
 
+import Login from './page/control-panel/login';
+import ProductAdd from './page/control-panel/product-add';
+
 const App = () => {
     return (
-        <main>
+        <BrowserRouter>
             <StyledEngineProvider injectFirst>
                 <ThemeContextProvider>
                     <CssBaseline />
-                    <BrowserRouter>
-                        <Routes>
-                            <Route element={<WebpageLayout />}>
-                                <Route index element={<Index />} />
-                                <Route path='/:categoryId/:productSku' element={<ProductDetail />} />
-                                <Route path='/cart' element={<Cart />} />
-                                <Route path='/checkout' element={<Checkout />} />
-                                <Route path='/member' element={<Member />} />
-                                <Route path='/order-history' element={<OrderHistory />} />
-                                <Route path='/order/:orderId' element={<Order />} />
-                                <Route path='/confirm-slip/:orderId' element={<ConfirmSlip />} />
-                            </Route>
+                    <Routes>
+                        <Route element={<WebpageLayout />}>
+                            <Route index element={<Index />} />
+                            <Route path='/:categoryId/:productSku' element={<ProductDetail />} />
+                            <Route path='/cart' element={<Cart />} />
+                            <Route path='/checkout' element={<Checkout />} />
+                            <Route path='/member' element={<Member />} />
+                            <Route path='/order-history' element={<OrderHistory />} />
+                            <Route path='/order/:orderId' element={<Order />} />
+                            <Route path='/confirm-slip/:orderId' element={<ConfirmSlip />} />
+                        </Route>
 
-                            <Route path='/cp' element={<ControlPanelLayout />}>
-                                <Route index element={<Index />} />
-                            </Route>
-                        </Routes>
-                    </BrowserRouter>
+                        <Route path='/cp' element={<ControlPanelLayout />}>
+                            <Route path='login' index element={<Login />} />
+                            <Route path='product-add' index element={<ProductAdd />} />
+                        </Route>
+                    </Routes>
                 </ThemeContextProvider>
             </StyledEngineProvider>
-        </main >
+        </BrowserRouter>
     )
 }
 

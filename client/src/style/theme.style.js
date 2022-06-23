@@ -12,16 +12,7 @@ const light = createTheme({
             contrastText: '#fff'
         },
         light: '#fff'
-        // secondary: {
-        //     main: '#000fff',
-        //     light: '#00ffff',
-        //     dark: '#ff0000',
-        //     contrastText: '#fff'
-        // },
     },
-    // shape: {
-    //     borderRadius: 7
-    // },
     typography: {
         button: {
             textTransform: 'none'
@@ -36,7 +27,6 @@ const light = createTheme({
         MuiDialog: {
             styleOverrides: {
                 root: {
-                    // backgroundColor: 'rgba(255, 255, 255, .5)',
                     backdropFilter: 'blur(2px)',
                 }
             }
@@ -51,11 +41,11 @@ const light = createTheme({
     },
     typography: {
         fontFamily: 'Noto Sans Thai, sans-serif',
-        // fontFamily: 'IBM Plex Sans Thai, sans-serif'
     }
 })
 
 const dark = createTheme({
+    ...light,
     palette: {
         mode: 'dark',
         primary: {
@@ -65,52 +55,52 @@ const dark = createTheme({
             contrastText: '#fff'
         },
         light: '#fff'
-        // secondary: {
-        //     main: '#000fff',
-        //     light: '#00ffff',
-        //     dark: '#ff0000',
-        //     contrastText: '#fff'
-        // },
     },
-    // shape: {
-    //     borderRadius: 7
-    // },
-    typography: {
-        button: {
-            textTransform: 'none'
-        }
-    },
-    shadows: [
-        "none",
-        "0 0 24px rgba(0, 0, 0, .15)",
-        ...defaultTheme.shadows.slice(2)
-    ],
-    components: {
-        MuiDialog: {
-            styleOverrides: {
-                root: {
-                    // backgroundColor: 'rgba(255, 255, 255, .5)',
-                    backdropFilter: 'blur(2px)',
-                }
-            }
+})
+
+const cpLight = createTheme({
+    ...light,
+    palette: {
+        mode: 'light',
+        primary: {
+            main: '#121212',
+            light: '#121212',
+            dark: '#121212',
+            contrastText: '#fff'
         },
-        MuiStack: {
-            defaultProps: {
-                direction: 'row',
-                alignItems: 'center',
-                justifyContent: 'center'
-            }
-        }
+        secondary: {
+            main: '#23a6d5',
+            light: '#23a6d5',
+            dark: '#23a6d5',
+            contrastText: '#fff'
+        },
+        light: '#fff'
     },
-    typography: {
-        fontFamily: 'Noto Sans Thai, sans-serif',
-        // fontFamily: 'IBM Plex Sans Thai, sans-serif'
-    }
+})
+
+const cpDark = createTheme({
+    ...light,
+    palette: {
+        mode: 'dark',
+        primary: {
+            main: '#121212',
+            light: '#121212',
+            dark: '#121212',
+            contrastText: '#fff'
+        },
+        secondary: {
+            main: '#23a6d5',
+            light: '#23a6d5',
+            dark: '#23a6d5',
+            contrastText: '#fff'
+        },
+        light: '#fff'
+    },
 })
 
 const emotion = {
     light: {
-        bg: '#fbfbfb',
+        bg: '#F0F7FF',
         inputColor: '#121212',
         inputBg: '#fff',
         mui: light
@@ -127,7 +117,12 @@ export default {
     mui: {
         default: defaultTheme,
         light,
-        dark
+        dark,
+    },
+    muiCp: {
+        default: defaultTheme,
+        light: cpLight,
+        dark: cpDark,
     },
     emotion: {
         ...emotion

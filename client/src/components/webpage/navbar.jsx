@@ -53,7 +53,7 @@ const Navbar = () => {
                 <Box className='flex items-center justify-between pt-1' >
                     <Button
                         component={Link}
-                        to='/'
+                        to='/cp'
                         variant='text'
                         size='small'
                         sx={{ color: 'light' }}
