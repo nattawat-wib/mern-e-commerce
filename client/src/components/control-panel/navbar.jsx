@@ -1,22 +1,21 @@
-import { Box, AppBar, Stack, IconButton, Button, Container } from '@mui/material';
+import { Box, Stack, IconButton, Button, Container } from '@mui/material';
 import { useThemeContext } from './../../context/them-context';
+import { StyledControlPanelNavbar } from './../../style/navbar.style';
 
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 
 export default function Navbar({ isSidebarOpen, setIsSidebarOpen }) {
     const { isDarkTheme, setIsDarkTheme } = useThemeContext();
 
     return (
-        <AppBar sx={{ bgcolor: 'primary.light', py: 1, px: 2 }} position='static'>
+        <StyledControlPanelNavbar open={isSidebarOpen} sx={{ py: 1, px: 2 }} position='static'>
             <Stack justifyContent='space-between'>
                 <Box>
-                    <IconButton
-                        onClick={() => setIsSidebarOpen(true)}
-                        sx={{ color: 'light' }}
-                    >
-                        <MenuIcon />
+                    <IconButton onClick={() => setIsSidebarOpen(prev => !prev)} sx={{ color: 'light' }} >
+                        { isSidebarOpen ? <CloseIcon /> : <MenuIcon /> }
                     </IconButton>
                     <b> Control Panel </b>
                 </Box>
@@ -41,6 +40,6 @@ export default function Navbar({ isSidebarOpen, setIsSidebarOpen }) {
                     </Button>
                 </Box>
             </Stack>
-        </AppBar>
+        </StyledControlPanelNavbar>
     )
 }

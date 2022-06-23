@@ -34,4 +34,7 @@ export const StyledLoginForm = styled(Box)`
 export const CpPageWrapper = styled.main`
     background-color: ${({ theme }) => theme.bg};
     min-height: calc(100vh - 58px);
+    width: calc(100% - ${({ open }) => open ? '200px' : '60px'});
+    transition: .3s ease;
+    margin-left: auto;
 `

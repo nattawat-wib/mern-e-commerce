@@ -103,13 +103,15 @@ const emotion = {
         bg: '#F0F7FF',
         inputColor: '#121212',
         inputBg: '#fff',
-        mui: light
+        mui: light,
+        muiCp: cpLight
     },
     dark: {
         bg: '#3d3d3d',
         inputColor: '#fff',
         inputBg: '#121212',
-        mui: dark
+        mui: dark,
+        muiCp: cpDark
     }
 }
 
