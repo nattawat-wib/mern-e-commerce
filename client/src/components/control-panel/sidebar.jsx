@@ -12,13 +12,14 @@ import AllInboxIcon from '@mui/icons-material/AllInbox';
 
 import { useState } from "react";
 import { StyledControlPanelSidebar } from "../../style/navbar.style";
+import { Link } from 'react-router-dom';
 
 export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
     const [isCollapseOpen, setIsCollapseOpen] = useState(false);
 
-    const CustomTooltip = ({ title, children }) => {
+    const CustomTooltip = ({ title, to, children }) => {
         return (
-            <Tooltip title={title} arrow placement='right' disableHoverListener={isSidebarOpen}>
+            <Tooltip component={Link} to={to} title={title} arrow placement='right' disableHoverListener={isSidebarOpen}>
                 {children}
             </Tooltip>
         )
@@ -35,8 +36,8 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
             </Stack>
             <Divider sx={{ mx: 2 }} />
             <List>
-                <CustomTooltip title='all ≥member'>
-                    <ListItemButton>
+                <CustomTooltip title='all ≥member' to='/cp/member'>
+                    <ListItemButton >
                         <ListItemIcon> <AccountCircleIcon /> </ListItemIcon>
                         <ListItemText primary='Member' />
                     </ListItemButton>
@@ -49,13 +50,13 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
                 </ListItemButton>
 
                 <Collapse in={isCollapseOpen}>
-                    <CustomTooltip title='add product'>
+                    <CustomTooltip title='add product' to='/cp/product-add'>
                         <ListItemButton dense={true}>
                             <ListItemIcon> <AddBusinessIcon sx={{ fontSize: 17, ml: 1 }} /> </ListItemIcon>
                             <ListItemText sx={{ fontSize: 14, mx: 'auto', whiteSpace: 'nowrap' }} primary='Add Product' />
                         </ListItemButton>
                     </CustomTooltip>
-                    <CustomTooltip title='all product'>
+                    <CustomTooltip title='all product' to='/cp/product-all'>
                         <ListItemButton dense={true}>
                             <ListItemIcon> <AllInboxIcon sx={{ fontSize: 17, ml: 1 }} /> </ListItemIcon>
                             <ListItemText sx={{ fontSize: 14, mx: 'auto', whiteSpace: 'nowrap' }} primary='All Product' />
@@ -64,14 +65,14 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
                     <Divider sx={{ mx: 2 }} />
                 </Collapse>
 
-                <CustomTooltip title='all order'>
+                <CustomTooltip title='all order' to='/cp/order'>
                     <ListItemButton>
                         <ListItemIcon> <PaidIcon /> </ListItemIcon>
                         <ListItemText primary='Order' />
                     </ListItemButton>
                 </CustomTooltip>
 
-                <CustomTooltip title='all bank'>
+                <CustomTooltip title='all bank' to='/cp/bank'>
                     <ListItemButton>
                         <ListItemIcon> <AccountBalanceIcon /> </ListItemIcon>
                         <ListItemText primary='Bank' />
@@ -81,7 +82,7 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
                 <Divider sx={{ m: 2 }} />
 
                 <CustomTooltip title='logout'>
-                    <ListItemButton>
+                    <ListItemButton to='/cp/member' >
                         <ListItemIcon> <LogoutIcon /> </ListItemIcon>
                         <ListItemText primary='Logout' />
                     </ListItemButton>
