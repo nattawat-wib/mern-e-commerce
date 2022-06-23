@@ -70,7 +70,7 @@ const cpLight = createTheme({
         },
         secondary: {
             main: '#23a6d5',
-            light: '#23a6d5',
+            light: '#8ecae6',
             dark: '#23a6d5',
             contrastText: '#fff'
         },
@@ -90,7 +90,7 @@ const cpDark = createTheme({
         },
         secondary: {
             main: '#23a6d5',
-            light: '#23a6d5',
+            light: '#8ecae6',
             dark: '#23a6d5',
             contrastText: '#fff'
         },
@@ -100,16 +100,22 @@ const cpDark = createTheme({
 
 const emotion = {
     light: {
-        bg: '#F0F7FF',
+        cpBg: '#E6EAEE',
+        bg: '#fff',
         inputColor: '#121212',
         inputBg: '#fff',
+        sidebarBg: '#F0F7FF',
+        sidebarTextColor: cpLight.palette.secondary.dark,
         mui: light,
         muiCp: cpLight
     },
     dark: {
         bg: '#3d3d3d',
+        cpBg: '#3d3d3d',
         inputColor: '#fff',
         inputBg: '#121212',
+        sidebarBg: '#121212',
+        sidebarTextColor: cpLight.palette.secondary.light,
         mui: dark,
         muiCp: cpDark
     }

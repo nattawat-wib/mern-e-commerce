@@ -30,8 +30,10 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
             open={isSidebarOpen}
             onClose={() => setIsSidebarOpen(false)}
         >
-            <Box sx={{ height: 55 }}> </Box>
-            <Divider />
+            <Stack sx={{ height: 55 }}>
+                <img src="/image/favicon.png" width={30} height={30} />
+            </Stack>
+            <Divider sx={{ mx: 2 }} />
             <List>
                 <CustomTooltip title='all ≥member'>
                     <ListItemButton>
@@ -59,7 +61,7 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
                             <ListItemText sx={{ fontSize: 14, mx: 'auto', whiteSpace: 'nowrap' }} primary='All Product' />
                         </ListItemButton>
                     </CustomTooltip>
-                    <Divider />
+                    <Divider sx={{ mx: 2 }} />
                 </Collapse>
 
                 <CustomTooltip title='all order'>
@@ -76,7 +78,7 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
                     </ListItemButton>
                 </CustomTooltip>
 
-                <Divider sx={{ my: 2 }} />
+                <Divider sx={{ m: 2 }} />
 
                 <CustomTooltip title='logout'>
                     <ListItemButton>

@@ -4,7 +4,8 @@ import { useState } from 'react';
 
 import Navbar from './../components/control-panel/navbar';
 import Sidebar from '../components/control-panel/sidebar';
-import { CpPageWrapper } from '../style/util.style';
+import { CpPageWrapper, CpMainPage } from '../style/util.style';
+import { Container } from '@mui/material';
 
 const ControlPanelLayout = (prop) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -32,7 +33,11 @@ const ControlPanelLayout = (prop) => {
                         <CpPageWrapper
                             open={isSidebarOpen}
                         >
-                            <Outlet />
+                            <Container sx={{ py: 4 }}>
+                                <CpMainPage >
+                                    <Outlet />
+                                </CpMainPage>
+                            </Container>
                         </CpPageWrapper>
                     </>
             }

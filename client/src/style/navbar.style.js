@@ -19,21 +19,23 @@ export const StyledSearchBar = styled(TextField)`
 
 export const StyledControlPanelNavbar = styled(AppBar)`
     width: calc(100% - ${({ open }) => open ? '200px' : '60px'});
-    background-color: ${({theme}) => theme.muiCp.palette.primary.main};
+    background: ${({ theme }) => theme.muiCp.palette.primary.main} !important;
     margin-left: auto;
     transition: .3s ease;
 `
 
 export const StyledControlPanelSidebar = styled(Drawer)`
+
     & .MuiPaper-root {
-        background-color: ${({theme}) => theme.muiCp.palette.primary.main};
-        color: ${({theme}) => theme.muiCp.palette.light};
+        box-shadow: 0 0 24px rgba(0, 0, 0, .2);
+        background-color: ${({ theme }) => theme.sidebarBg};
+        color: ${({ theme }) => theme.sidebarTextColor};
         overflow: hidden;
         width: ${({ open }) => open ? '200px' : '60px'};
         transition: .3s ease;
     }
 
     & .MuiSvgIcon-root {
-        color: ${({theme}) => theme.muiCp.palette.light};
+        color: ${({ theme }) => theme.sidebarTextColor};
     }
 `

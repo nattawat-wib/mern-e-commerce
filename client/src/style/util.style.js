@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Box } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 
 export const PageWrapper = styled.main`
     background-color: ${({ theme }) => theme.bg};
@@ -32,9 +32,14 @@ export const StyledLoginForm = styled(Box)`
 `
 
 export const CpPageWrapper = styled.main`
-    background-color: ${({ theme }) => theme.bg};
+    background-color: ${({ theme }) => theme.cpBg};
     min-height: calc(100vh - 58px);
     width: calc(100% - ${({ open }) => open ? '200px' : '60px'});
     transition: .3s ease;
     margin-left: auto;
+`
+
+export const CpMainPage = styled(Paper)`
+    border-radius: 7px;
+    padding: 2rem;
 `
