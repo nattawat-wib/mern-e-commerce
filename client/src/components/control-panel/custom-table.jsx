@@ -1,7 +1,9 @@
 import { Typography, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, TablePagination, Avatar, Box, Divider } from '@mui/material';
 import { useState } from 'react';
 
-export default function CustomTable({ data }) {
+export default function CustomTable({ data, children }) {
+    console.log(children);
+
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -42,14 +44,12 @@ export default function CustomTable({ data }) {
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map(row => {
                                     return (
-                                        <TableRow hover key={Math.random()}>
-                                            <TableCell>
-                                                <Avatar src={row.avatar} />
-                                            </TableCell>
-                                            <TableCell> {row.firstName} </TableCell>
-                                            <TableCell> {row.lastName} </TableCell>
-                                            <TableCell> {row.tel} </TableCell>
-                                            <TableCell> {row.email} </TableCell>
+                                        <TableRow
+                                            hover
+                                            key={Math.random()}
+                                            sx={{ '&:nth-of-type(odd)': { bgcolor: '#f9f9f9' } }}
+                                        >
+                                            { children }
                                         </TableRow>
                                     )
                                 })

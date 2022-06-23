@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import CustomTable from '../../components/control-panel/custom-table';
 
-export default function ProductAdd() {
+export default function Order() {
     const createData = (avatar, firstName, lastName, tel, email) => {
         return { avatar, firstName, lastName, tel, email };
     }
@@ -33,7 +33,7 @@ export default function ProductAdd() {
     ];
     return (
         <>
-            <Typography variant='h5'> Product </Typography>
+            <Typography variant='h5'> Order </Typography>
             <CustomTable data={rows}>
                 <>
                     <TableCell>
