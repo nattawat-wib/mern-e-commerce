@@ -11,7 +11,7 @@ export default function Navbar({ isSidebarOpen, setIsSidebarOpen }) {
     const { isDarkTheme, setIsDarkTheme } = useThemeContext();
 
     return (
-        <StyledControlPanelNavbar open={isSidebarOpen} sx={{ py: 1, px: 2 }} position='static'>
+        <StyledControlPanelNavbar open={isSidebarOpen} sx={{ py: 1, px: 2 }} position='sticky'>
             <Stack justifyContent='space-between'>
                 <Box>
                     <IconButton onClick={() => setIsSidebarOpen(prev => !prev)} sx={{ color: 'light' }} >

@@ -63,13 +63,13 @@ const cpLight = createTheme({
     palette: {
         mode: 'light',
         primary: {
-            main: '#121212',
-            light: '#121212',
-            dark: '#121212',
+            main: '#23a6d5',
+            light: '#8ecae6',
+            dark: '#8ecae6',
             contrastText: '#fff'
         },
         secondary: {
-            main: '#23a6d5',
+            main: '#8ecae6',
             light: '#8ecae6',
             dark: '#23a6d5',
             contrastText: '#fff'
@@ -89,7 +89,7 @@ const cpDark = createTheme({
             contrastText: '#121212'
         },
         secondary: {
-            main: '#23a6d5',
+            main: '#8ecae6',
             light: '#8ecae6',
             dark: '#23a6d5',
             contrastText: '#fff'

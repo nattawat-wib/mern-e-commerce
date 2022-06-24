@@ -23,6 +23,7 @@ import MemberAll from './page/control-panel/member';
 import OrderAll from './page/control-panel/order';
 import BankAll from './page/control-panel/bank';
 import ProductAll from './page/control-panel/product';
+import ProductEdit from './page/control-panel/product-edit';
 
 import NotFound from './page/not-found';
 
@@ -35,8 +36,9 @@ const App = () => {
                     <Routes>
                         <Route path='/cp' element={<ControlPanelLayout />}>
                             <Route index  path='login' element={<Login />} />
-                            <Route path='product-add' element={<ProductAdd />} />
                             <Route path='product' element={<ProductAll />} />
+                            <Route path='product-add' element={<ProductAdd />} />
+                            <Route path='product/:productSku' element={<ProductEdit />} />
                             <Route path='member' element={<MemberAll />} />
                             <Route path='order' element={<OrderAll />} />
                             <Route path='bank' element={<BankAll />} />
