@@ -23,7 +23,7 @@ const Navbar = () => {
     const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
     const [ProfileMenuParent, setProfileMenuParent] = useState(null);
 
-    const [member, setMember] = useState(true);
+    const [member, setMember] = useState(false);
     const { isDarkTheme, setIsDarkTheme } = useThemeContext();
 
     const handleLogout = () => {

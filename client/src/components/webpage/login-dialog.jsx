@@ -10,6 +10,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import { useState } from 'react';
 
 const LoginDialog = ({ isLoginDialogOpen, setIsLoginDialogOpen, setIsRegisterDialogOpen }) => {
+    const [form, setForm] = useState({});
     const [isPasswordShow, setIsPasswordShow] = useState(false);
     const setInputAdornment = () => {
         return (
@@ -24,6 +25,17 @@ const LoginDialog = ({ isLoginDialogOpen, setIsLoginDialogOpen, setIsRegisterDia
                 </IconButton>
             </InputAdornment>
         )
+    }
+
+    const handleFormChange = e => {
+        setForm(prev => ({
+            ...prev,
+            [e.target.name]: e.target.value  
+        }))
+    }
+
+    const handleFormSubmit = async e => {
+        const result = await apiRegister();
     }
 
     return (
