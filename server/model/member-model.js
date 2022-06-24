@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const memberSchema = new mongoose.Schema({
     username: {
         type: String,
         default: null
-    }
-    ,
+    },
     firstName: {
         type: String,
         require: true
@@ -66,6 +66,10 @@ const memberSchema = new mongoose.Schema({
 })
 
 memberSchema.pre('save', async function (next) {
+    if (this.isNew || this.isModified('password')) {
+        this.password = await bcrypt.hash(this.password, 12);
+    }
+
     if (!this.isNew) next();
 
     await (generateUsername = async () => {

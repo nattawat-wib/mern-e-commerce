@@ -2,11 +2,20 @@ const Member = require('./../model/member-model');
 
 exports.register = async (req, res) => {
     try {
-        const newMember = await Member.create(req.body);
+        const newMember = await Member.create({
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            email: req.body.email,
+            tel: req.body.tel,
+            password: req.body.password
+        });
 
         res.status(200).json({
             status: 'success',
-            msg: 'register successfully'
+            msg: 'register successfully',
+            data: {
+                member: newMember
+            }
         })
 
     } catch (error) {
