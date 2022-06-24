@@ -28,12 +28,15 @@ import OrderManagement from './page/control-panel/order-management';
 
 import NotFound from './page/not-found';
 
+import { Toaster } from 'react-hot-toast';
+
 const App = () => {
     return (
         <BrowserRouter>
             <StyledEngineProvider injectFirst>
                 <ThemeContextProvider>
                     <CssBaseline />
+                    <Toaster />
                     <Routes>
                         <Route path='/cp' element={<ControlPanelLayout />}>
                             <Route index  path='login' element={<Login />} />

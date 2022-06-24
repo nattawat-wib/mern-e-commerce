@@ -35,7 +35,7 @@ const LoginDialog = ({ isLoginDialogOpen, setIsLoginDialogOpen, setIsRegisterDia
     }
 
     const handleFormSubmit = async e => {
-        const result = await apiRegister();
+        // const result = await apiRegister();
     }
 
     return (
