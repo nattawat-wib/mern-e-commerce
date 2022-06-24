@@ -33,7 +33,7 @@ export default function Order() {
     ];
     return (
         <>
-            <Typography variant='h5'> Order </Typography>
+            <Typography variant='h6'> Order </Typography>
             <CustomTable data={rows}>
                 <>
                     <TableCell>
