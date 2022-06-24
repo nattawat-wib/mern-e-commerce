@@ -44,7 +44,7 @@ const App = () => {
 
                         <Route element={<WebpageLayout />}>
                             <Route index element={<Index />} />
-                            <Route path='product/:categoryId/:productSku' element={<ProductDetail />} />
+                            <Route path='/product/:categoryId/:productSku' element={<ProductDetail />} />
                             <Route path='/cart' element={<Cart />} />
                             <Route path='/checkout' element={<Checkout />} />
                             <Route path='/member' element={<Member />} />

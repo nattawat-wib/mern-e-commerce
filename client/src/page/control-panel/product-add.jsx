@@ -1,50 +1,120 @@
-import { Typography, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, TablePagination, Avatar, Box, Divider } from '@mui/material';
-import { useState } from 'react';
+import { Typography, Box, Divider, Grid, TextField, MenuItem, Stack, Button } from '@mui/material';
+import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
+import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
 
-import CustomTable from '../../components/control-panel/custom-table';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function ProductAdd() {
-    const createData = (avatar, firstName, lastName, tel, email) => {
-        return { avatar, firstName, lastName, tel, email };
-    }
 
-    const rows = [
-        createData('', 'Frozen yoghurt', 159, 6.0, 24, 4.0),
-        createData('', 'Ice cream sandwich', 237, 9.0, 37, 4.3),
-        createData('', 'Eclair', 262, 16.0, 24, 6.0),
-        createData('', 'Cupcake', 305, 3.7, 67, 4.3),
-        createData('', 'Gingerbread', 356, 16.0, 49, 3.9),
-        createData('', 'Ice cream sandwich', 237, 9.0, 37, 4.3),
-        createData('', 'Eclair', 262, 16.0, 24, 6.0),
-        createData('', 'Cupcake', 305, 3.7, 67, 4.3),
-        createData('', 'Gingerbread', 356, 16.0, 49, 3.9),
-        createData('', 'Ice cream sandwich', 237, 9.0, 37, 4.3),
-        createData('', 'Eclair', 262, 16.0, 24, 6.0),
-        createData('', 'Cupcake', 305, 3.7, 67, 4.3),
-        createData('', 'Gingerbread', 356, 16.0, 49, 3.9),
-        createData('', 'Ice cream sandwich', 237, 9.0, 37, 4.3),
-        createData('', 'Eclair', 262, 16.0, 24, 6.0),
-        createData('', 'Cupcake', 305, 3.7, 67, 4.3),
-        createData('', 'Gingerbread', 356, 16.0, 49, 3.9),
-        createData('', 'Ice cream sandwich', 237, 9.0, 37, 4.3),
-        createData('', 'Eclair', 262, 16.0, 24, 6.0),
-        createData('', 'Cupcake', 305, 3.7, 67, 4.3),
-        createData('', 'Gingerbread', 356, 16.0, 49, 3.9),
-    ];
     return (
         <>
-            <Typography variant='h5'> Product </Typography>
-            <CustomTable data={rows}>
-                <>
-                    <TableCell>
-                        <Avatar src={'row.avatar'} />
-                    </TableCell>
-                    <TableCell> {'row.firstName'} </TableCell>
-                    <TableCell> {'row.lastName'} </TableCell>
-                    <TableCell> {'row.tel'} </TableCell>
-                    <TableCell> {'row.email'} </TableCell>
-                </>
-            </CustomTable>
+            <Stack justifyContent='space-between'>
+                <Typography variant='h6'> Add Product </Typography>
+                <Button
+                    component={Link}
+                    to='/cp/product'
+                    variant='outlined'
+                    startIcon={<ArrowCircleLeftOutlinedIcon />}
+                >
+                    Back to Product
+                </Button>
+            </Stack>
+
+            <Divider sx={{ my: 3 }} />
+            <Typography variant='inline'> <b> General Information </b> </Typography>
+            <Box sx={{ pl: 3, pt: 3 }}>
+                <Grid spacing={2} container alignItems='center'>
+                    <Grid item xs={2} textAlign='right' >
+                        thumbnail :
+                    </Grid>
+                    <Grid item xs={10}>
+                        <Button
+                            component='label'
+                        >
+                            <input type='file' hidden />
+                            <CameraAltOutlinedIcon />
+                        </Button>
+                    </Grid>
+
+                    <Grid item xs={2} textAlign='right' >
+                        gallery :
+                    </Grid>
+                    <Grid item xs={10}>
+
+                    </Grid>
+
+                    <Grid item xs={2} textAlign='right' >
+                        name :
+                    </Grid>
+                    <Grid item xs={10}>
+                        <TextField
+                            size='small'
+                            fullWidth
+                        />
+                    </Grid>
+
+                    <Grid item xs={2} textAlign='right' >
+                        detail :
+                    </Grid>
+                    <Grid item xs={10}>
+                        <TextField
+                            size='small'
+                            minRows={6}
+                            maxRows={12}
+                            multiline
+                            fullWidth
+                        />
+                    </Grid>
+
+                    <Grid item xs={2} textAlign='right' >
+                        category :
+                    </Grid>
+                    <Grid item xs={10}>
+                        <TextField
+                            size='small'
+                            fullWidth
+                            select
+                        >
+                            <MenuItem> tester 1 </MenuItem>
+                            <MenuItem> tester 2 </MenuItem>
+                            <MenuItem> tester 3 </MenuItem>
+                            <MenuItem> tester 4 </MenuItem>
+                        </TextField>
+                    </Grid>
+
+                    <Grid item xs={2} textAlign='right' >
+                        url :
+                    </Grid>
+                    <Grid item xs={10}>
+                        <TextField
+                            size='small'
+                            fullWidth
+                        />
+                    </Grid>
+
+                    <Grid item xs={2} textAlign='right' >
+                        price :
+                    </Grid>
+                    <Grid item xs={10}>
+                        <TextField
+                            type='number'
+                            size='small'
+                            fullWidth
+                        />
+                    </Grid>
+
+                    <Grid item xs={2} textAlign='right' >
+                        sku id :
+                    </Grid>
+                    <Grid item xs={10}>
+                        <TextField
+                            size='small'
+                            fullWidth
+                        />
+                    </Grid>
+                </Grid>
+            </Box>
         </>
     )
 }

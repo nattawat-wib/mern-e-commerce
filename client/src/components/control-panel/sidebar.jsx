@@ -56,7 +56,7 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
                             <ListItemText sx={{ fontSize: 14, mx: 'auto', whiteSpace: 'nowrap' }} primary='Add Product' />
                         </ListItemButton>
                     </CustomTooltip>
-                    <CustomTooltip title='all product' to='/cp/product-all'>
+                    <CustomTooltip title='all product' to='/cp/product'>
                         <ListItemButton dense={true}>
                             <ListItemIcon> <AllInboxIcon sx={{ fontSize: 17, ml: 1 }} /> </ListItemIcon>
                             <ListItemText sx={{ fontSize: 14, mx: 'auto', whiteSpace: 'nowrap' }} primary='All Product' />

@@ -1,7 +1,9 @@
-import { Typography, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, TablePagination, Avatar, Box, Divider } from '@mui/material';
-import { useState } from 'react';
+import { Typography, Avatar, TableCell, Box, Divider, Stack, Button } from '@mui/material';
+import AddBusinessOutlinedIcon from '@mui/icons-material/AddBusinessOutlined';
 
+import { useState } from 'react';
 import CustomTable from '../../components/control-panel/custom-table';
+import { Link } from 'react-router-dom';
 
 export default function ProductAll() {
     const createData = (avatar, firstName, lastName, tel, email) => {
@@ -33,7 +35,17 @@ export default function ProductAll() {
     ];
     return (
         <>
-            <Typography variant='h5'> Product </Typography>
+            <Stack justifyContent='space-between'>
+                <Typography variant='h6'> Product </Typography>
+                <Button
+                    component={Link}
+                    to='/cp/product-add'
+                    variant='contained'
+                    startIcon={<AddBusinessOutlinedIcon />}
+                >
+                    Add Product 
+                    </Button>
+            </Stack>
             <CustomTable data={rows}>
                 <>
                     <TableCell>

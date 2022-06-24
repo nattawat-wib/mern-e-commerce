@@ -19,7 +19,7 @@ export const StyledSearchBar = styled(TextField)`
 
 export const StyledControlPanelNavbar = styled(AppBar)`
     width: calc(100% - ${({ open }) => open ? '200px' : '60px'});
-    background: ${({ theme }) => theme.muiCp.palette.primary.main} !important;
+    background: #121212 !important;
     margin-left: auto;
     transition: .3s ease;
 `

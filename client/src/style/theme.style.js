@@ -83,10 +83,10 @@ const cpDark = createTheme({
     palette: {
         mode: 'dark',
         primary: {
-            main: '#121212',
-            light: '#121212',
-            dark: '#121212',
-            contrastText: '#fff'
+            main: '#E6EAEE',
+            light: '#E6EAEE',
+            dark: '#E6EAEE',
+            contrastText: '#121212'
         },
         secondary: {
             main: '#23a6d5',
