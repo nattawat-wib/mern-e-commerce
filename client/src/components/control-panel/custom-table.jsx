@@ -1,11 +1,12 @@
 import { Typography, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, TablePagination, Avatar, Box, Divider } from '@mui/material';
 import { useState } from 'react';
 
-export default function CustomTable({ data, children }) {
-    console.log(children);
+import { useThemeContext } from './../../context/them-context';
 
+export default function CustomTable({ data, children }) {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
+    const { isDarkTheme } = useThemeContext();
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -47,9 +48,9 @@ export default function CustomTable({ data, children }) {
                                         <TableRow
                                             hover
                                             key={Math.random()}
-                                            sx={{ '&:nth-of-type(odd)': { bgcolor: '#f9f9f9' } }}
+                                            sx={{ '&:nth-of-type(odd)': { bgcolor: isDarkTheme ? '#121212' : '#f9f9f9' } }}
                                         >
-                                            { children }
+                                            {children}
                                         </TableRow>
                                     )
                                 })

@@ -24,6 +24,8 @@ import OrderAll from './page/control-panel/order';
 import BankAll from './page/control-panel/bank';
 import ProductAll from './page/control-panel/product';
 
+import NotFound from './page/not-found';
+
 const App = () => {
     return (
         <BrowserRouter>
@@ -31,9 +33,18 @@ const App = () => {
                 <ThemeContextProvider>
                     <CssBaseline />
                     <Routes>
+                        <Route path='/cp' element={<ControlPanelLayout />}>
+                            <Route index  path='login' element={<Login />} />
+                            <Route path='product-add' element={<ProductAdd />} />
+                            <Route path='product' element={<ProductAll />} />
+                            <Route path='member' element={<MemberAll />} />
+                            <Route path='order' element={<OrderAll />} />
+                            <Route path='bank' element={<BankAll />} />
+                        </Route>
+
                         <Route element={<WebpageLayout />}>
                             <Route index element={<Index />} />
-                            <Route path='/:categoryId/:productSku' element={<ProductDetail />} />
+                            <Route path='product/:categoryId/:productSku' element={<ProductDetail />} />
                             <Route path='/cart' element={<Cart />} />
                             <Route path='/checkout' element={<Checkout />} />
                             <Route path='/member' element={<Member />} />
@@ -42,14 +53,7 @@ const App = () => {
                             <Route path='/confirm-slip/:orderId' element={<ConfirmSlip />} />
                         </Route>
 
-                        <Route path='/cp' element={<ControlPanelLayout />}>
-                            <Route path='login' index element={<Login />} />
-                            <Route path='product-add' index element={<ProductAdd />} />
-                            <Route path='product' index element={<ProductAll />} />
-                            <Route path='member' index element={<MemberAll />} />
-                            <Route path='order' index element={<OrderAll />} />
-                            <Route path='bank' index element={<BankAll />} />
-                        </Route>
+                        <Route path='/*' element={<NotFound />} />
                     </Routes>
                 </ThemeContextProvider>
             </StyledEngineProvider>
