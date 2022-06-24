@@ -1,7 +1,11 @@
 const mongoose = require('mongoose');
 
 const memberSchema = new mongoose.Schema({
-    username: String,
+    username: {
+        type: String,
+        default: null
+    }
+    ,
     firstName: {
         type: String,
         require: true
@@ -54,25 +58,31 @@ const memberSchema = new mongoose.Schema({
     updatedAtTimestamp: {
         type: Number
     }
-},{
+}, {
     timestamps: {
         createdAt: 'createdAt',
         updatedAt: 'updatedAt'
     }
 })
 
-const memberModel = mongoose.model('member', memberSchema);
+memberSchema.pre('save', async function (next) {
+    if (!this.isNew) next();
 
-memberSchema.pre('save', async function() {
-    console.log('test');
-    // if(this.isNew) {
-        const uniqueUsername = Math.random().toString(32).slice(2);
-        
-        const testuser = await memberModel.find({firstName: 'nutella'})
-        // this.username 
-        console.log('testuser', testuser);
-        console.log('uniqueUsername', uniqueUsername);
-    // }
+    await (generateUsername = async () => {
+        const username = Math.random().toString(32).slice(2);
+        const existMember = await memberModel.findOne({ username });
+
+        existMember ? generateUsername() : this.username = username
+    })();
+
+    const timestamp = new Date(this.createdAt).getTime();
+    const dateTime = new Date(this.createdAt).toLocaleString('en-GB').split(', ').join(' ');
+
+    this.createdAtDateTime = dateTime
+    this.createdAtTimestamp = timestamp
+    this.updatedAtDateTime = dateTime
+    this.updatedAtTimestamp = timestamp
 })
 
+const memberModel = mongoose.model('member', memberSchema);
 module.exports = memberModel
