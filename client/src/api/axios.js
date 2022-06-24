@@ -1,13 +1,13 @@
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
-export default (method, form, cbSuccess, cbFail, isToast = true) => {
+export default (method, url, form, cbSuccess, cbFail, isToast = true) => {
     axios
         .create({
             baseURL: import.meta.env.VITE_BASE_API,
             withCredentials: true
         })
-    [method]('/auth/register', form)
+    [method](url, form)
         .then(resp => {
 
             // console.log(resp);

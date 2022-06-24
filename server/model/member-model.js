@@ -24,9 +24,11 @@ const memberSchema = new mongoose.Schema({
     },
     shippingAddressList: {
         type: [mongoose.Schema.Types.ObjectId],
+        ref: 'address'
     },
     shippingAddressDefault: {
-        type: mongoose.Schema.Types.ObjectId
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'address'
     },
     accessToken: {
         type: String,
@@ -52,6 +54,25 @@ const memberSchema = new mongoose.Schema({
     updatedAtTimestamp: {
         type: Number
     }
+},{
+    timestamps: {
+        createdAt: 'createdAt',
+        updatedAt: 'updatedAt'
+    }
 })
 
-module.exports = mongoose.model('member', memberSchema)
+const memberModel = mongoose.model('member', memberSchema);
+
+memberSchema.pre('save', async function() {
+    console.log('test');
+    // if(this.isNew) {
+        const uniqueUsername = Math.random().toString(32).slice(2);
+        
+        const testuser = await memberModel.find({firstName: 'nutella'})
+        // this.username 
+        console.log('testuser', testuser);
+        console.log('uniqueUsername', uniqueUsername);
+    // }
+})
+
+module.exports = memberModel

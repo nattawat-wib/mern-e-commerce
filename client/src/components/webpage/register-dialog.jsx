@@ -20,8 +20,8 @@ const RegisterDialog = ({ isRegisterDialogOpen, setIsRegisterDialogOpen, setIsLo
     const handleFormSubmit = async e => {
         e.preventDefault();
         
-        await axios('post', '/auth/register', () => {
-            
+        await axios('post', '/auth/register', form, () => {
+            // setForm({});
         })
     }
 
