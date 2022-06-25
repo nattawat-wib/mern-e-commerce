@@ -1,11 +1,13 @@
 import { Box, Stack, IconButton, Button, Container } from '@mui/material';
-import { useThemeContext } from './../../context/them-context';
-import { StyledControlPanelNavbar } from './../../style/navbar.style';
 
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
+
+import { useThemeContext } from './../../context/them-context';
+import { StyledControlPanelNavbar } from './../../style/navbar.style';
+import { Link } from 'react-router-dom';
 
 export default function Navbar({ isSidebarOpen, setIsSidebarOpen }) {
     const { isDarkTheme, setIsDarkTheme } = useThemeContext();
@@ -15,7 +17,7 @@ export default function Navbar({ isSidebarOpen, setIsSidebarOpen }) {
             <Stack justifyContent='space-between'>
                 <Box>
                     <IconButton onClick={() => setIsSidebarOpen(prev => !prev)} sx={{ color: 'light' }} >
-                        { isSidebarOpen ? <CloseIcon /> : <MenuIcon /> }
+                        {isSidebarOpen ? <CloseIcon /> : <MenuIcon />}
                     </IconButton>
                     <b> Control Panel </b>
                 </Box>
@@ -32,7 +34,14 @@ export default function Navbar({ isSidebarOpen, setIsSidebarOpen }) {
                         }
                     </IconButton>
                     <Button
-                        variant='outlined'
+                        component={Link}
+                        to='/'
+                        color='secondary'
+                        size='small'
+                    >
+                        back to webpage
+                    </Button>
+                    <Button
                         color='secondary'
                         size='small'
                     >

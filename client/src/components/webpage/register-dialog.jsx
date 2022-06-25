@@ -5,24 +5,30 @@ import SendIcon from '@mui/icons-material/Send';
 import CloseIcon from '@mui/icons-material/Close';
 import { useState } from 'react';
 import axios from './../../api/axios';
+import { useAuthContext } from "../../context/auth-context";
 
 const RegisterDialog = ({ isRegisterDialogOpen, setIsRegisterDialogOpen, setIsLoginDialogOpen }) => {
     const [isPasswordShow, setIsPasswordShow] = useState(false);
+    const [isBtnLoading, setIsBtnLoading] = useState(false);
     const [form, setForm] = useState({});
+    const { auth, authDispatch } = useAuthContext();
 
     const handleFormChange = e => {
         setForm(prev => ({
             ...prev,
             [e.target.name]: e.target.value
-        }))
-    }
+        }));
+    };
 
     const handleFormSubmit = async e => {
         e.preventDefault();
-        
-        await axios('post', '/auth/register', form, () => {
-            // setForm({});
-        })
+
+        await axios('post', '/auth/register', form, resp => {
+            authDispatch({ type: 'login', payload: resp.data });
+            setForm({});
+            setIsRegisterDialogOpen(false);
+
+        }, null, true, [setIsBtnLoading]);
     }
 
     return (
@@ -118,11 +124,11 @@ const RegisterDialog = ({ isRegisterDialogOpen, setIsRegisterDialogOpen, setIsLo
             <Divider />
             <DialogActions>
                 <LoadingButton
+                    loading={isBtnLoading}
                     type='submit'
                     startIcon={<SendIcon />}
                     variant='contained'
                     loadingPosition='start'
-                // loading={true}
                 >
                     Register
                 </LoadingButton>

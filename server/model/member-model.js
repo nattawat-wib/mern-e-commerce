@@ -26,10 +26,6 @@ const memberSchema = new mongoose.Schema({
         type: String,
         require: true
     },
-    shippingAddressList: {
-        type: [mongoose.Schema.Types.ObjectId],
-        ref: 'address'
-    },
     shippingAddressDefault: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'address'
@@ -87,6 +83,10 @@ memberSchema.pre('save', async function (next) {
     this.updatedAtDateTime = dateTime
     this.updatedAtTimestamp = timestamp
 })
+
+memberSchema.methods.isPasswordCorrect = async function(candidatePassword, oldPassword) {
+    return await bcrypt.compare(candidatePassword, oldPassword)
+}
 
 const memberModel = mongoose.model('member', memberSchema);
 module.exports = memberModel

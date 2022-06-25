@@ -16,21 +16,28 @@ import LoginDialog from './login-dialog';
 import { useState } from 'react';
 import { useThemeContext } from './../../context/them-context';
 import DialogConfirm from './../util/dialog-confirm';
+import { useAuthContext } from '../../context/auth-context';
+import axios from './../../api/axios';
 
 const Navbar = () => {
     const [isRegisterDialogOpen, setIsRegisterDialogOpen] = useState(false);
     const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
     const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
-    const [ProfileMenuParent, setProfileMenuParent] = useState(null);
+    const [profileMenuParent, setProfileMenuParent] = useState(null);
 
-    const [member, setMember] = useState(false);
     const { isDarkTheme, setIsDarkTheme } = useThemeContext();
+    const { auth, authDispatch } = useAuthContext();
+
 
     const handleLogout = () => {
-        setMember(false)
+        axios('delete', '/auth/logout', null, () => {
+            authDispatch({ type: 'logout' })
+        }, null)
         setIsConfirmDialogOpen(false)
-        alert('logout successfully')
     }
+
+    console.log(!!profileMenuParent);
+    console.log(profileMenuParent);
 
     return (
         <AppBar position='sticky' sx={{ bgcolor: 'primary.dark' }}>
@@ -61,7 +68,7 @@ const Navbar = () => {
                         control panel
                     </Button>
                     {
-                        member ?
+                        auth.isAuth ?
                             <Stack>
                                 <Tooltip title='see your profile' arrow>
                                     <Button
@@ -70,13 +77,13 @@ const Navbar = () => {
                                         sx={{ color: 'light' }}
                                     >
                                         <Avatar sx={{ width: 20, height: 20, mr: 1 }} />
-                                        nutella tester
+                                        {auth.member.firstName}
                                     </Button>
                                 </Tooltip>
                                 <Menu
-                                    open={!!ProfileMenuParent}
+                                    open={!!profileMenuParent}
                                     onClose={() => setProfileMenuParent(null)}
-                                    anchorEl={ProfileMenuParent}
+                                    anchorEl={profileMenuParent}
                                 >
                                     <MenuItem
                                         component={Link}

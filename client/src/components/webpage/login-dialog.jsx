@@ -1,4 +1,4 @@
-import { IconButton, Checkbox, Button, Dialog, DialogContent, DialogActions, Typography, TextField, Divider, InputAdornment } from "@mui/material"
+import { IconButton, Checkbox, Button, Dialog, DialogContent, DialogActions, Typography, TextField, Divider, InputAdornment, responsiveFontSizes } from "@mui/material"
 import LoadingButton from '@mui/lab/LoadingButton';
 
 import EmailIcon from '@mui/icons-material/Email';
@@ -7,11 +7,17 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import LockIcon from '@mui/icons-material/Lock';
 import LoginIcon from '@mui/icons-material/Login';
+
 import { useState } from 'react';
+import { useAuthContext } from './../../context/auth-context';
+import axios from './../../api/axios';
 
 const LoginDialog = ({ isLoginDialogOpen, setIsLoginDialogOpen, setIsRegisterDialogOpen }) => {
     const [form, setForm] = useState({});
     const [isPasswordShow, setIsPasswordShow] = useState(false);
+    const [isBtnLoading, setIsBtnLoading] = useState(false);
+    const { authDispatch } = useAuthContext();
+
     const setInputAdornment = () => {
         return (
             <InputAdornment position='end'>
@@ -30,16 +36,25 @@ const LoginDialog = ({ isLoginDialogOpen, setIsLoginDialogOpen, setIsRegisterDia
     const handleFormChange = e => {
         setForm(prev => ({
             ...prev,
-            [e.target.name]: e.target.value  
+            [e.target.name]: e.target.value
         }))
     }
 
     const handleFormSubmit = async e => {
-        // const result = await apiRegister();
+        e.preventDefault();
+
+        await axios('patch', '/auth/login', form, resp => {
+            authDispatch({ type: 'login', payload: resp.data });
+            setForm({});
+            setIsLoginDialogOpen(false);
+
+        }, null, true, [setIsBtnLoading])
     }
 
     return (
         <Dialog
+            component='form'
+            onSubmit={handleFormSubmit}
             maxWidth='xs'
             open={isLoginDialogOpen}
             onClose={() => setIsLoginDialogOpen(false)}
@@ -55,6 +70,8 @@ const LoginDialog = ({ isLoginDialogOpen, setIsLoginDialogOpen, setIsRegisterDia
             <Divider />
             <DialogContent>
                 <TextField
+                    onChange={handleFormChange}
+                    name='email'
                     label='Email'
                     sx={{ mb: 2 }}
                     size='small'
@@ -64,7 +81,9 @@ const LoginDialog = ({ isLoginDialogOpen, setIsLoginDialogOpen, setIsRegisterDia
                     }}
                 />
                 <TextField
+                    onChange={handleFormChange}
                     type={isPasswordShow ? 'text' : 'password'}
+                    name='password'
                     label='Password'
                     sx={{ mb: 2, '.MuiOutlinedInput-root': { pr: 0 } }}
                     size='small'
@@ -91,15 +110,15 @@ const LoginDialog = ({ isLoginDialogOpen, setIsLoginDialogOpen, setIsRegisterDia
             <Divider />
             <DialogActions>
                 <LoadingButton
+                    loading={isBtnLoading}
+                    type='submit'
                     startIcon={<LoginIcon />}
                     variant='contained'
                     loadingPosition='start'
-                // loading={true}
                 >
                     Login
                 </LoadingButton>
             </DialogActions>
-
         </Dialog>
     )
 }
