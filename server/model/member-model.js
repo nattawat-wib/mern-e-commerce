@@ -8,23 +8,23 @@ const memberSchema = new mongoose.Schema({
     },
     firstName: {
         type: String,
-        require: true
+        required: true
     },
     lastName: {
         type: String,
-        require: true
+        required: true
     },
     tel: {
         type: String,
-        require: true
+        required: true
     },
     email: {
         type: String,
-        require: true
+        required: true
     },
     password: {
         type: String,
-        require: true
+        required: true
     },
     shippingAddressDefault: {
         type: mongoose.Schema.Types.ObjectId,
@@ -36,24 +36,12 @@ const memberSchema = new mongoose.Schema({
     accessTokenCp: {
         type: String,
     },
-    createdAt: {
-        type: Date
-    },
-    createdAtDateTime: {
-        type: String
-    },
-    createdAtTimestamp: {
-        type: Number
-    },
-    updatedAt: {
-        type: Date
-    },
-    updatedAtDateTime: {
-        type: String
-    },
-    updatedAtTimestamp: {
-        type: Number
-    }
+    createdAt: Date,
+    createdAtDateTime: String,
+    createdAtTimestamp: Number,
+    updatedAt: Date,
+    updatedAtDateTime: String,
+    updatedAtTimestamp: Number
 }, {
     timestamps: {
         createdAt: 'createdAt',
@@ -84,7 +72,7 @@ memberSchema.pre('save', async function (next) {
     this.updatedAtTimestamp = timestamp
 })
 
-memberSchema.methods.isPasswordCorrect = async function(candidatePassword, oldPassword) {
+memberSchema.methods.isPasswordCorrect = async function (candidatePassword, oldPassword) {
     return await bcrypt.compare(candidatePassword, oldPassword)
 }
 

@@ -36,9 +36,6 @@ const Navbar = () => {
         setIsConfirmDialogOpen(false)
     }
 
-    console.log(!!profileMenuParent);
-    console.log(profileMenuParent);
-
     return (
         <AppBar position='sticky' sx={{ bgcolor: 'primary.dark' }}>
             <DialogConfirm

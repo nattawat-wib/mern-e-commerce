@@ -1,0 +1,14 @@
+[
+    {
+        "_id": "cate01",
+        "name": "test first category"
+    },
+    {
+        "_id": "cate02",
+        "name": "test second category"
+    },
+    {
+        "_id": "cate03",
+        "name": "test third category"
+    }
+]

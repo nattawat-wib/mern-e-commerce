@@ -2,6 +2,9 @@ import { StyledSnippetInput } from './../../style/product.style';
 import { useState } from 'react';
 import { Button } from '@mui/material';
 
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
+
 const SnippetInput = () => {
     const [quantity, setQuantity] = useState(0);
 
@@ -9,16 +12,16 @@ const SnippetInput = () => {
         <StyledSnippetInput>
             <Button
                 onClick={() => setQuantity(prev => {
-                    if((prev - 1) < 1) {
+                    if ((prev - 1) < 1) {
                         return prev
                     } else {
-                        return prev - 1 
+                        return prev - 1
                     }
                 })}
                 variant='outlined'
                 size='small'
             >
-                -
+                <RemoveIcon />
             </Button>
             <input
                 value={quantity}
@@ -30,7 +33,7 @@ const SnippetInput = () => {
                 variant='outlined'
                 size='small'
             >
-                +
+                <AddIcon />
             </Button>
         </StyledSnippetInput>
     )
