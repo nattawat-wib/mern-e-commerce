@@ -47,7 +47,7 @@ exports.login = async (req, res) => {
         const member = await Member.findOne({ email: req.body.email });
         if (!member) throw 'password or email is not correct';
 
-        if(!await member.isPasswordCorrect(req.body.password, member.password)) {
+        if (!await member.isPasswordCorrect(req.body.password, member.password)) {
             throw 'password or email is not correct'
         }
 
@@ -145,17 +145,59 @@ exports.getLoginMember = async (req, res, next) => {
     }
 }
 
-
 exports.loginCp = async (req, res) => {
     try {
-        if(req.body.username !== 'admin' || req.body.password !== '123456') {
+        if (req.body.username !== 'admin' || req.body.password !== '123456') {
             throw 'username or password is not correct';
         }
 
+        const token = jwt.sign({ username: 'admin' }, process.env.JWT_SECRET);
+        res
+            .cookie('accessTokenCp', token)
+            .status(200)
+            .json({
+                status: 'success',
+                msg: 'login successfully',
+            });
+
+    } catch (err) {
+        console.log(err);
+
+        res.status(400).json({
+            status: 'error',
+            msg: err
+        });
+    }
+}
+
+exports.verityTokenCp = async (req, res) => {
+    try {
+        if (!req.cookies.accessTokenCp) throw 'token not found';
+
         res.status(200).json({
             status: 'success',
-            msg: 'login successfully',
+            msg: 'this user is already login',
         });
+
+    } catch (err) {
+        console.log(err);
+
+        res.status(400).json({
+            status: 'error',
+            msg: err
+        });
+    }
+}
+
+exports.logoutCp = async (req, res) => {
+    try {
+        res
+            .clearCookie('accessTokenCp')
+            .status(200)
+            .json({
+                status: 'success',
+                msg: 'logout successfully',
+            });
 
     } catch (err) {
         console.log(err);

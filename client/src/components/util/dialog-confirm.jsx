@@ -1,6 +1,6 @@
-import { Button, Dialog, DialogTitle, DialogContent, DialogActions, Divider } from "@mui/material"
+import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material"
 
-const ConfirmDialog = (
+const DialogConfirm = (
     {
         isOpen,
         setIsOpen,
@@ -9,6 +9,7 @@ const ConfirmDialog = (
         callback
     }
 ) => {
+
     return (
         <Dialog
             open={isOpen}
@@ -39,4 +40,4 @@ const ConfirmDialog = (
     )
 }
 
-export default ConfirmDialog
+export default DialogConfirm

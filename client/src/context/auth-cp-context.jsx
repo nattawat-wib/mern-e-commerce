@@ -4,11 +4,11 @@ const AuthCpContext = createContext();
 
 const authCpReducer = (state, { type }) => {
     if (type === 'login') {
-
         return { isAuth: true }
-    } else if (type === 'logout') {
 
+    } else if (type === 'logout') {
         return { isAuth: false }
+
     }
 
     return state

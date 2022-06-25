@@ -8,13 +8,16 @@ import './../../style/cp-login.scss'
 import { useState } from 'react';
 import { CpLoginBg, StyledLoginForm } from './../../style/util.style';
 import { useAuthCpContext } from './../../context/auth-cp-context';
+import { useNavigate } from 'react-router-dom';
 import axios from './../../api/axios';
+import { toast } from 'react-hot-toast';
 
 export default function login() {
     const [form, setForm] = useState({});
     const [isPasswordShow, setIsPasswordShow] = useState(false);
     const [isBtnLoading, setIsBtnLoading] = useState(false);
     const { authCpDispatch } = useAuthCpContext();
+    const navigate = useNavigate();
 
     const handleFormChange = e => {
         setForm(prev => ({
@@ -25,10 +28,22 @@ export default function login() {
 
     const handleFormSubmit = e => {
         e.preventDefault();
+        setIsBtnLoading(true)
 
-        axios('patch', '/auth/login-cp', form, resp => {
-            authCpDispatch({ type: 'login' });
-        }, null, true, [setIsBtnLoading])
+        axios('patch', '/auth/login-cp', form,
+            resp => {
+                authCpDispatch({ type: 'login' });
+
+                toast.loading('routing you to control panel', { duration: 2000, });
+                setTimeout(() => {
+                    navigate('/cp')
+                    setIsBtnLoading(false)
+                }, 2000)
+            }
+            , () => {
+                setIsBtnLoading(false)
+            }
+        )
     }
 
     return (
@@ -41,6 +56,8 @@ export default function login() {
                         sx={{ p: 2 }}
                     >
                         <TextField
+                            onChange={handleFormChange}
+                            name='username'
                             size='small'
                             variant='outlined'
                             label='username'
@@ -49,6 +66,8 @@ export default function login() {
                         <br />
                         <br />
                         <TextField
+                            onChange={handleFormChange}
+                            name='password'
                             type={isPasswordShow ? 'text' : 'password'}
                             size='small'
                             variant='outlined'
@@ -75,9 +94,9 @@ export default function login() {
                         <br />
                         <br />
                         <LoadingButton
+                            loading={isBtnLoading}
                             type='submit'
                             fullWidth
-                            loading={isBtnLoading}
                             variant='contained'
                         >
                             Login
