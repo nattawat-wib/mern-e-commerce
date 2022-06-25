@@ -1,24 +1,40 @@
-import { Outlet } from 'react-router-dom'
-import { useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import { Container } from '@mui/material';
 
 import Navbar from './../components/control-panel/navbar';
 import Sidebar from '../components/control-panel/sidebar';
 import { CpPageWrapper, CpMainPage } from '../style/util.style';
-import { Container } from '@mui/material';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react';
+import { useAuthCpContext } from './../context/auth-cp-context';
+import { toast } from 'react-hot-toast';
 
-const ControlPanelLayout = (prop) => {
+const ControlPanelLayout = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const location = useLocation();
+    const { pathname } = useLocation();
+    const navigate = useNavigate();
+    const { authCp, authCpDispatch } = useAuthCpContext();
 
     window.addEventListener('resize', () => {
         if (window.innerWidth < 1020) setIsSidebarOpen(false)
-    })
+    });
+
+
+    useEffect(() => {
+        console.log(authCp.isAuth);
+        console.log(pathname);
+        console.log(pathname.includes('/cp/login'));
+
+        if (!authCp.isAuth && !pathname.includes('/cp/login')) {
+            navigate('/cp/login');
+            toast.error('please login before access this route')
+        }
+
+    }, [pathname])
 
     return (
         <>
             {
-                location.pathname.includes('/cp/login') ?
+                pathname.includes('/cp/login') ?
                     <Outlet />
                     :
                     <>

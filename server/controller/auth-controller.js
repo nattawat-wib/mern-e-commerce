@@ -144,3 +144,25 @@ exports.getLoginMember = async (req, res, next) => {
         next()
     }
 }
+
+
+exports.loginCp = async (req, res) => {
+    try {
+        if(req.body.username !== 'admin' || req.body.password !== '123456') {
+            throw 'username or password is not correct';
+        }
+
+        res.status(200).json({
+            status: 'success',
+            msg: 'login successfully',
+        });
+
+    } catch (err) {
+        console.log(err);
+
+        res.status(400).json({
+            status: 'error',
+            msg: err
+        });
+    }
+}

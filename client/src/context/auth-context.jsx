@@ -5,22 +5,26 @@ const AuthContext = createContext();
 
 const authReducer = (state, { type, payload }) => {
     if (type === 'login') {
-        return state = {
+        return {
             isAuth: true,
             member: payload.member
         };
 
     } else if (type === 'logout') {
-        return state = {
+        return {
             isAuth: false
         }
+    }
+
+    else if (type === 'update') {
+        return state
     }
 
     return state
 }
 
 export default function AuthContextProvider({ children }) {
-    const [auth, authDispatch] = useReducer(authReducer, {isAuth: false});
+    const [auth, authDispatch] = useReducer(authReducer, { isAuth: false });
 
     useEffect(() => {
         axios('get', '/auth/verify-token', null, resp => {

@@ -1,21 +1,45 @@
-import { CpLoginBg, StyledLoginForm } from './../../style/util.style';
-import './../../style/cp-login.scss'
-
 import { Box, Button, IconButton, InputAdornment, Paper, TextField } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+
+import './../../style/cp-login.scss'
 import { useState } from 'react';
+import { CpLoginBg, StyledLoginForm } from './../../style/util.style';
+import { useAuthCpContext } from './../../context/auth-cp-context';
+import axios from './../../api/axios';
 
 export default function login() {
+    const [form, setForm] = useState({});
     const [isPasswordShow, setIsPasswordShow] = useState(false);
+    const [isBtnLoading, setIsBtnLoading] = useState(false);
+    const { authCpDispatch } = useAuthCpContext();
+
+    const handleFormChange = e => {
+        setForm(prev => ({
+            ...prev,
+            [e.target.name]: e.target.value
+        }));
+    }
+
+    const handleFormSubmit = e => {
+        e.preventDefault();
+
+        axios('patch', '/auth/login-cp', form, resp => {
+            authCpDispatch({ type: 'login' });
+        }, null, true, [setIsBtnLoading])
+    }
 
     return (
         <CpLoginBg className='main-cp-login'>
             <div className='header'>
                 <div className='inner-header flex justify-center items-center'>
-                    <StyledLoginForm sx={{ p: 2 }}>
+                    <StyledLoginForm
+                        onSubmit={handleFormSubmit}
+                        component='form'
+                        sx={{ p: 2 }}
+                    >
                         <TextField
                             size='small'
                             variant='outlined'
@@ -51,8 +75,9 @@ export default function login() {
                         <br />
                         <br />
                         <LoadingButton
+                            type='submit'
                             fullWidth
-                            loading={false}
+                            loading={isBtnLoading}
                             variant='contained'
                         >
                             Login
