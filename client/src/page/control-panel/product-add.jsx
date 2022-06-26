@@ -1,46 +1,96 @@
-import { Typography, Box, Divider, Grid, TextField, MenuItem, Stack, Button } from '@mui/material';
+import { Typography, Box, Divider, Grid, TextField, MenuItem, Stack, Button, IconButton } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 
 import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
 import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
 import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-
 import categoryList from './../../data/category.json';
+import axios from './../../api/axios';
 
 export default function ProductAdd() {
-    const SelectImage = ({ name }) => {
+    const [form, setForm] = useState({});
+    const [isBtnLoading, setIsBtnLoading] = useState(false);
+
+    const SelectImage = ({ name, id }) => {
         return (
             <Button
                 component='label'
                 className='border-dashed border-2'
                 sx={{ height: 64, width: 64 }}
             >
-                <input type='file' hidden name={name} onChange={handleFormChange} />
+                <input type='file' id={id} onChange={handleFormChange} name={name} hidden accept='image/*' />
                 <CameraAltOutlinedIcon />
             </Button>
         )
     };
 
-    const [form, setForm] = useState({});
+    const ImagePreview = ({ src, name, id }) => {
+        return (
+            <figure className='relative w-[64px] h-[64px]' >
+                <img className='fit-img rounded-md' src={src} />
+                <IconButton
+                    onClick={() => handleImageRemove(name, id)}
+                    className='absolute'
+                    sx={{ bgcolor: '#fff', color: '#121212', width: 23, height: 23, top: -10, right: -10, boxShadow: '0 0 12px rgba(0,0,0,.2)', '&:hover': { bgcolor: '#dce4e8' } }}
+                >
+                    <DeleteIcon sx={{ fontSize: 16, color: '#e33d27' }} />
+                </IconButton>
+            </figure >
+        )
+    };
 
     const handleFormSubmit = e => {
-        console.log(form);
         e.preventDefault();
-    }
+        setIsBtnLoading(true);
+        const formData = new FormData();
+
+        for(const key in form) {
+            if(key === 'imageList') {
+                form[key].forEach(file => {
+                    formData.append('imageList', file)
+                })
+            }
+
+            formData.append(key, form[key]);
+        };
+        
+        axios('post', '/product', formData, () => {
+            setIsBtnLoading(false);
+            setForm({});
+        }, () => {
+            setIsBtnLoading(false);
+        })
+    };
 
     const handleFormChange = e => {
+        let value;
 
-        console.log(e.target.value);
-        console.log(e.target.name);
+        if (e.target.name === 'thumbnail') value = e.target.files[0];
+        if (e.target.name === 'imageList') {
+            value = [...form.imageList || '']
+            value[e.target.id] = e.target.files[0]
+        };
 
         setForm(prev => ({
             ...prev,
-            [e.target.name]: e.target.value
-        }))
-    }
+            [e.target.name]: value || e.target.value
+        }));
+    };
+
+    const handleImageRemove = (name, id) => {
+        let value = undefined;
+
+        if (id) {
+            value = [...form.imageList];
+            value[id] = undefined
+        };
+
+        setForm(prev => ({ ...prev, [name]: value }));
+    };
 
     return (
         <form onSubmit={handleFormSubmit}>
@@ -65,37 +115,32 @@ export default function ProductAdd() {
                         thumbnail :
                     </Grid>
                     <Grid item xs={10}>
-                        <SelectImage />
+                        {
+                            form.thumbnail ?
+                                <ImagePreview src={URL.createObjectURL(form.thumbnail)} name='thumbnail' />
+                                :
+                                <SelectImage name='thumbnail' />
+                        }
                     </Grid>
                     <Grid item xs={2} textAlign='right' >
                         gallery :
                     </Grid>
                     <Grid item xs={10}>
                         <Grid spacing={2} container>
-                            <Grid item >
-                                <SelectImage />
-                            </Grid>
-                            <Grid item >
-                                <SelectImage />
-                            </Grid>
-                            <Grid item >
-                                <SelectImage />
-                            </Grid>
-                            <Grid item >
-                                <SelectImage />
-                            </Grid>
-                            <Grid item >
-                                <SelectImage />
-                            </Grid>
-                            <Grid item >
-                                <SelectImage />
-                            </Grid>
-                            <Grid item >
-                                <SelectImage />
-                            </Grid>
-                            <Grid item >
-                                <SelectImage />
-                            </Grid>
+                            {
+                                new Array(8).fill(1).map((input, i) => {
+                                    return (
+                                        <Grid key={i} item >
+                                            {
+                                                form.imageList && form.imageList[i] ?
+                                                    <ImagePreview src={URL.createObjectURL(form.imageList[i])} id={i} name='imageList' />
+                                                    :
+                                                    <SelectImage id={i} name='imageList' />
+                                            }
+                                        </Grid>
+                                    )
+                                })
+                            }
                         </Grid>
                     </Grid>
 
@@ -105,6 +150,7 @@ export default function ProductAdd() {
                     <Grid item xs={10}>
                         <TextField
                             onChange={handleFormChange}
+                            value={form.name || ''}
                             name='name'
                             size='small'
                             fullWidth
@@ -117,6 +163,7 @@ export default function ProductAdd() {
                     <Grid item xs={10}>
                         <TextField
                             onChange={handleFormChange}
+                            value={form.detail || ''}
                             name='detail'
                             size='small'
                             minRows={6}
@@ -132,11 +179,11 @@ export default function ProductAdd() {
                     <Grid item xs={10}>
                         <TextField
                             onChange={handleFormChange}
+                            value={form.category || ''}
                             name='category'
                             size='small'
                             fullWidth
                             select
-                            value={form.category || ''}
                         >
                             {
                                 categoryList.map(category => {
@@ -153,6 +200,7 @@ export default function ProductAdd() {
                     <Grid item xs={10}>
                         <TextField
                             onChange={handleFormChange}
+                            value={form.url || ''}
                             name='url'
                             size='small'
                             fullWidth
@@ -165,6 +213,7 @@ export default function ProductAdd() {
                     <Grid item xs={10}>
                         <TextField
                             onChange={handleFormChange}
+                            value={form.price || ''}
                             name='price'
                             type='number'
                             size='small'
@@ -178,6 +227,7 @@ export default function ProductAdd() {
                     <Grid item xs={10}>
                         <TextField
                             onChange={handleFormChange}
+                            value={form.skuId || ''}
                             name='skuId'
                             size='small'
                             fullWidth
@@ -190,7 +240,7 @@ export default function ProductAdd() {
 
             <Stack justifyContent='end'>
                 <LoadingButton
-                    // loading={true}
+                    loading={isBtnLoading}
                     type='submit'
                     variant='contained'
                     startIcon={<AddIcon />}

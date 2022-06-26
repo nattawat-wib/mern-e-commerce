@@ -27,14 +27,11 @@ const productSchema = new mongoose.Schema({
         unique: true
     },
     category: {
-        type: {
-            id: String,
-            name: String
-        },
+        type: String,
         required: true
     },
     price: {
-        type:Number,
+        type: Number,
         required: true
     },
     createdAt: Date,
@@ -50,8 +47,8 @@ const productSchema = new mongoose.Schema({
     }
 })
 
-productSchema.pre('save', function(next) {
-    if(!this.isNew) next();
+productSchema.pre('save', function (next) {
+    if (!this.isNew) next();
 
     const timestamp = new Date(this.createdAt).getTime();
     const dateTime = new Date(this.createdAt).toLocaleString('en-GB').split(', ').join(' ');
