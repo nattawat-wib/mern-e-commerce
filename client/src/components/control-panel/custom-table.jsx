@@ -3,24 +3,27 @@ import { useState } from 'react';
 
 import { useThemeContext } from './../../context/them-context';
 
-export default function CustomTable({ data, children }) {
+export default function CustomTable({ data, bodyRow, headColumn }) {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const { isDarkTheme } = useThemeContext();
 
-    const handleChangePage = (event, newPage) => {
+    const handleChangePage = (e, newPage) => {
         setPage(newPage);
     };
 
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(+event.target.value);
+    const handleChangeRowsPerPage = e => {
+        setRowsPerPage(+e.target.value);
         setPage(0);
     };
 
 
     const CustomTableCell = ({ text }) => {
         return (
-            <TableCell sx={{ bgcolor: 'secondary.light', color: '#121212', fontWeight: 700 }}>
+            <TableCell
+                className='whitespace-nowrap'
+                sx={{ bgcolor: 'secondary.light', color: '#121212', fontWeight: 700 }}
+            >
                 {text}
             </TableCell>
         )
@@ -32,25 +35,25 @@ export default function CustomTable({ data, children }) {
                 <Table sx={{ minWidth: 700 }} stickyHeader>
                     <TableHead>
                         <TableRow>
-                            <CustomTableCell text='Avatar' />
-                            <CustomTableCell text='Firstname' />
-                            <CustomTableCell text='Lastname' />
-                            <CustomTableCell text='Tel' />
-                            <CustomTableCell text='Email' />
+                            {
+                                headColumn.map(column =>
+                                    <CustomTableCell key={column} text={column} />
+                                )
+                            }
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {
                             data
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                .map(row => {
+                                .map((row, i) => {
                                     return (
                                         <TableRow
                                             hover
-                                            key={Math.random()}
+                                            key={i + 1}
                                             sx={{ '&:nth-of-type(odd)': { bgcolor: isDarkTheme ? '#121212' : '#f9f9f9' } }}
                                         >
-                                            {children}
+                                            {bodyRow(i + 1, row)}
                                         </TableRow>
                                     )
                                 })

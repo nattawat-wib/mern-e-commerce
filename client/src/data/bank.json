@@ -1,0 +1,26 @@
+[
+    {
+        "_id": "bank01",
+        "name": "Bangkok Bank",
+        "bankAccount": "0-2123-1304-32",
+        "accountName": "nutella tester"
+    },
+    {
+        "_id": "bank02",
+        "name": "Kasikorn Bank",
+        "bankAccount": "0-2123-1304-32",
+        "accountName": "nutella tester"
+    },
+    {
+        "_id": "bank03",
+        "name": "Krung Thai Bank",
+        "bankAccount": "0-2123-1304-32",
+        "accountName": "nutella tester"
+    },
+    {
+        "_id": "bank04",
+        "name": "Krungsri Bank",
+        "bankAccount": "0-2123-1304-32",
+        "accountName": "nutella tester"
+    }
+]

@@ -1,14 +1,38 @@
 [
     {
         "_id": "cate01",
-        "name": "test first category"
+        "name": "Baby"
     },
     {
         "_id": "cate02",
-        "name": "test second category"
+        "name": "Beauty & Personal Care"
     },
     {
         "_id": "cate03",
-        "name": "test third category"
+        "name": "Clothing"
+    },
+    {
+        "_id": "cate04",
+        "name": "Shoes"
+    },
+    {
+        "_id": "cate05",
+        "name": "Health"
+    },
+    {
+        "_id": "cate06",
+        "name": "Home & Kitchen"
+    },
+    {
+        "_id": "cate07",
+        "name": "Pet"
+    },
+    {
+        "_id": "cate08",
+        "name": "Sports & Outdoors"
+    },
+    {
+        "_id": "cate09",
+        "name": "IT computer"
     }
 ]

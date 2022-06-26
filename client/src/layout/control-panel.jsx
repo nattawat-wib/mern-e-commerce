@@ -64,7 +64,7 @@ const ControlPanelLayout = () => {
                         <CpPageWrapper
                             open={isSidebarOpen}
                         >
-                            <Container sx={{ py: 4 }}>
+                            <Container maxWidth='xl' sx={{ py: 4 }}>
                                 <CpMainPage >
                                     <Outlet />
                                 </CpMainPage>

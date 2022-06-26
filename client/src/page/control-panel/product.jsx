@@ -1,40 +1,83 @@
-import { Typography, Avatar, TableCell, Box, Divider, Stack, Button } from '@mui/material';
-import AddBusinessOutlinedIcon from '@mui/icons-material/AddBusinessOutlined';
+import { Typography, Avatar, TableCell, Box, Divider, Stack, Button, IconButton, Tooltip } from '@mui/material';
 
-import { useState } from 'react';
+import AddBusinessOutlinedIcon from '@mui/icons-material/AddBusinessOutlined';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+
+import { useState, useEffect } from 'react';
 import CustomTable from '../../components/control-panel/custom-table';
+import DialogConfirm from './../../components/util/dialog-confirm';
 import { Link } from 'react-router-dom';
+import axios from './../../api/axios';
 
 export default function ProductAll() {
-    const createData = (avatar, firstName, lastName, tel, email) => {
-        return { avatar, firstName, lastName, tel, email };
+    const [productList, setProductList] = useState([]);
+    const [deleteSkuId, setDeleteSkuId] = useState(null);
+    const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
+
+    const fetchAllProduct = () => {
+        axios('get', '/product', null, resp => {
+            setProductList(resp.data.product)
+        }, null, false)
     }
 
-    const rows = [
-        createData('', 'Frozen yoghurt', 159, 6.0, 24, 4.0),
-        createData('', 'Ice cream sandwich', 237, 9.0, 37, 4.3),
-        createData('', 'Eclair', 262, 16.0, 24, 6.0),
-        createData('', 'Cupcake', 305, 3.7, 67, 4.3),
-        createData('', 'Gingerbread', 356, 16.0, 49, 3.9),
-        createData('', 'Ice cream sandwich', 237, 9.0, 37, 4.3),
-        createData('', 'Eclair', 262, 16.0, 24, 6.0),
-        createData('', 'Cupcake', 305, 3.7, 67, 4.3),
-        createData('', 'Gingerbread', 356, 16.0, 49, 3.9),
-        createData('', 'Ice cream sandwich', 237, 9.0, 37, 4.3),
-        createData('', 'Eclair', 262, 16.0, 24, 6.0),
-        createData('', 'Cupcake', 305, 3.7, 67, 4.3),
-        createData('', 'Gingerbread', 356, 16.0, 49, 3.9),
-        createData('', 'Ice cream sandwich', 237, 9.0, 37, 4.3),
-        createData('', 'Eclair', 262, 16.0, 24, 6.0),
-        createData('', 'Cupcake', 305, 3.7, 67, 4.3),
-        createData('', 'Gingerbread', 356, 16.0, 49, 3.9),
-        createData('', 'Ice cream sandwich', 237, 9.0, 37, 4.3),
-        createData('', 'Eclair', 262, 16.0, 24, 6.0),
-        createData('', 'Cupcake', 305, 3.7, 67, 4.3),
-        createData('', 'Gingerbread', 356, 16.0, 49, 3.9),
-    ];
+    useEffect(fetchAllProduct, [])
+
+    const handleDelete = skuId => {
+        axios('delete', `/product/${skuId}`, null, fetchAllProduct, null, false);
+    }
+
+    const bodyRow = (index, row) => {
+        return (<>
+            <TableCell> {index} </TableCell>
+            <TableCell>
+                <img
+                    className='fix-img rounded-md'
+                    width={50} height={50}
+                    src={`${import.meta.env.VITE_BASE_API}/${row.thumbnail}`}
+                />
+            </TableCell>
+            <TableCell> {row.name} </TableCell>
+            <TableCell> {row.category} </TableCell>
+            <TableCell> {row.skuId} </TableCell>
+            <TableCell> {row.createAt} </TableCell>
+            <TableCell>
+                <Stack>
+                    <Tooltip title='edit'>
+                        <IconButton
+                            component={Link}
+                            to={`/cp/product/${row.skuId}`}
+                            size='small'
+                            color='warning'
+                        >
+                            <EditIcon />
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title='delete'>
+                        <IconButton
+                            onClick={() => {
+                                setDeleteSkuId(row.skuId)
+                                setIsConfirmDialogOpen(true)
+                            }}
+                            color='error'
+                            size='small'
+                        >
+                            <DeleteIcon />
+                        </IconButton>
+                    </Tooltip>
+                </Stack>
+            </TableCell>
+        </>)
+    }
+
     return (
         <>
+            <DialogConfirm
+                isOpen={isConfirmDialogOpen}
+                setIsOpen={setIsConfirmDialogOpen}
+                callback={() => handleDelete(deleteSkuId)}
+            />
+            
             <Stack justifyContent='space-between'>
                 <Typography variant='h6'> Product </Typography>
                 <Button
@@ -43,20 +86,14 @@ export default function ProductAll() {
                     variant='contained'
                     startIcon={<AddBusinessOutlinedIcon />}
                 >
-                    Add Product 
-                    </Button>
+                    Add Product
+                </Button>
             </Stack>
-            <CustomTable data={rows}>
-                <>
-                    <TableCell>
-                        <Avatar src={'row.avatar'} />
-                    </TableCell>
-                    <TableCell> {'row.firstName'} </TableCell>
-                    <TableCell> {'row.lastName'} </TableCell>
-                    <TableCell> {'row.tel'} </TableCell>
-                    <TableCell> {'row.email'} </TableCell>
-                </>
-            </CustomTable>
+            <CustomTable
+                data={productList}
+                bodyRow={bodyRow}
+                headColumn={['#', 'thumbnail', 'name', 'category', 'sku id', 'created at', 'action']}
+            />
         </>
     )
 }

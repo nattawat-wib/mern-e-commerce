@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const authController = require('./../controller/auth-controller');
+const memberController = require('./../controller/member-controller');
 
-// router.get('/register')
+router.get('/', memberController.getAll)
 
 module.exports = router;

@@ -2,8 +2,8 @@ const Product = require('./../model/product-model');
 const multer = require('./../middleware/multer');
 
 exports.create = async (req, res) => {
-    try {        
-        for(const key in req.files)  {
+    try {
+        for (const key in req.files) {
             req.files[key] = req.files[key].map(file => file.filename)
         }
 
@@ -32,25 +32,92 @@ exports.create = async (req, res) => {
     }
 }
 
-
 exports.getAll = async (req, res) => {
     try {
+        const allProduct = await Product.find().sort({ createdAt: -1 });
 
         res.status(200).json({
             status: 'success',
-            msg: 'create product successfully',
-            // data: {
-            //     newProduct
-            // }
+            msg: 'all product',
+            data: {
+                product: allProduct
+            }
         })
 
-    } catch (error) {
-        console.log(error);
-        multer.UndoUploadFile(req.files);
+    } catch (err) {
+        console.log(err);
 
         res.status(400).json({
             status: 'error',
-            msg: error
+            msg: err
+        })
+    }
+}
+
+exports.getOne = async (req, res) => {
+    try {
+        const product = await Product
+            .findOne({ skuId: req.params.skuId })
+            .sort({ createdAt: -1 });
+
+        res.status(200).json({
+            status: 'success',
+            msg: 'product that match with this skuid',
+            data: {
+                product
+            }
+        })
+
+    } catch (err) {
+        console.log(err);
+
+        res.status(400).json({
+            status: 'error',
+            msg: err
+        })
+    }
+}
+
+exports.update = async (req, res) => {
+    try {
+        const product = await Product
+            .findOne({ skuId: req.params.skuId })
+            .sort({ createdAt: -1 });
+
+        res.status(200).json({
+            status: 'success',
+            msg: 'product that match with this skuid',
+            data: {
+                product
+            }
+        })
+
+    } catch (err) {
+        console.log(err);
+
+        res.status(400).json({
+            status: 'error',
+            msg: err
+        })
+    }
+}
+
+exports.delete = async (req, res) => {
+    try {
+        const product = await Product
+            .findOneAndDelete({ skuId: req.params.skuId })
+
+        res.status(200).json({
+            status: 'success',
+            msg: 'product that match with this skuid',
+        })
+
+    } catch (err) {
+        console.log(err);
+
+        res.status(400).json({
+            status: 'error',
+            msg: err
         })
     }
 }
