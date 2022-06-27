@@ -5,7 +5,7 @@ import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import RemoveIcon from '@mui/icons-material/Remove';
 
 import { useState, useEffect } from 'react';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useNavigate, useLocation, useParams } from 'react-router-dom';
 import { PageWrapper } from './../../style/util.style';
 import { StyledSnippetInput } from './../../style/product.style';
 import ReviewItem from './../../components/webpage/review-item';
@@ -37,6 +37,7 @@ const ProductDetail = () => {
 
     const { productSku } = useParams();
     const location = useLocation();
+    const navigate = useNavigate();
 
     useEffect(() => {
         axios('get', `/product/${productSku}`, null,
@@ -49,7 +50,7 @@ const ProductDetail = () => {
     }, [location])
 
     const addProductToCart = () => {
-        axios('patch', `/cart/${currentProduct.skuId}/${quantity}`, {}, resp => {
+        axios('patch', `/cart/${currentProduct.skuId}/${quantity}`, { action: 'update' }, resp => {
             console.log(resp);
             console.log(resp.data.cart.totalProduct);
             setNavCartItem(resp.data.cart.totalProduct)
@@ -164,7 +165,10 @@ const ProductDetail = () => {
                                     ADD TO CART
                                 </LoadingButton>
                                 <LoadingButton
-                                    // onClick={addProductToCart}
+                                    onClick={() => {
+                                        addProductToCart()
+                                        navigate('/cart')
+                                    }}
                                     loading={isLoading}
                                     variant='contained'
                                 >

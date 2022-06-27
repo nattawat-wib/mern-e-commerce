@@ -12,18 +12,18 @@ import { useToggleContext } from '../../context/toggle-context';
 
 const Cart = () => {
     const [cartList, setCartList] = useState([]);
-    const { setNavCartItem } = useToggleContext()
+    const { setNavCartItem } = useToggleContext();
+    const [reRenderCart, setReRenderCart] = useState(Date.now());
 
     useEffect(() => {
         axios('get', '/cart', null, resp => setCartList(resp.data.cart), null, false)
-    }, [])
-
-    console.log(cartList);
+        console.log('re render');
+    }, [reRenderCart])
 
     const handleDeleteProduct = skuId => {
         axios('delete', `/cart/${skuId}`, null, resp => {
             setNavCartItem(resp.data.cart.totalProduct)
-            axios('get', '/cart', null, resp => setCartList(resp.data.cart), null, false)
+            setReRenderCart(Date.now())
         })
     }
 
@@ -43,7 +43,7 @@ const Cart = () => {
                 <Paper sx={{ p: 2, mb: 2 }} >
                     {
                         !cartList.productList?.length ?
-                            <Typography textAlign='center' sx={{ my: 10}}> <b> "no product in your cart" </b> </Typography>
+                            <Typography textAlign='center' sx={{ my: 10 }}> <b> "no product in your cart" </b> </Typography>
                             :
                             cartList.productList?.map(item => {
                                 return (
@@ -59,7 +59,13 @@ const Cart = () => {
                                             </Stack>
                                         </Grid>
                                         <Grid xs={12} md={2} item> {item.product.price?.toLocaleString()} </Grid>
-                                        <Grid xs={12} md={2} item> <SnippetInput useApiHere={true} value={item.amount} /> </Grid>
+                                        <Grid xs={12} md={2} item>
+                                            <SnippetInput
+                                                setReRenderCart={setReRenderCart}
+                                                value={item.amount}
+                                                skuId={item.product.skuId}
+                                            />
+                                        </Grid>
                                         <Grid xs={12} md={2} item> {item.totalPrice?.toLocaleString()} </Grid>
                                         <Grid xs={12} md={1} item>
                                             <IconButton
