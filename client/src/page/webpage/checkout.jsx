@@ -1,4 +1,5 @@
 import { Container, Paper, Button, Typography, TextField, IconButton, Stack, Box, Grid, MenuItem, RadioGroup, FormLabel, FormControlLabel, Radio } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import PersonPinCircleIcon from '@mui/icons-material/PersonPinCircle';
@@ -9,15 +10,24 @@ import { Link } from 'react-router-dom';
 import { StyledCartFooter } from './../../style/product.style';
 import { useState, useEffect } from 'react';
 import axios from './../../api/axios';
+import { useAuthContext } from './../../context/auth-context';
 
 const Checkout = () => {
     const [productList, setProductList] = useState([]);
+    const [currentAddress, setCurrentAddress] = useState({});
+    const [selectProvider, setSelectProvider] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [form, setForm] = useState({});
+
+    const { auth } = useAuthContext();
 
     useEffect(() => {
         axios('get', '/cart', null, resp => {
             setProductList(resp.data.cart)
-        })
+        }, null, false)
     }, [])
+
+    useEffect(() => setCurrentAddress(auth?.member?.addressDefault), [auth])
 
     return (
         <PageWrapper >
@@ -37,13 +47,14 @@ const Checkout = () => {
                     </Stack>
                     <Grid container alignItems='center' sx={{ mt: 2 }}>
                         <Grid xs={12} md={2} item>
-                            <b> nutella tester </b>
+                            <b> {currentAddress?.name} </b>
                         </Grid>
                         <Grid xs={12} md={8} item>
-                            It depends... NASA Headquarters has two different addresses: an official mailing address and a delivery address. Using the correct address can be crucial.
+                            {`${currentAddress?.province} ${currentAddress?.district} ${currentAddress?.subDistrict} ${currentAddress?.zipCode} ${currentAddress?.detail}`}
                         </Grid>
                         <Grid xs={12} md={2} item>
                             <Button
+                                disabled
                                 variant='outlined'
                                 size='small'
                                 className='block ml-auto'
@@ -87,34 +98,30 @@ const Checkout = () => {
 
                 <Paper sx={{ p: 2, mb: 2 }}>
                     <Grid container spacing={2}>
-                        <Grid xs={4} item>
+                        <Grid xs={5} item>
                             <TextField
+                                onChange={e => setSelectProvider(e.target.value)}
+                                value={selectProvider}
                                 label='provider'
                                 select
                                 fullWidth
                                 size='small'
                             >
-                                <MenuItem>
-                                    Kerry Express
-                                </MenuItem>
-                                <MenuItem>
-                                    Thai Post
-                                </MenuItem>
-                                <MenuItem>
-                                    Flash
-                                </MenuItem>
+                                <MenuItem value='Kerry Express'> Kerry Express </MenuItem>
+                                <MenuItem value='Thai Post'> Thai Post </MenuItem>
+                                <MenuItem value='Flash'> Flash </MenuItem>
                             </TextField>
                         </Grid>
                         <Grid xs={1} item></Grid>
                         <Grid xs={3} item>
                             <FormLabel> Payment Method </FormLabel>
                             <RadioGroup>
-                                <FormControlLabel name='paymentMethod' value='1' control={<Radio />} label='Bank Transfer' />
-                                <FormControlLabel name='paymentMethod' disabled value='1' control={<Radio />} label='Credit Card' />
-                                <FormControlLabel name='paymentMethod' disabled value='1' control={<Radio />} label='Crash On Delivery' />
+                                <FormControlLabel name='paymentMethod' value='Bank Transfer' control={<Radio />} label='Bank Transfer' />
+                                <FormControlLabel name='paymentMethod' disabled value='Credit Card' control={<Radio />} label='Credit Card' />
+                                <FormControlLabel name='paymentMethod' disabled value='Crash On Delivery' control={<Radio />} label='Crash On Delivery' />
                             </RadioGroup>
                         </Grid>
-                        <Grid xs={4} item>
+                        <Grid xs={3} item>
                             <Box alignItems='center' className='text-right' >
                                 <Typography sx={{ mb: 1 }}>
                                     <b>Total Product </b>: {productList.totalProduct?.toLocaleString()}
@@ -126,14 +133,13 @@ const Checkout = () => {
                                     <b> Delivery Price </b>: 40
                                 </Typography>
                                 <br />
-                                <Button
-                                    component={Link}
-                                    to='/checkout'
+                                <LoadingButton
+                                    loading={isLoading}
                                     variant='contained'
                                     size='small'
                                 >
                                     Confirm Order
-                                </Button>
+                                </LoadingButton>
                             </Box>
 
                         </Grid>
