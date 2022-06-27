@@ -1,4 +1,5 @@
 const Member = require('./../model/member-model');
+const Cart = require('./../model/cart-model');
 const cleanForm = require('../util/clean-form');
 const jwt = require('jsonwebtoken');
 
@@ -14,6 +15,8 @@ exports.register = async (req, res) => {
         }
 
         const newMember = await Member.create(req.body);
+
+        await Cart.create({ owner: newMember._id });
 
         const token = jwt.sign({ username: newMember.username }, process.env.JWT_SECRET);
         newMember.accessToken = token;
@@ -44,6 +47,8 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
     try {
+        cleanForm(req.body, ['email', 'password']);
+
         const member = await Member.findOne({ email: req.body.email });
         if (!member) throw 'password or email is not correct';
 

@@ -38,7 +38,7 @@ const Cart = () => {
                                         </Stack>
                                     </Grid>
                                     <Grid xs={12} md={2} item> 1,500 </Grid>
-                                    <Grid xs={12} md={2} item> <SnippetInput /> </Grid>
+                                    <Grid xs={12} md={2} item> <SnippetInput useApiHere={true} /> </Grid>
                                     <Grid xs={12} md={2} item> 3,000 </Grid>
                                     <Grid xs={12} md={1} item>
                                         <IconButton>

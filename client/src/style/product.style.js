@@ -13,8 +13,7 @@ export const StyledSnippetInput = styled(Stack)`
     & input {
         width: 50px;
         height: 31px;
-        border-top: 1px solid ${({ theme }) => theme.mui.palette.primary.main + '80'};
-        border-bottom: 1px solid ${({ theme }) => theme.mui.palette.primary.main + '80'};
+        border: 1px solid ${prop => JSON.parse(prop.loading) ? 'rgba(0, 0, 0, 0.12)' : prop.theme.mui.palette.primary.main + '80'};
         border-right: none;
         border-left: none;
         text-align: center;
@@ -23,6 +22,7 @@ export const StyledSnippetInput = styled(Stack)`
         font-size: 17px;
         font-weight: 600;
         color: ${({ theme }) => theme.inputColor};
+        color: ${prop => JSON.parse(prop.loading) ? '#626262' : prop.theme.inputColor};
         background-color: ${({ theme }) => theme.inputBg};
         
         &::-webkit-outer-spin-button,

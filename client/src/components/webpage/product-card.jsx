@@ -1,26 +1,42 @@
-import { Stack, Typography } from '@mui/material';
+import { Stack, Typography, Skeleton } from '@mui/material';
 import { StyledProductCard } from './../../style/product.style';
 import { Link } from 'react-router-dom'
 
-const ProductCard = () => {
+const ProductCard = ({ product = {}, loading }) => {
     return (
         <StyledProductCard>
-            <Link to='/1/shirt'>
+            <Link to={`/product/${product.category}/${product.skuId}`}>
                 <figure className='relative w-full pt-[75%]'>
-                    <img className='fit-img rounded-md' src='https://via.placeholder.com/500' />
+                    {
+                        loading ?
+                            <Skeleton className='fit-img rounded-md' />
+                            :
+                            <img className='fit-img rounded-md' src={`${import.meta.env.VITE_BASE_API}/${product.thumbnail}`} />
+                    }
                 </figure>
             </Link>
-
-            <Typography align='center' className='font-medium'>
-                Product Name
-            </Typography>
+            {
+                loading ?
+                    <Skeleton />
+                    :
+                    <Typography align='center' className='line-clamp-2 font-medium my-4'>
+                        {product.name}
+                    </Typography>
+            }
             <Stack justifyContent='space-between'>
-                <Typography variant='subtitle2' color='primary'>
-                    ฿239
-                </Typography>
-                <Typography variant='subtitle2'>
-                    sold 10
-                </Typography>
+                {
+                    loading ?
+                        <Skeleton width='100%' />
+                        :
+                        <>
+                            <Typography variant='subtitle2' color='primary'>
+                                {`฿${product.price.toLocaleString()}`}
+                            </Typography>
+                            <Typography variant='subtitle2'>
+                                {product.category}
+                            </Typography>
+                        </>
+                }
             </Stack>
         </StyledProductCard>
     )

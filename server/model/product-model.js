@@ -34,12 +34,28 @@ const productSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    createdAt: Date,
-    createdAtDateTime: String,
-    createdAtTimestamp: Number,
-    updatedAt: Date,
-    updatedAtDateTime: String,
-    updatedAtTimestamp: Number,
+    createdAt: {
+        type: Date,
+        select: false
+    },
+    createdAtDateTime: {
+        type: String
+    },
+    createdAtTimestamp: {
+        type: Number,
+        select: false
+    },
+    updatedAt: {
+        type: Date,
+        select: false
+    },
+    updatedAtDateTime: {
+        type: String
+    },
+    updatedAtTimestamp: {
+        type: Number,
+        select: false
+    },
 }, {
     timestamps: {
         createdAt: 'createdAt',

@@ -1,4 +1,4 @@
-import { AppBar, Container, Box, Stack, Button, Typography, IconButton, InputAdornment, Tooltip, Menu, MenuItem, Avatar, ListItemIcon } from '@mui/material';
+import { AppBar, Container, Box, Stack, Button, Typography, IconButton, InputAdornment, Tooltip, Menu, MenuItem, Avatar, ListItemIcon, Badge } from '@mui/material';
 
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import SearchIcon from '@mui/icons-material/Search';
@@ -14,9 +14,10 @@ import { StyledSearchBar } from './../../style/navbar.style';
 import RegisterDialog from './register-dialog';
 import LoginDialog from './login-dialog';
 import { useState } from 'react';
-import { useThemeContext } from './../../context/them-context';
 import DialogConfirm from './../util/dialog-confirm';
 import { useAuthContext } from '../../context/auth-context';
+import { useThemeContext } from './../../context/them-context';
+import { useToggleContext } from './../../context/toggle-context';
 import axios from './../../api/axios';
 
 const Navbar = () => {
@@ -27,7 +28,7 @@ const Navbar = () => {
 
     const { isDarkTheme, setIsDarkTheme } = useThemeContext();
     const { auth, authDispatch } = useAuthContext();
-
+    const { cartItem } = useToggleContext();
 
     const handleLogout = () => {
         axios('delete', '/auth/logout', null, () => {
@@ -174,7 +175,9 @@ const Navbar = () => {
                             to='/cart'
                             sx={{ color: 'light' }}
                         >
-                            <ShoppingCartOutlinedIcon />
+                            <Badge badgeContent={cartItem} color='secondary'>
+                                <ShoppingCartOutlinedIcon />
+                            </Badge>
                         </IconButton>
 
                     </div>

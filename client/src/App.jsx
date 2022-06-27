@@ -1,12 +1,14 @@
 import './style/app.scss';
 
-import ThemeContextProvider from './context/them-context';
 import { StyledEngineProvider } from '@mui/material/styles';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { CssBaseline } from '@mui/material';
 import { Toaster } from 'react-hot-toast';
+
 import AuthCpContextProvider from './context/auth-cp-context';
 import AuthContextProvider from './context/auth-context';
+import ThemeContextProvider from './context/them-context';
+import ToggleContextProvider from './context/toggle-context';
 
 import WebpageLayout from './layout/webpage';
 import ControlPanelLayout from './layout/control-panel';
@@ -38,34 +40,36 @@ const App = () => {
                 <ThemeContextProvider>
                     <AuthCpContextProvider>
                         <AuthContextProvider>
-                            <CssBaseline />
-                            <Toaster />
-                            <Routes>
-                                <Route path='/cp' element={<ControlPanelLayout />}>
-                                    <Route index path='login' element={<Login />} />
-                                    <Route path='' element={<MemberAll />} />
-                                    <Route path='product' element={<ProductAll />} />
-                                    <Route path='product-add' element={<ProductAdd />} />
-                                    <Route path='product/:productSku' element={<ProductEdit />} />
-                                    <Route path='member' element={<MemberAll />} />
-                                    <Route path='order' element={<OrderAll />} />
-                                    <Route path='order/:orderId' element={<OrderManagement />} />
-                                    <Route path='bank' element={<BankAll />} />
-                                </Route>
+                            <ToggleContextProvider>
+                                <CssBaseline />
+                                <Toaster />
+                                <Routes>
+                                    <Route path='/cp' element={<ControlPanelLayout />}>
+                                        <Route index path='login' element={<Login />} />
+                                        <Route path='' element={<MemberAll />} />
+                                        <Route path='product' element={<ProductAll />} />
+                                        <Route path='product-add' element={<ProductAdd />} />
+                                        <Route path='product/:productSku' element={<ProductEdit />} />
+                                        <Route path='member' element={<MemberAll />} />
+                                        <Route path='order' element={<OrderAll />} />
+                                        <Route path='order/:orderId' element={<OrderManagement />} />
+                                        <Route path='bank' element={<BankAll />} />
+                                    </Route>
 
-                                <Route element={<WebpageLayout />}>
-                                    <Route index element={<Index />} />
-                                    <Route path='/product/:categoryId/:productSku' element={<ProductDetail />} />
-                                    <Route path='/cart' element={<Cart />} />
-                                    <Route path='/checkout' element={<Checkout />} />
-                                    <Route path='/member' element={<Member />} />
-                                    <Route path='/order-history' element={<OrderHistory />} />
-                                    <Route path='/order/:orderId' element={<Order />} />
-                                    <Route path='/confirm-slip/:orderId' element={<ConfirmSlip />} />
-                                </Route>
+                                    <Route element={<WebpageLayout />}>
+                                        <Route index element={<Index />} />
+                                        <Route path='/product/:categoryId/:productSku' element={<ProductDetail />} />
+                                        <Route path='/cart' element={<Cart />} />
+                                        <Route path='/checkout' element={<Checkout />} />
+                                        <Route path='/member' element={<Member />} />
+                                        <Route path='/order-history' element={<OrderHistory />} />
+                                        <Route path='/order/:orderId' element={<Order />} />
+                                        <Route path='/confirm-slip/:orderId' element={<ConfirmSlip />} />
+                                    </Route>
 
-                                <Route path='/*' element={<NotFound />} />
-                            </Routes>
+                                    <Route path='/*' element={<NotFound />} />
+                                </Routes>
+                            </ToggleContextProvider>
                         </AuthContextProvider>
                     </AuthCpContextProvider>
                 </ThemeContextProvider>

@@ -9,6 +9,7 @@ const session = require('express-session');
 const memberRouter = require('./routes/member-route');
 const authRouter = require('./routes/auth-route');
 const productRouter = require('./routes/product-route');
+const cartRouter = require('./routes/cart-route');
 
 require('dotenv').config();
 require('./db');
@@ -38,6 +39,7 @@ app.use(sanitize());
 app.use('/member', memberRouter);
 app.use('/auth', authRouter);
 app.use('/product', productRouter);
+app.use('/cart', cartRouter);
 
 app.listen(port, () => {
     console.log(`server is starting in port ${port} ...`);
