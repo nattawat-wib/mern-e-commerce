@@ -10,6 +10,7 @@ const memberRouter = require('./routes/member-route');
 const authRouter = require('./routes/auth-route');
 const productRouter = require('./routes/product-route');
 const cartRouter = require('./routes/cart-route');
+const addressRouter = require('./routes/address-route');
 
 require('dotenv').config();
 require('./db');
@@ -40,6 +41,7 @@ app.use('/member', memberRouter);
 app.use('/auth', authRouter);
 app.use('/product', productRouter);
 app.use('/cart', cartRouter);
+app.use('/address', addressRouter);
 
 app.listen(port, () => {
     console.log(`server is starting in port ${port} ...`);

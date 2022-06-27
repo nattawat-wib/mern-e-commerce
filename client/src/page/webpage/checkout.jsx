@@ -1,13 +1,24 @@
 import { Container, Paper, Button, Typography, TextField, IconButton, Stack, Box, Grid, MenuItem, RadioGroup, FormLabel, FormControlLabel, Radio } from '@mui/material';
-import { PageWrapper } from "../../style/util.style";
-import { Link } from 'react-router-dom';
 
 import DeleteIcon from '@mui/icons-material/Delete';
-import { StyledCartFooter } from './../../style/product.style';
 import PersonPinCircleIcon from '@mui/icons-material/PersonPinCircle';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
+import { PageWrapper } from "../../style/util.style";
+import { Link } from 'react-router-dom';
+import { StyledCartFooter } from './../../style/product.style';
+import { useState, useEffect } from 'react';
+import axios from './../../api/axios';
+
 const Checkout = () => {
+    const [productList, setProductList] = useState([]);
+
+    useEffect(() => {
+        axios('get', '/cart', null, resp => {
+            setProductList(resp.data.cart)
+        })
+    }, [])
+
     return (
         <PageWrapper >
             <Container sx={{ pb: 4, pt: 3 }} >
@@ -52,22 +63,22 @@ const Checkout = () => {
 
                 <Paper sx={{ p: 2, mb: 2 }} >
                     {
-                        new Array(4).fill(1).map(product => {
+                        productList.productList?.map(item => {
                             return (
                                 <Grid container key={Math.random()} spacing={2} className='items-center mb-4'>
                                     <Grid xs={12} md={6} item>
                                         <Stack alignItems='start' justifyContent='start' >
                                             <figure className='relative mr-4' style={{ width: '100px', height: '100px' }}>
-                                                <img className='fit-img' src='https://figopetinsurance.com/sites/default/files/styles/blog_detail/public/imagedogpug-standing-leavesblog.jpg' />
+                                                <img className='fit-img rounded-md' src={`${import.meta.env.VITE_BASE_API}/${item.product.thumbnail}`} />
                                             </figure>
                                             <Typography color='dark' style={{ width: 'calc(100% - 100px)' }}>
-                                                [593บ.โค้ด615EL150] ZMI HA726 GaN 35W หัวชาร์จ พร้อมสาย GL870 สายชาร์จ iPhone iPad Mac USB-C 2 พอร์ต น้ำหนักเบา -2Y
+                                                {item.product.name}
                                             </Typography>
                                         </Stack>
                                     </Grid>
-                                    <Grid xs={12} md={2} item> 1,500 </Grid>
-                                    <Grid xs={12} md={2} item> 1 </Grid>
-                                    <Grid xs={12} md={2} item> 3,000 </Grid>
+                                    <Grid xs={12} md={2} item> {item.product.price.toLocaleString()} </Grid>
+                                    <Grid xs={12} md={2} item> {item.amount.toLocaleString()} </Grid>
+                                    <Grid xs={12} md={2} item> {item.totalPrice.toLocaleString()} </Grid>
                                 </Grid>
                             )
                         })
@@ -106,10 +117,10 @@ const Checkout = () => {
                         <Grid xs={4} item>
                             <Box alignItems='center' className='text-right' >
                                 <Typography sx={{ mb: 1 }}>
-                                    <b>Total Product </b>: 12
+                                    <b>Total Product </b>: {productList.totalProduct?.toLocaleString()}
                                 </Typography>
                                 <Typography sx={{ mb: 1 }}>
-                                    <b> All Price </b>: 1,500
+                                    <b> All Price </b>: {productList.totalPrice?.toLocaleString()}
                                 </Typography>
                                 <Typography sx={{ mb: 1 }}>
                                     <b> Delivery Price </b>: 40

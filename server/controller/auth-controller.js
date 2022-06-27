@@ -49,7 +49,9 @@ exports.login = async (req, res) => {
     try {
         cleanForm(req.body, ['email', 'password']);
 
-        const member = await Member.findOne({ email: req.body.email });
+        const member = await Member
+            .findOne({ email: req.body.email })
+            .populate('addressDefault', '-owner');
         if (!member) throw 'password or email is not correct';
 
         if (!await member.isPasswordCorrect(req.body.password, member.password)) {
@@ -116,7 +118,9 @@ exports.verityToken = async (req, res) => {
     try {
         if (!req.cookies.accessToken) throw 'token not found';
 
-        const member = await Member.findOne({ accessToken: req.cookies.accessToken });
+        const member = await Member
+            .findOne({ accessToken: req.cookies.accessToken })
+            .populate('addressDefault', '-owner');
 
         if (!member) throw 'member not found with this access token';
 
@@ -146,7 +150,11 @@ exports.getLoginMember = async (req, res, next) => {
         next()
     } catch (err) {
         console.log(err);
-        next()
+
+        res.status(401).json({
+            status: 'error',
+            msg: 'you are not login yet'
+        })
     }
 }
 

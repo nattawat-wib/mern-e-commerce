@@ -17,7 +17,10 @@ const authReducer = (state, { type, payload }) => {
     }
 
     else if (type === 'update') {
-        return state
+        return {
+            isAuth: true,
+            member: payload.member
+        };
     }
 
     return state

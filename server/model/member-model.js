@@ -24,24 +24,43 @@ const memberSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true
+        required: true,
+        select: false
     },
-    shippingAddressDefault: {
+    addressDefault: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'address'
     },
     accessToken: {
         type: String,
+        select: false
     },
     accessTokenCp: {
         type: String,
+        select: false
     },
-    createdAt: Date,
-    createdAtDateTime: String,
-    createdAtTimestamp: Number,
-    updatedAt: Date,
-    updatedAtDateTime: String,
-    updatedAtTimestamp: Number
+    createdAt: {
+        type: Date,
+        select: false
+    },
+    createdAtDateTime: {
+        type: String
+    },
+    createdAtTimestamp: {
+        type: Number,
+        select: false
+    },
+    updatedAt: {
+        type: Date,
+        select: false
+    },
+    updatedAtDateTime: {
+        type: String
+    },
+    updatedAtTimestamp: {
+        type: Number,
+        select: false
+    },
 }, {
     timestamps: {
         createdAt: 'createdAt',
