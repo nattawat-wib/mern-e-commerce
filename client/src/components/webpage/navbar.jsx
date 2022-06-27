@@ -28,7 +28,7 @@ const Navbar = () => {
 
     const { isDarkTheme, setIsDarkTheme } = useThemeContext();
     const { auth, authDispatch } = useAuthContext();
-    const { cartItem } = useToggleContext();
+    const { navCartItem } = useToggleContext();
 
     const handleLogout = () => {
         axios('delete', '/auth/logout', null, () => {
@@ -50,7 +50,7 @@ const Navbar = () => {
                 setIsLoginDialogOpen={setIsLoginDialogOpen}
             />
             <LoginDialog
-                isLoginDialogOpen={isLoginDialogOpen}
+                isLoginDialogOpen={isLoginDialogOpen}s
                 setIsLoginDialogOpen={setIsLoginDialogOpen}
                 setIsRegisterDialogOpen={setIsRegisterDialogOpen}
             />
@@ -175,7 +175,7 @@ const Navbar = () => {
                             to='/cart'
                             sx={{ color: 'light' }}
                         >
-                            <Badge badgeContent={cartItem} color='secondary'>
+                            <Badge badgeContent={navCartItem} color='secondary'>
                                 <ShoppingCartOutlinedIcon />
                             </Badge>
                         </IconButton>

@@ -3,11 +3,12 @@ import { createContext, useContext, useState } from "react";
 const ToggleContext = createContext();
 
 export default function ToggleContextProvider({ children }) {
-    const [cartItem, setCartItem] = useState(0);
+    const [navCartItem, setNavCartItem] = useState(0);
 
     return (
         <ToggleContext.Provider value={{
-            cartItem, setCartItem
+            navCartItem,
+            setNavCartItem
         }}>
             {children}
         </ToggleContext.Provider>

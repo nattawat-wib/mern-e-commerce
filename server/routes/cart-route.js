@@ -2,19 +2,10 @@ const router = require('express').Router();
 const cartController = require('./../controller/cart-controller');
 const authController = require('./../controller/auth-controller');
 
-router.get('/',
-        authController.getLoginMember,
-        cartController.getAll
-    )
+router.use(authController.getLoginMember)
 
-router.route('/:productSku/:quantity')
-    .patch(
-        authController.getLoginMember,
-        cartController.update
-    )
-// .post('/',
-//     authController.getLoginMember,
-//     cartController.add
-// )
+router.get('/', cartController.getAll)
+router.patch('/:productSku/:quantity',cartController.update)
+router.delete('/:productSku',cartController.delete)
 
 module.exports = router;

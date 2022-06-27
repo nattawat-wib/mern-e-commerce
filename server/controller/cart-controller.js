@@ -3,24 +3,24 @@ const Product = require('./../model/product-model');
 
 exports.update = async (req, res) => {
     try {
-        // check is product exist
         const product = await Product.findOne({ skuId: req.params.productSku });
+        // check is product exist
         if (!product) throw 'product now found';
 
-        // check is cart exist
         let cart;
 
         cart = await Cart
             .findOne({ owner: req.member._id })
-            .populate('itemList.product', 'thumbnail name price skuId -_id')
+            .populate('productList.product', 'thumbnail name price skuId -_id')
 
+        // check is cart exist
         if (!cart) cart = await Cart.create({ owner: req.member._id, totalProduct: 0, totalPrice: 0 });
 
         // check is product already in cart
-        const isProductAlreadyInCart = !!cart.itemList.find(item => item.product.skuId === req.params.productSku);
+        const isProductAlreadyInCart = !!cart.productList.find(item => item.product.skuId === req.params.productSku);
 
         if (isProductAlreadyInCart) {
-            cart.itemList.forEach(item => {
+            cart.productList.forEach(item => {
                 if (item.product.skuId === req.params.productSku) {
                     item.totalPrice += (product.price * req.params.quantity);
                     item.amount += Number(req.params.quantity);
@@ -28,7 +28,7 @@ exports.update = async (req, res) => {
             });
 
         } else {
-            cart.itemList.push({
+            cart.productList.push({
                 product: product._id,
                 amount: req.params.quantity,
                 totalPrice: product.price * req.params.quantity
@@ -65,7 +65,7 @@ exports.getAll = async (req, res) => {
 
         cart = await Cart
             .findOne({ owner: req.member._id })
-            .populate('itemList.product', 'thumbnail name price -_id')
+            .populate('productList.product', 'thumbnail name skuId price amount -_id')
 
         if (!cart) cart = await Cart.create({ owner: req.member._id, totalProduct: 0, totalPrice: 0 });
 
@@ -74,7 +74,46 @@ exports.getAll = async (req, res) => {
             status: 'success',
             msg: 'cart with this member',
             data: {
-                cart: cart.itemList
+                cart
+            }
+        })
+
+    } catch (err) {
+        console.log(err);
+
+        res.status(400).json({
+            status: 'error',
+            msg: err
+        })
+    }
+}
+
+exports.delete = async (req, res) => {
+    try {
+        const product = await Product.findOne({ skuId: req.params.productSku });
+        if (!product) throw 'product not found';
+
+        const myCart = await Cart
+            .findOne({ owner: req.member._id, productList: { $elemMatch: { product: product._id } } })
+            .populate('productList.product', 'thumbnail name skuId price -_id');
+        if (!myCart) throw 'your cart not found';
+        
+        const productInCart = myCart.productList.find(item => item.product.skuId === req.params.productSku);
+        if (!productInCart) throw 'this product not found in your cart';
+
+        const cart = await Cart.findOneAndUpdate({ owner: req.member._id }, {
+            $pull: {
+                productList: { product: product._id }
+            },
+            totalPrice: myCart.totalPrice - productInCart.totalPrice,
+            totalProduct: myCart.totalProduct - productInCart.amount
+        }, { new: true });
+
+        res.status(200).json({
+            status: 'success',
+            msg: 'delete item in cart successfully',
+            data: {
+                cart
             }
         })
 

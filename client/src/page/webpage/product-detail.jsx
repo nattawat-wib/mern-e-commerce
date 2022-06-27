@@ -11,6 +11,7 @@ import { StyledSnippetInput } from './../../style/product.style';
 import ReviewItem from './../../components/webpage/review-item';
 import ProductCard from './../../components/webpage/product-card';
 import SnipperInput from '../../components/util/snippet-input';
+import { useToggleContext } from '../../context/toggle-context';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Thumbs } from 'swiper';
@@ -25,10 +26,15 @@ import axios from '../../api/axios';
 const ProductDetail = () => {
     const [sliderList, setSliderList] = useState([]);
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
+
     const [currentProduct, setCurrentProduct] = useState({});
     const [otherProductList, setOtherProductList] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
     const [quantity, setQuantity] = useState(1);
+
+    const [isLoading, setIsLoading] = useState(false);
+
+    const { setNavCartItem } = useToggleContext();
+
     const { productSku } = useParams();
     const location = useLocation();
 
@@ -44,7 +50,9 @@ const ProductDetail = () => {
 
     const addProductToCart = () => {
         axios('patch', `/cart/${currentProduct.skuId}/${quantity}`, {}, resp => {
-            
+            console.log(resp);
+            console.log(resp.data.cart.totalProduct);
+            setNavCartItem(resp.data.cart.totalProduct)
         }, null, true, [setIsLoading])
     }
 
