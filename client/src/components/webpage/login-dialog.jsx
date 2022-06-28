@@ -47,6 +47,7 @@ const LoginDialog = ({ isLoginDialogOpen, setIsLoginDialogOpen, setIsRegisterDia
             authDispatch({ type: 'login', payload: resp.data });
             setForm({});
             setIsLoginDialogOpen(false);
+            location.reload()
 
         }, null, true, [setIsBtnLoading])
     }

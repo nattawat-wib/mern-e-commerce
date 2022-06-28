@@ -93,7 +93,7 @@ export default function Order() {
                     <div className='flex justify-end'>
                         <Button
                             component={Link}
-                            to={`/confirm-slip/${Math.random().toString().slice(2)}`}
+                            to={`/confirm-slip/${order.orderNumber}`}
                             variant='contained'
                         >
                             Pay

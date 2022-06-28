@@ -49,29 +49,36 @@ export default function OrderHistory() {
                                         )
                                     })
                                 }
-                                <Box textAlign='right' className='font-bold' >
-                                    <span> Total Product : {order.totalProduct.toLocaleString()} </span>
-                                    <br />
-                                    <span> Total Price : {order.totalPrice.toLocaleString()} </span>
-                                    <br />
-                                    <span> Delivery Price : {order.deliveryPrice.toLocaleString()} </span>
+                                <Box textAlign='right'  >
+                                    <Stack justifyContent='space-between'>
+                                        <Typography> Provider : {order.provider} </Typography>
+                                        <span> Delivery Price : {order.deliveryPrice?.toLocaleString()} </span>
+                                    </Stack>
+                                    <Stack justifyContent='space-between'>
+                                        <Typography> Payment Method : {order.paymentMethod} </Typography>
+                                        <span> Total Price : {(Number(order.totalPrice) + Number(order.deliveryPrice))?.toLocaleString()} </span>
+                                    </Stack>
                                 </Box>
                                 <Divider sx={{ my: 2 }} />
-                                <Stack justifyContent='end' spacing={2}>
-                                    <Button
-                                        component={Link}
-                                        to={`/order/${order.orderNumber}`}
-                                        variant='outlined'
-                                    >
-                                        More Info
-                                    </Button>
-                                    <Button
-                                        component={Link}
-                                        to={`/confirm-slip/${order.orderNumber}`}
-                                        variant='contained'
-                                    >
-                                        Pay
-                                    </Button>
+                                <Stack justifyContent='space-between' spacing={2}>
+                                    <span> {order.createdAtDateTime} </span>
+                                    <div>
+                                        <Button
+                                            component={Link}
+                                            to={`/order/${order.orderNumber}`}
+                                            variant='outlined'
+                                        >
+                                            More Info
+                                        </Button>
+                                        <Button
+                                            component={Link}
+                                            to={`/confirm-slip/${order.orderNumber}`}
+                                            variant='contained'
+                                            sx={{ ml: 2 }}
+                                        >
+                                            Pay
+                                        </Button>
+                                    </div>
                                 </Stack>
                             </Paper>
                         )

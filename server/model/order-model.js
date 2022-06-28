@@ -7,6 +7,7 @@ const orderSchema = new mongoose.Schema({
     },
     owner: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: 'member',
         required: true
     },
     address: {
@@ -62,9 +63,8 @@ const orderSchema = new mongoose.Schema({
     status: String,
     transaction: {
         type: {
-            dateTime: String,
             balance: Number,
-            evidence: String,
+            slip: String,
             transferTo: String
         },
     },

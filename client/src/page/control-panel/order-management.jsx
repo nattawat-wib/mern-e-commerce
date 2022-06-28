@@ -10,12 +10,23 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 
 import { StyledResponsiveStepper } from '../../style/product.style';
 import { StyledStepIcon } from '../../style/product.style';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import FsLightbox from 'fslightbox-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from '../../api/axios';
 
 export default function OrderManagement() {
     const [isLightBoxOpen, setIsLightBoxOpen] = useState(false);
+    const { orderNumber } = useParams();
+    const [order, setOrder] = useState({});
+
+    useEffect(() => {
+        axios('get', `/order/${orderNumber}`, null, resp => {
+            console.log(resp.data.order);
+            setOrder(resp.data.order)
+        }, null, false)
+    }, [])
+
     const renderStepIcon = ({ active, completed, icon }) => {
         const iconList = [
             <InventoryIcon />,
@@ -84,7 +95,7 @@ export default function OrderManagement() {
                         size='small'
                         variant='contained'
                     >
-                        payment confirm
+                        confirm payment
                     </LoadingButton>
                 </Grid>
 
@@ -112,7 +123,7 @@ export default function OrderManagement() {
                         size='small'
                         variant='contained'
                     >
-                        shipping confirm
+                        confirm shipping
                     </LoadingButton>
                 </Grid>
             </Grid>
@@ -162,48 +173,53 @@ export default function OrderManagement() {
                 </Stack>
                 <Grid container alignItems='center' sx={{ mt: 2 }}>
                     <Grid xs={12} md={2} item>
-                        <b> nutella tester </b>
+                        <b> {order?.address?.name} </b>
                     </Grid>
                     <Grid xs={12} md={10} item>
-                        It depends... NASA Headquarters has two different addresses: an official mailing address and a delivery address. Using the correct address can be crucial.
+                        {`${order?.address?.province} ${order?.address?.district} ${order?.address?.subDistrict} ${order?.address?.zipCode} ${order?.address?.detail}`}
                     </Grid>
                 </Grid>
             </Box>
 
             <Divider sx={{ m: 2 }} />
-
             {
-                new Array(3).fill(1).map(order => {
+                order?.productList?.map(order => {
                     return (
                         <Grid key={Math.random()} spacing={2} sx={{ mb: 2 }} container alignItems='center'>
                             <Grid xs={8} item>
                                 <Stack >
-                                    <img className='fix-img mr-4 rounded-md w-[100px] h-[100px]' src="https://www.scotsman.com/webimg/b25lY21zOjI5YWQ2NDQzLTJjYTctNDJiZS1iMGU1LThjYTA1NWQ4Y2RjMTpmOTljNGM4Yy1kMzljLTQ5MmUtYmVjMS0zNzY2ZmUyNTYzMjg=.jpg?width=640&quality=65&smart&enable=upscale" alt="" />
+                                    <img className='fix-img mr-4 rounded-md w-[100px] h-[100px]' src={`${import.meta.env.VITE_BASE_API}/${order.product.thumbnail}`} alt="" />
                                     <Typography className='w-[calc(100%-100px)] w-full'>
-                                        Royal Kludge RK68 RGB Hotswap USB HUB คีย์บอร์ดเกมมิ่งคีย์ไทย ไร้สายบลูทูธและมีสาย เปลี่ยนสวิตซ์ได้ เลเซอร์ไทย - English
+                                        {order.product.name}
                                     </Typography>
                                 </Stack>
                             </Grid>
                             <Grid xs={1} item></Grid>
                             <Grid xs={1} item>
-                                x2
+                                x{order.amount.toLocaleString()}
                             </Grid>
                             <Grid xs={2} item textAlign='right'>
-                                1,500
+                                {order.totalPrice.toLocaleString()}
                             </Grid>
                         </Grid>
                     )
                 })
             }
-            <Typography> Provider : Kerry Express </Typography>
-
-            <Divider sx={{ m: 2 }} />
-
-            <div className='text-right'>
-                <span> Delivery Price : 50 </span>
-                <br />
-                <span> Total Price : 3,560 </span>
-            </div>
+            <Divider sx={{ my: 2 }} />
+                    <div className='text-right'>
+                        <span> Total Product : {order.totalProduct?.toLocaleString()} </span>
+                        <br />
+                        <span> Total Product Price : {order.totalPrice?.toLocaleString()} </span>
+                        <br />
+                        <Stack justifyContent='space-between'>
+                            <Typography> Provider : {order.provider} </Typography>
+                            <span> Delivery Price : {order.deliveryPrice?.toLocaleString()} </span>
+                        </Stack>
+                        <Stack justifyContent='space-between'>
+                            <Typography> Payment Method : {order.paymentMethod} </Typography>
+                            <span> Total Price : {(Number(order.totalPrice) + Number(order.deliveryPrice))?.toLocaleString()} </span>
+                        </Stack>
+                    </div>
         </>
     )
 }

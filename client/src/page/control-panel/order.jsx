@@ -1,97 +1,48 @@
 import { Typography, Avatar, TableCell, Box, Divider, Stack, Button, IconButton, Tooltip } from '@mui/material';
 
-import AddBusinessOutlinedIcon from '@mui/icons-material/AddBusinessOutlined';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-
 import { useState, useEffect } from 'react';
 import CustomTable from '../../components/control-panel/custom-table';
-import DialogConfirm from './../../components/util/dialog-confirm';
 import { Link } from 'react-router-dom';
 import axios from './../../api/axios';
 
 export default function ProductAll() {
-    const [productList, setProductList] = useState([]);
-    const [deleteSkuId, setDeleteSkuId] = useState(null);
-    const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
+    const [orderList, setOrderList] = useState([]);
 
-    const fetchAllProduct = () => {
-        axios('get', '/product', null, resp => {
-            setProductList(resp.data.product)
-        }, null, false)
-    }
+    useEffect(() => axios('get', '/order', null, resp => {
+        setOrderList(resp.data.order)
+    }, null, false), [])
 
-    useEffect(fetchAllProduct, [])
-
-    const handleDelete = skuId => {
-        axios('delete', `/product/${skuId}`, null, fetchAllProduct, null, false);
-    }
-
-    const bodyRow = (index, thumbnail, name, category, skuId, createAt) => {
+    const bodyRow = (index, order) => {
         return (<>
             <TableCell> {index} </TableCell>
+            <TableCell> {order.orderNumber} </TableCell>
+            <TableCell> {order.owner.firstName} {order.owner.lastName} </TableCell>
+            <TableCell> {order.totalProduct.toLocaleString()} </TableCell>
+            <TableCell> {order.totalPrice.toLocaleString()} </TableCell>
+            <TableCell> {order.provider} </TableCell>
+            <TableCell> {order.paymentMethod} </TableCell>
+            <TableCell> {order.status} </TableCell>
+            <TableCell> {order.createdAtDateTime} </TableCell>
             <TableCell>
-                <img
-                    className='fix-img rounded-md'
-                    width={50} height={50}
-                    src={`${import.meta.env.VITE_BASE_API}/${thumbnail}`}
-                />
-            </TableCell>
-            <TableCell> {name} </TableCell>
-            <TableCell> {category} </TableCell>
-            <TableCell> {skuId} </TableCell>
-            <TableCell> {createAt} </TableCell>
-            <TableCell>
-                <Stack>
-                    <Tooltip title='edit'>
-                        <IconButton
-                            component={Link}
-                            to={`/cp/product/${skuId}`}
-                            size='small'
-                            color='warning'
-                        >
-                            <EditIcon />
-                        </IconButton>
-                    </Tooltip>
-                    <Tooltip title='delete'>
-                        <IconButton
-                            onClick={() => {
-                                setDeleteSkuId(skuId)
-                                setIsConfirmDialogOpen(true)
-                            }}
-                            color='error'
-                            size='small'
-                        >
-                            <DeleteIcon />
-                        </IconButton>
-                    </Tooltip>
-                </Stack>
+                <Button
+                    component={Link}
+                    to={`/cp/order/${order.orderNumber}`}
+                    variant='outlined'
+                    size='small'
+                >
+                    Detail
+                </Button>
             </TableCell>
         </>)
     }
 
     return (
         <>
-            <Stack justifyContent='space-between'>
-                <DialogConfirm 
-                    isOpen={isConfirmDialogOpen}
-                    setIsOpen={setIsConfirmDialogOpen}
-                    callback={() => handleDelete(deleteSkuId)}
-                />
-                <Typography variant='h6'> Product </Typography>
-                <Button
-                    component={Link}
-                    to='/cp/product-add'
-                    variant='contained'
-                    startIcon={<AddBusinessOutlinedIcon />}
-                >
-                    Add Product
-                </Button>
-            </Stack>
+            <Typography variant='h6'> Order </Typography>
             <CustomTable
-                data={productList}
+                data={orderList}
                 bodyRow={bodyRow}
-                headColumn={['#', 'thumbnail', 'name', 'category', 'sku id', 'created at', 'action']}
+                headColumn={['#', 'Order Number', 'Order By', 'Total Product', 'Total Price', 'Provider', 'Payment Method', 'Status', 'Order Time', 'action']}
             >
             </CustomTable>
         </>

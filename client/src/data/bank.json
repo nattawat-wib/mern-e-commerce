@@ -22,5 +22,11 @@
         "name": "Krungsri Bank",
         "bankAccount": "0-2123-1304-32",
         "accountName": "nutella tester"
+    },
+    {
+        "_id": "bank05",
+        "name": "Siam Commercial Bank",
+        "bankAccount": "0-2123-1304-32",
+        "accountName": "nutella tester"
     }
 ]

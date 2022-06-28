@@ -33,6 +33,7 @@ const Navbar = () => {
     const handleLogout = () => {
         axios('delete', '/auth/logout', null, () => {
             authDispatch({ type: 'logout' })
+            location.reload()
         }, null)
         setIsConfirmDialogOpen(false)
     }
