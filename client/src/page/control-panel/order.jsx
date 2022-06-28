@@ -21,7 +21,9 @@ export default function ProductAll() {
             <TableCell> {order.totalPrice.toLocaleString()} </TableCell>
             <TableCell> {order.provider} </TableCell>
             <TableCell> {order.paymentMethod} </TableCell>
-            <TableCell> {order.status} </TableCell>
+            <TableCell>
+                <Typography color='primary'> <b> {order.status} </b> </Typography>
+            </TableCell>
             <TableCell> {order.createdAtDateTime} </TableCell>
             <TableCell>
                 <Button

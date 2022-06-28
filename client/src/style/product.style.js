@@ -3,7 +3,7 @@ import { Paper, Stack, Stepper } from '@mui/material';
 import { style } from "@mui/system";
 
 export const StyledProductCard = styled(Paper)`
-    box-shadow: 0 0 12px rgba(0,0,0, .05);
+    // box-shadow: 0 0 12px rgba(0,0,0, .05);
     padding: .5rem;
 `
 

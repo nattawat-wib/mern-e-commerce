@@ -101,7 +101,7 @@ const cpDark = createTheme({
 const emotion = {
     light: {
         cpBg: '#E6EAEE',
-        bg: '#fff',
+        bg: '#E6EAEE',
         inputColor: '#121212',
         inputBg: '#fff',
         sidebarBg: '#F0F7FF',
@@ -110,8 +110,8 @@ const emotion = {
         muiCp: cpLight
     },
     dark: {
-        bg: '#3d3d3d',
         cpBg: '#3d3d3d',
+        bg: '#3d3d3d',
         inputColor: '#fff',
         inputBg: '#121212',
         sidebarBg: '#121212',

@@ -107,8 +107,7 @@ export default function OrderManagement() {
             </Stack>
 
             <Divider sx={{ m: 2 }} />
-            <span> status : {order.status} </span>
-            <br />
+            <Typography color='primary'> <b> status : {order.status} </b> </Typography>
             <br />
             <Grid spacing={2} container>
                 <Grid xs={12} md={6} item>
@@ -317,7 +316,7 @@ export default function OrderManagement() {
                 </Stack>
                 <Stack justifyContent='space-between'>
                     <Typography> Payment Method : {order.paymentMethod} </Typography>
-                    <span> Total Price : {(Number(order.totalPrice) + Number(order.deliveryPrice))?.toLocaleString()} </span>
+                    <span> <b> Total Price : {(Number(order.totalPrice) + Number(order.deliveryPrice))?.toLocaleString()} </b> </span>
                 </Stack>
             </div>
         </>

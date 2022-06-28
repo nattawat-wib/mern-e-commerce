@@ -145,7 +145,11 @@ exports.verityToken = async (req, res) => {
 
 exports.getLoginMember = async (req, res, next) => {
     try {
+        if(!req.cookies.accessToken) throw 'you are not login yet';
+
         const member = await Member.findOne({ accessToken: req.cookies.accessToken });
+        
+        if (!member) throw 'you are not login yet'
 
         req.member = member;
         next()
@@ -154,7 +158,7 @@ exports.getLoginMember = async (req, res, next) => {
 
         res.status(401).json({
             status: 'error',
-            msg: 'you are not login yet'
+            msg: err
         })
     }
 }

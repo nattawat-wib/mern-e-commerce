@@ -8,7 +8,7 @@ import './../../style/cp-login.scss'
 import { useState } from 'react';
 import { CpLoginBg, StyledLoginForm } from './../../style/util.style';
 import { useAuthCpContext } from './../../context/auth-cp-context';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from './../../api/axios';
 import { toast } from 'react-hot-toast';
 
@@ -126,7 +126,11 @@ export default function login() {
             </div>
 
             <div className='content flex justify-center items-center'>
-                <p> Shobhee | ReactJs </p>
+                <p>
+                    Shobhee | ReactJs
+                    <br />
+                    <Link to='/'> Back to webpage </Link>
+                </p>
             </div>
         </CpLoginBg>
     )

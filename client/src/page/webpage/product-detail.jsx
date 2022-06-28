@@ -12,6 +12,7 @@ import ReviewItem from './../../components/webpage/review-item';
 import ProductCard from './../../components/webpage/product-card';
 import SnipperInput from '../../components/util/snippet-input';
 import { useToggleContext } from '../../context/toggle-context';
+import { useAuthContext } from '../../context/auth-context';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Thumbs } from 'swiper';
@@ -35,6 +36,7 @@ const ProductDetail = () => {
     const [isPageLoading, setIsPageLoading] = useState(false);
 
     const { setNavCartItem } = useToggleContext();
+    const { auth } = useAuthContext();
 
     const { productSku } = useParams();
     const location = useLocation();
@@ -53,8 +55,6 @@ const ProductDetail = () => {
 
     const addProductToCart = () => {
         axios('patch', `/cart/${currentProduct.skuId}/${quantity}`, { action: 'update' }, resp => {
-            console.log(resp);
-            console.log(resp.data.cart.totalProduct);
             setNavCartItem(resp.data.cart.totalProduct)
         }, null, true, [setIsLoading])
     }
@@ -193,9 +193,10 @@ const ProductDetail = () => {
                                     ADD TO CART
                                 </LoadingButton>
                                 <LoadingButton
+                                    disabled={!auth.isAuth}
                                     onClick={() => {
                                         addProductToCart()
-                                        navigate('/cart')
+                                        if (auth.isAuth) navigate('/cart')
                                     }}
                                     loading={isPageLoading || isLoading}
                                     variant='contained'
@@ -237,7 +238,7 @@ const ProductDetail = () => {
                 </Paper> */}
 
                 <Paper sx={{ my: 4, p: 4 }}>
-                    <Typography> Other Products </Typography>
+                    <Typography variant='h5' color='primary' sx={{ mb: 2 }}> Other Products </Typography>
                     <Grid container spacing={2} >
                         {
                             otherProductList.map(product => {

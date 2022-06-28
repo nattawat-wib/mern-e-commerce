@@ -26,12 +26,9 @@ export default function Order() {
 
     useEffect(() => {
         axios('get', `/order/${orderNumber}`, null, resp => {
-            console.log(resp.data.order);
             setOrder(resp.data.order)
         }, null, false, [setIsPageLoading])
     }, [])
-
-    console.log(order);
 
     const renderStepIcon = ({ active, completed, icon }) => {
         const iconList = [
@@ -89,7 +86,7 @@ export default function Order() {
 
                     <Divider sx={{ my: 2 }} />
                     <div className='flex justify-between items-center'>
-                        <span> <b> {order.status} </b> </span>
+                        <Typography color='primary'> <b> status : {order.status} </b> </Typography>
                         {
                             order.status === 'waiting for payment' &&
                             <Button
@@ -183,7 +180,7 @@ export default function Order() {
                         </Stack>
                         <Stack justifyContent='space-between'>
                             <Typography> Payment Method : {order.paymentMethod} </Typography>
-                            <span> Total Price : {(Number(order.totalPrice) + Number(order.deliveryPrice))?.toLocaleString()} </span>
+                            <span> <b> Total Price : {(Number(order.totalPrice) + Number(order.deliveryPrice))?.toLocaleString()} </b> </span>
                         </Stack>
                     </div>
                 </Paper>

@@ -14,8 +14,6 @@ export default function OrderHistory() {
         }, null, false)
     }, [])
 
-    console.log(orderList);
-
     return (
         <PageWrapper>
             <Container sx={{ py: 4 }}>
@@ -28,7 +26,7 @@ export default function OrderHistory() {
                                 <Paper key={Math.random()} sx={{ p: 2, mb: 4 }}>
                                     <Stack justifyContent='space-between'>
                                         <Typography > Order Id : {order.orderNumber} </Typography>
-                                        <Typography color='success.main'> <b> {order.status} </b> </Typography>
+                                        <Typography color='primary'> <b> {order.status} </b> </Typography>
                                     </Stack>
                                     <Divider sx={{ my: 2 }} />
                                     {
@@ -59,7 +57,7 @@ export default function OrderHistory() {
                                         </Stack>
                                         <Stack justifyContent='space-between'>
                                             <Typography> Payment Method : {order.paymentMethod} </Typography>
-                                            <span> Total Price : {(Number(order.totalPrice) + Number(order.deliveryPrice))?.toLocaleString()} </span>
+                                            <span> <b> Total Price : {(Number(order.totalPrice) + Number(order.deliveryPrice))?.toLocaleString()} </b> </span>
                                         </Stack>
                                     </Box>
                                     <Divider sx={{ my: 2 }} />

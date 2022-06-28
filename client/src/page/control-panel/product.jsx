@@ -40,7 +40,7 @@ export default function ProductAll() {
             <TableCell> {row.name} </TableCell>
             <TableCell> {row.category} </TableCell>
             <TableCell> {row.skuId} </TableCell>
-            <TableCell> {row.createAt} </TableCell>
+            <TableCell> {row.createdAtDateTime} </TableCell>
             <TableCell>
                 <Stack>
                     <Tooltip title='edit'>

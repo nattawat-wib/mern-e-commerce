@@ -33,7 +33,7 @@ const Navbar = () => {
     const handleLogout = () => {
         axios('delete', '/auth/logout', null, () => {
             authDispatch({ type: 'logout' })
-            location.reload()
+            window.location.href = '/'
         }, null)
         setIsConfirmDialogOpen(false)
     }
@@ -59,7 +59,7 @@ const Navbar = () => {
                 <Box className='flex items-center justify-between pt-1' >
                     <Button
                         component={Link}
-                        to='/cp/login'
+                        to='/cp'
                         variant='text'
                         size='small'
                         sx={{ color: 'light' }}
@@ -166,17 +166,13 @@ const Navbar = () => {
                             sx={{ color: 'light' }}
                             onClick={() => setIsDarkTheme(prev => !prev)}
                         >
-                            {
-                                isDarkTheme ?
-                                    <DarkModeIcon color='light' />
-                                    :
-                                    <Brightness4Icon color='light' />
-                            }
+                            {isDarkTheme ? <DarkModeIcon color='light' /> : <Brightness4Icon color='light' />}
                         </IconButton>
 
                         <IconButton
                             component={Link}
-                            to='/cart'
+                            to={`${auth.isAuth ? '/cart' : '#'}`}
+                            disabled={!auth.isAuth}
                             sx={{ color: 'light' }}
                         >
                             <Badge badgeContent={navCartItem} color='secondary'>
