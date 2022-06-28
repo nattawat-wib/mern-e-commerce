@@ -16,9 +16,11 @@ router.route('/')
 router.route('/:orderNumber')
     .get(orderController.getOne)
 
-router.patch('/confirm-slip/:orderNumber',
+router.patch('/upload-slip/:orderNumber',
     multer.config.single('slip'),
-    orderController.confirmSlip
+    orderController.uploadSlip
 )
+router.patch('/confirm-payment/:orderNumber',orderController.confirmPayment)
+router.patch('/confirm-shipping/:orderNumber',orderController.confirmShipping)
 
 module.exports = router

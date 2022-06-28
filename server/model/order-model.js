@@ -64,21 +64,19 @@ const orderSchema = new mongoose.Schema({
     transaction: {
         type: {
             balance: Number,
+            transferTo: String,
             slip: String,
-            transferTo: String
+            dateTime: String
         },
     },
-    paymentConfirmAt: {
-        type: {
-            dateTime: String,
-            timestamp: Number
-        }
-    },
-    shippingAt: {
-        type: {
-            dateTime: String,
-            timestamp: Number
-        }
+    paymentConfirmAt: Number,
+    paymentConfirmAtDateTime: String,
+    shippingConfirmAt: Number,
+    shippingConfirmAtDateTime: String,
+    shippingDetail : {
+        provider: String,
+        deliveryPrice: Number,
+        trackingId: String,
     },
     cancelAt: {
         type: {

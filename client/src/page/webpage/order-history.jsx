@@ -70,14 +70,17 @@ export default function OrderHistory() {
                                         >
                                             More Info
                                         </Button>
-                                        <Button
-                                            component={Link}
-                                            to={`/confirm-slip/${order.orderNumber}`}
-                                            variant='contained'
-                                            sx={{ ml: 2 }}
-                                        >
-                                            Pay
-                                        </Button>
+                                        {
+                                            order.status === 'waiting for payment' &&
+                                            <Button
+                                                component={Link}
+                                                to={`/confirm-slip/${order.orderNumber}`}
+                                                variant='contained'
+                                                sx={{ ml: 2 }}
+                                            >
+                                                Pay
+                                            </Button>
+                                        }
                                     </div>
                                 </Stack>
                             </Paper>

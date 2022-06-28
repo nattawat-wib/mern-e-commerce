@@ -16,6 +16,13 @@ export default function Order() {
     const { orderNumber } = useParams();
     const [order, setOrder] = useState({});
 
+    const checkoutStatus = {
+        'waiting for payment': 0,
+        'waiting for review': 0,
+        'waiting for shipping': 1,
+        'success': 2,
+    };
+
     useEffect(() => {
         axios('get', `/order/${orderNumber}`, null, resp => {
             console.log(resp.data.order);
@@ -55,49 +62,43 @@ export default function Order() {
                     </Stack>
                     <Divider sx={{ mb: 2 }} />
 
-                    <StyledResponsiveStepper activeStep={1} alternativeLabel  >
+                    <StyledResponsiveStepper activeStep={checkoutStatus[order.status]} alternativeLabel  >
                         <Step key={1} >
                             <StepLabel StepIconComponent={renderStepIcon}>
                                 Order Placed
                                 <br />
-                                10/02/2022 12:12
+                                {order.createdAtDateTime}
                             </StepLabel>
                         </Step>
                         <Step key={2} >
                             <StepLabel StepIconComponent={renderStepIcon}>
                                 Order Paid
-                                {
-                                    true &&
-                                    <>
-                                        <br />
-                                        10/02/2022 12:12
-                                    </>
-                                }
+                                <br />
+                                {order.paymentConfirmAtDateTime ? order.paymentConfirmAtDateTime : '-'}
                             </StepLabel >
                         </Step>
                         <Step key={3} >
                             <StepLabel StepIconComponent={renderStepIcon}>
                                 Order Shipped
-                                {
-                                    true &&
-                                    <>
-                                        <br />
-                                        10/02/2022 12:12
-                                    </>
-                                }
+                                <br />
+                                {order.shippingConfirmAtDateTime ? order.shippingConfirmAtDateTime : '-'}
                             </StepLabel>
                         </Step>
                     </StyledResponsiveStepper>
 
                     <Divider sx={{ my: 2 }} />
-                    <div className='flex justify-end'>
-                        <Button
-                            component={Link}
-                            to={`/confirm-slip/${order.orderNumber}`}
-                            variant='contained'
-                        >
-                            Pay
-                        </Button>
+                    <div className='flex justify-between items-center'>
+                        <span> <b> {order.status} </b> </span>
+                        {
+                            order.status === 'waiting for payment' &&
+                            <Button
+                                component={Link}
+                                to={`/confirm-slip/${order.orderNumber}`}
+                                variant='contained'
+                            >
+                                Pay
+                            </Button>
+                        }
                     </div>
                     <Divider sx={{ my: 2 }} />
 
@@ -157,6 +158,6 @@ export default function Order() {
                     </div>
                 </Paper>
             </Container>
-        </PageWrapper>
+        </PageWrapper >
     )
 }

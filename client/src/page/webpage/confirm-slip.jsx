@@ -36,7 +36,7 @@ export default function ConfirmSlip() {
         formData.append('balance', amount)
         formData.append('transferTo', selectBank?.name || '')
 
-        axios('patch', `/order/confirm-slip/${order.orderNumber}`, formData, resp => {
+        axios('patch', `/order/upload-slip/${order.orderNumber}`, formData, resp => {
             navigate(`/order/${resp.data.order.orderNumber}`)
         }, null, true, [setIsLoading])
     }
