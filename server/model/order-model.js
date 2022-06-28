@@ -18,7 +18,7 @@ const orderSchema = new mongoose.Schema({
             district: String,
             subDistrict: String,
             zipCode: String,
-            address: String,
+            detail: String,
         },
         required: true
     },

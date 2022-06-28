@@ -63,8 +63,8 @@ const App = () => {
                                         <Route path='/checkout' element={<Checkout />} />
                                         <Route path='/member' element={<Member />} />
                                         <Route path='/order-history' element={<OrderHistory />} />
-                                        <Route path='/order/:orderId' element={<Order />} />
-                                        <Route path='/confirm-slip/:orderId' element={<ConfirmSlip />} />
+                                        <Route path='/order/:orderNumber' element={<Order />} />
+                                        <Route path='/confirm-slip/:orderNumber' element={<ConfirmSlip />} />
                                     </Route>
 
                                     <Route path='/*' element={<NotFound />} />

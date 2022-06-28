@@ -32,7 +32,7 @@ exports.create = async (req, res) => {
 
 exports.getAll = async (req, res) => {
     try {
-        const address = await Address.find();
+        const address = await Address.find({owner: req.member._id});
 
         res.status(200).json({
             status: 'success',

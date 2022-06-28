@@ -10,6 +10,9 @@ router.route('/')
         validate.order,
         orderController.create
     )
-    .get(orderController.create)
+    .get(orderController.getAll)
+
+router.route('/:orderNumber')
+    .get(orderController.getOne)
 
 module.exports = router

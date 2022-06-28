@@ -13,6 +13,7 @@ import axios from './../../api/axios';
 import { useAuthContext } from './../../context/auth-context';
 import providerList from './../../data/provider.json';
 import DialogConfirm from './../../components/util/dialog-confirm';
+import { useToggleContext } from './../../context/toggle-context';
 
 const Checkout = () => {
     const [productList, setProductList] = useState([]);
@@ -27,6 +28,7 @@ const Checkout = () => {
 
     const navigate = useNavigate();
     const { auth } = useAuthContext();
+    const { setNavCartItem } = useToggleContext()
 
     useEffect(() => {
         axios('get', '/cart', null, resp => {
@@ -60,7 +62,8 @@ const Checkout = () => {
     const handleOrderConfirm = () => {
         console.log(form);
         axios('post', '/order', form, resp => {
-            navigate(`/order-history/${resp.data.order.orderNumber}`)
+            navigate(`/order/${resp.data.order.orderNumber}`);
+            setNavCartItem(0)
         })
     }
 

@@ -63,6 +63,7 @@ exports.productUpdate = async (req, res, next) => {
 exports.order = async (req, res, next) => {
     try {
         if(!Object.keys(req.body.address).length) throw 'please select address'
+        if(!req.body.productList.length) throw "you don't have any product in cart";
 
         cleanForm(req.body, ['address', 'productList', 'totalProduct', 'totalPrice', 'provider', 'paymentMethod', 'deliveryPrice']);
         cleanForm(req.body.address, ['name', 'tel', 'province', 'district', 'subDistrict', 'zipCode', 'detail']);
