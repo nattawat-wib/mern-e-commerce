@@ -1,4 +1,4 @@
-import { Grid, Container, Paper, Typography, Rating, Stack, Button, TextField } from '@mui/material'
+import { Grid, Container, Paper, Typography, Rating, Stack, Button, TextField, Skeleton } from '@mui/material'
 import LoadingButton from '@mui/lab/LoadingButton';
 
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
@@ -32,6 +32,7 @@ const ProductDetail = () => {
     const [quantity, setQuantity] = useState(1);
 
     const [isLoading, setIsLoading] = useState(false);
+    const [isPageLoading, setIsPageLoading] = useState(false);
 
     const { setNavCartItem } = useToggleContext();
 
@@ -40,8 +41,9 @@ const ProductDetail = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios('get', `/product/${productSku}`, null,
-            resp => setCurrentProduct(resp.data.product), null, false
+
+        axios('get', `/product/${productSku}`, null, resp => setCurrentProduct(resp.data.product),
+            null, false, [setIsPageLoading]
         )
 
         axios('get', `/product`, null,
@@ -63,23 +65,31 @@ const ProductDetail = () => {
                 <Paper sx={{ p: 4 }} elevation={1}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} md={5} >
-                            <Swiper
-                                modules={[Thumbs]}
-                                thumbs={{ swiper: thumbsSwiper }}
-                                className='mb-1'
-                            >
-                                {
-                                    [currentProduct.thumbnail || '', ...currentProduct.imageList || ''].map(image => {
-                                        return (
-                                            <SwiperSlide key={image}>
-                                                <figure className='relative pt-[75%]'>
-                                                    <img className='fit-img' src={`${import.meta.env.VITE_BASE_API}/${image}`} />
-                                                </figure>
-                                            </SwiperSlide>
-                                        )
-                                    })
-                                }
-                            </Swiper>
+                            {
+
+                                <Swiper
+                                    modules={[Thumbs]}
+                                    thumbs={{ swiper: thumbsSwiper }}
+                                    className='mb-1'
+                                >
+                                    {
+                                        [currentProduct.thumbnail || '', ...currentProduct.imageList || ''].map(image => {
+                                            return (
+                                                <SwiperSlide key={image}>
+                                                    <figure className='relative pt-[75%]'>
+                                                        {
+                                                            isPageLoading ?
+                                                                <Skeleton className='fit-img' />
+                                                                :
+                                                                <img className='fit-img' src={`${import.meta.env.VITE_BASE_API}/${image}`} />
+                                                        }
+                                                    </figure>
+                                                </SwiperSlide>
+                                            )
+                                        })
+                                    }
+                                </Swiper>
+                            }
                             <Swiper
                                 navigation={true}
                                 // slideNextClass={'opacity-50'}
@@ -97,7 +107,12 @@ const ProductDetail = () => {
                                         return (
                                             <SwiperSlide key={image}>
                                                 <figure className='relative pt-[75%]'>
-                                                    <img className='fit-img' src={`${import.meta.env.VITE_BASE_API}/${image}`} />
+                                                    {
+                                                        isPageLoading ?
+                                                            <Skeleton className='fit-img' />
+                                                            :
+                                                            <img className='fit-img' src={`${import.meta.env.VITE_BASE_API}/${image}`} />
+                                                    }
                                                 </figure>
                                             </SwiperSlide>
                                         )
@@ -107,7 +122,15 @@ const ProductDetail = () => {
                         </Grid>
                         <Grid item xs={12} md={7} >
                             <Typography variant='h6'>
-                                {currentProduct.name}
+                                {
+                                    isPageLoading ?
+                                        <>
+                                            <Skeleton />
+                                            <Skeleton />
+                                        </>
+                                        :
+                                        currentProduct.name
+                                }
                             </Typography>
                             {/* <Stack spacing={1} justifyContent='flex-start'>
                                 <Rating name="half-rating-read" defaultValue={4.7} readOnly />
@@ -122,7 +145,12 @@ const ProductDetail = () => {
                                 color='primary'
                                 sx={{ mt: 3 }}
                             >
-                                ฿{currentProduct.price?.toLocaleString()}
+                                {
+                                    isPageLoading ?
+                                        <Skeleton />
+                                        :
+                                        `฿${currentProduct.price?.toLocaleString()}`
+                                }
                             </Typography>
 
                             {/* <Grid container spacing={2} sx={{ mt: 2 }} >
@@ -157,7 +185,7 @@ const ProductDetail = () => {
                             <Stack justifyContent='start' spacing={2} sx={{ mt: 4 }}>
                                 <LoadingButton
                                     onClick={addProductToCart}
-                                    loading={isLoading}
+                                    loading={isPageLoading || isLoading}
                                     loadingPosition='start'
                                     startIcon={<ShoppingCartCheckoutIcon />}
                                     variant='outlined'
@@ -169,7 +197,7 @@ const ProductDetail = () => {
                                         addProductToCart()
                                         navigate('/cart')
                                     }}
-                                    loading={isLoading}
+                                    loading={isPageLoading || isLoading}
                                     variant='contained'
                                 >
                                     BUY NOW
@@ -182,7 +210,19 @@ const ProductDetail = () => {
 
                 <Paper sx={{ my: 4, p: 4 }}>
                     <Typography variant='h5' color='primary' sx={{ mb: 2 }}> Detail </Typography>
-                    <Typography dangerouslySetInnerHTML={{ __html: currentProduct.detail }} />
+                    {
+                        isPageLoading ?
+                            <>
+                                <Skeleton />
+                                <Skeleton />
+                                <Skeleton />
+                                <Skeleton />
+                                <Skeleton />
+                                <Skeleton />
+                            </>
+                            :
+                            <Typography dangerouslySetInnerHTML={{ __html: currentProduct.detail }} />
+                    }
                 </Paper>
 
                 {/* <Paper sx={{ my: 4, p: 4 }}>
@@ -204,7 +244,7 @@ const ProductDetail = () => {
                                 return (
                                     product.skuId !== currentProduct.skuId &&
                                     <Grid item xs={12} sm={6} md={3} key={product.skuId} >
-                                        <ProductCard product={product} />
+                                        <ProductCard loading={isPageLoading} product={product} />
                                     </Grid>
                                 )
                             })

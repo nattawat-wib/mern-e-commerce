@@ -1,4 +1,4 @@
-import { Button, Container, Divider, Paper, Stack, Typography, Grid, Step, Stepper, StepLabel, Box } from '@mui/material';
+import { Button, Container, Divider, Paper, Stack, Typography, Grid, Step, Stepper, StepLabel, Box, Skeleton } from '@mui/material';
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import PersonPinCircleIcon from '@mui/icons-material/PersonPinCircle';
@@ -15,6 +15,7 @@ import axios from './../../api/axios';
 export default function Order() {
     const { orderNumber } = useParams();
     const [order, setOrder] = useState({});
+    const [isPageLoading, setIsPageLoading] = useState(false);
 
     const checkoutStatus = {
         'waiting for payment': 0,
@@ -27,7 +28,7 @@ export default function Order() {
         axios('get', `/order/${orderNumber}`, null, resp => {
             console.log(resp.data.order);
             setOrder(resp.data.order)
-        }, null, false)
+        }, null, false, [setIsPageLoading])
     }, [])
 
     console.log(order);
@@ -107,39 +108,68 @@ export default function Order() {
                             <PersonPinCircleIcon color='primary' />
                             <Typography color='primary'> <b> Shipping Address </b> </Typography>
                         </Stack>
-                        <Grid container alignItems='center' sx={{ mt: 2 }}>
+                        <Grid container spacing={2} alignItems='center' sx={{ mt: 2 }}>
                             <Grid xs={12} md={2} item>
-                                <b> {order?.address?.name} </b>
+                                <b> {isPageLoading ? <Skeleton /> : order?.address?.name} </b>
                             </Grid>
                             <Grid xs={12} md={10} item>
-                                {`${order?.address?.province} ${order?.address?.district} ${order?.address?.subDistrict} ${order?.address?.zipCode} ${order?.address?.detail}`}
+                                {
+                                    isPageLoading ?
+                                        <Skeleton /> :
+                                        `${order?.address?.province} ${order?.address?.district} ${order?.address?.subDistrict} ${order?.address?.zipCode} ${order?.address?.detail}`
+                                }
                             </Grid>
                         </Grid>
                     </Box>
 
                     <Divider sx={{ mb: 2 }} />
                     {
-                        order?.productList?.map(order => {
-                            return (
-                                <Grid key={Math.random()} spacing={2} sx={{ mb: 2 }} container alignItems='center'>
-                                    <Grid xs={8} item>
-                                        <Stack >
-                                            <img className='fix-img mr-4 rounded-md w-[100px] h-[100px]' src={`${import.meta.env.VITE_BASE_API}/${order.product.thumbnail}`} alt="" />
-                                            <Typography className='w-[calc(100%-100px)] w-full'>
-                                                {order.product.name}
-                                            </Typography>
-                                        </Stack>
+                        isPageLoading ?
+                            new Array(3).fill(1).map((item, i) => {
+                                return (
+                                    <Grid key={i} container alignItems='center' spacing={2}>
+                                        <Grid xs={12} md={8} item>
+                                            <Stack alignItems='center' justifyContent='start' spacing={2}>
+                                                <Skeleton width={100} height={100} />
+                                                <div className='w-full'>
+                                                    <Skeleton width={'100%'} />
+                                                    <Skeleton width={'100%'} />
+                                                    <Skeleton width={'100%'} />
+                                                </div>
+                                            </Stack>
+                                        </Grid>
+                                        <Grid xs={12} md={1} item></Grid>
+                                        <Grid xs={12} md={1} item>
+                                            <Skeleton />
+                                        </Grid>
+                                        <Grid xs={12} md={2} item>
+                                            <Skeleton />
+                                        </Grid>
                                     </Grid>
-                                    <Grid xs={1} item></Grid>
-                                    <Grid xs={1} item>
-                                        x{order.amount.toLocaleString()}
+                                )
+                            })
+                            :
+                            order?.productList?.map(order => {
+                                return (
+                                    <Grid key={Math.random()} spacing={2} sx={{ mb: 2 }} container alignItems='center'>
+                                        <Grid xs={8} item>
+                                            <Stack >
+                                                <img className='fix-img mr-4 rounded-md w-[100px] h-[100px]' src={`${import.meta.env.VITE_BASE_API}/${order.product.thumbnail}`} alt="" />
+                                                <Typography className='w-[calc(100%-100px)] w-full'>
+                                                    {order.product.name}
+                                                </Typography>
+                                            </Stack>
+                                        </Grid>
+                                        <Grid xs={1} item></Grid>
+                                        <Grid xs={1} item>
+                                            x{order.amount.toLocaleString()}
+                                        </Grid>
+                                        <Grid xs={2} item textAlign='right'>
+                                            {order.totalPrice.toLocaleString()}
+                                        </Grid>
                                     </Grid>
-                                    <Grid xs={2} item textAlign='right'>
-                                        {order.totalPrice.toLocaleString()}
-                                    </Grid>
-                                </Grid>
-                            )
-                        })
+                                )
+                            })
                     }
                     <Divider sx={{ my: 2 }} />
                     <div className='text-right'>

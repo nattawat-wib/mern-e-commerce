@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 const ProductCard = ({ product = {}, loading }) => {
     return (
         <StyledProductCard>
-            <Link to={`/product/${product.category}/${product.skuId}`}>
+            <Link to={`${loading ? '#' : `/product/${product.category}/${product.skuId}`}`} >
                 <figure className='relative w-full pt-[75%]'>
                     {
                         loading ?

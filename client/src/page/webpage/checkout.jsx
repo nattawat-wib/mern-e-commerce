@@ -1,4 +1,4 @@
-import { Container, Paper, Button, Typography, TextField, IconButton, Stack, Box, Grid, MenuItem, RadioGroup, FormLabel, FormControlLabel, Radio } from '@mui/material';
+import { Container, Paper, Button, Typography, TextField, IconButton, Stack, Box, Grid, MenuItem, RadioGroup, FormLabel, FormControlLabel, Radio, Skeleton } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -19,6 +19,7 @@ const Checkout = () => {
     const [productList, setProductList] = useState([]);
     const [currentAddress, setCurrentAddress] = useState({});
     const [isLoading, setIsLoading] = useState(false);
+    const [isPageLoading, setIsPageLoading] = useState(false);
     const [isDialogConfirmOpen, setIsDialogConfirmOpen] = useState(false);
 
     const [selectProvider, setSelectProvider] = useState('');
@@ -33,7 +34,7 @@ const Checkout = () => {
     useEffect(() => {
         axios('get', '/cart', null, resp => {
             setProductList(resp.data.cart)
-        }, null, false)
+        }, null, false, [setIsPageLoading])
     }, [])
 
     useEffect(() => {
@@ -64,7 +65,7 @@ const Checkout = () => {
         axios('post', '/order', form, resp => {
             navigate(`/order/${resp.data.order.orderNumber}`);
             setNavCartItem(0)
-        })
+        }, null, true, [setIsLoading])
     }
 
     return (
@@ -88,16 +89,19 @@ const Checkout = () => {
                         <PersonPinCircleIcon color='primary' />
                         <Typography color='primary'> <b> Shipping Address </b> </Typography>
                     </Stack>
-                    <Grid container alignItems='center' sx={{ mt: 2 }}>
+                    <Grid container alignItems='center' spacing={2} sx={{ mt: 2 }}>
                         <Grid xs={12} md={2} item>
-                            <b> {currentAddress?.name || '-'} </b>
+                            <b> {isPageLoading ? <Skeleton /> : currentAddress?.name} </b>
                         </Grid>
                         <Grid xs={12} md={8} item>
                             {
-                                !currentAddress ?
-                                    <Typography textAlign='center'> "no have any default address, <br /> please select default address before order" </Typography>
+                                isPageLoading ?
+                                    <Skeleton />
                                     :
-                                    `${currentAddress?.province} ${currentAddress?.district} ${currentAddress?.subDistrict} ${currentAddress?.zipCode} ${currentAddress?.detail}`
+                                    !currentAddress ?
+                                        <Typography textAlign='center'> "no have any default address, <br /> please select default address before order" </Typography>
+                                        :
+                                        `${currentAddress?.province} ${currentAddress?.district} ${currentAddress?.subDistrict} ${currentAddress?.zipCode} ${currentAddress?.detail}`
                             }
 
                         </Grid>
@@ -123,25 +127,52 @@ const Checkout = () => {
 
                 <Paper sx={{ p: 2, mb: 2 }} >
                     {
-                        productList.productList?.map(item => {
-                            return (
-                                <Grid container key={Math.random()} spacing={2} className='items-center mb-4'>
-                                    <Grid xs={12} md={6} item>
-                                        <Stack alignItems='start' justifyContent='start' >
-                                            <figure className='relative mr-4' style={{ width: '100px', height: '100px' }}>
-                                                <img className='fit-img rounded-md' src={`${import.meta.env.VITE_BASE_API}/${item.product.thumbnail}`} />
-                                            </figure>
-                                            <Typography color='dark' style={{ width: 'calc(100% - 100px)' }}>
-                                                {item.product.name}
-                                            </Typography>
-                                        </Stack>
+                        isPageLoading ?
+                            new Array(3).fill(1).map((item, i) => {
+                                return (
+                                    <Grid key={i} container alignItems='center' spacing={2}>
+                                        <Grid xs={12} md={6} item>
+                                            <Stack alignItems='center' justifyContent='start' spacing={2}>
+                                                <Skeleton width={100} height={100} />
+                                                <div className='w-full'>
+                                                    <Skeleton width={'100%'} />
+                                                    <Skeleton width={'100%'} />
+                                                    <Skeleton width={'100%'} />
+                                                </div>
+                                            </Stack>
+                                        </Grid>
+                                        <Grid xs={12} md={2} item>
+                                            <Skeleton />
+                                        </Grid>
+                                        <Grid xs={12} md={2} item>
+                                            <Skeleton />
+                                        </Grid>
+                                        <Grid xs={12} md={2} item>
+                                            <Skeleton />
+                                        </Grid>
                                     </Grid>
-                                    <Grid xs={12} md={2} item> {item.product.price.toLocaleString()} </Grid>
-                                    <Grid xs={12} md={2} item> {item.amount.toLocaleString()} </Grid>
-                                    <Grid xs={12} md={2} item> {item.totalPrice.toLocaleString()} </Grid>
-                                </Grid>
-                            )
-                        })
+                                )
+                            })
+                            :
+                            productList.productList?.map(item => {
+                                return (
+                                    <Grid container key={Math.random()} spacing={2} className='items-center mb-4'>
+                                        <Grid xs={12} md={6} item>
+                                            <Stack alignItems='start' justifyContent='start' >
+                                                <figure className='relative mr-4' style={{ width: '100px', height: '100px' }}>
+                                                    <img className='fit-img rounded-md' src={`${import.meta.env.VITE_BASE_API}/${item.product.thumbnail}`} />
+                                                </figure>
+                                                <Typography color='dark' style={{ width: 'calc(100% - 100px)' }}>
+                                                    {item.product.name}
+                                                </Typography>
+                                            </Stack>
+                                        </Grid>
+                                        <Grid xs={12} md={2} item> {item.product.price.toLocaleString()} </Grid>
+                                        <Grid xs={12} md={2} item> {item.amount.toLocaleString()} </Grid>
+                                        <Grid xs={12} md={2} item> {item.totalPrice.toLocaleString()} </Grid>
+                                    </Grid>
+                                )
+                            })
                     }
                 </Paper>
 
@@ -193,7 +224,7 @@ const Checkout = () => {
                                 <br />
                                 <LoadingButton
                                     onClick={() => setIsDialogConfirmOpen(true)}
-                                    loading={isLoading}
+                                    loading={isPageLoading || isLoading}
                                     variant='contained'
                                     size='small'
                                 >

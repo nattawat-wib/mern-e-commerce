@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Grid, Container, Paper, Button, Typography, IconButton, Stack } from '@mui/material';
+import { Grid, Container, Paper, Button, Typography, IconButton, Stack, Skeleton } from '@mui/material';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -15,9 +15,10 @@ const Cart = () => {
     const { setNavCartItem } = useToggleContext();
     const [reRenderCart, setReRenderCart] = useState(Date.now());
 
+    const [isPageLoading, setIsPageLoading] = useState(false);
+
     useEffect(() => {
-        axios('get', '/cart', null, resp => setCartList(resp.data.cart), null, false)
-        console.log('re render');
+        axios('get', '/cart', null, resp => setCartList(resp.data.cart), null, false, [setIsPageLoading])
     }, [reRenderCart])
 
     const handleDeleteProduct = skuId => {
@@ -42,41 +43,71 @@ const Cart = () => {
 
                 <Paper sx={{ p: 2, mb: 2 }} >
                     {
-                        !cartList.productList?.length ?
-                            <Typography textAlign='center' sx={{ my: 10 }}> <b> "no product in your cart" </b> </Typography>
-                            :
-                            cartList.productList?.map(item => {
+                        isPageLoading ?
+                            new Array(6).fill(1).map((item, i) => {
                                 return (
-                                    <Grid container key={Math.random()} spacing={2} className='items-center mb-4'>
+                                    <Grid key={i} container alignItems='center' spacing={2}>
                                         <Grid xs={12} md={5} item>
-                                            <Stack alignItems='start' justifyContent='start' >
-                                                <figure className='relative mr-4' style={{ width: '100px', height: '100px' }}>
-                                                    <img className='fit-img' src={`${import.meta.env.VITE_BASE_API}/${item.product.thumbnail}`} />
-                                                </figure>
-                                                <Typography color='dark' style={{ width: 'calc(100% - 100px)' }}>
-                                                    {item.product.name}
-                                                </Typography>
+                                            <Stack alignItems='center' justifyContent='start' spacing={2}>
+                                                <Skeleton width={100} height={100} />
+                                                <div className='w-full'>
+                                                    <Skeleton width={'100%'} />
+                                                    <Skeleton width={'100%'} />
+                                                    <Skeleton width={'100%'} />
+                                                </div>
                                             </Stack>
                                         </Grid>
-                                        <Grid xs={12} md={2} item> {item.product.price?.toLocaleString()} </Grid>
                                         <Grid xs={12} md={2} item>
-                                            <SnippetInput
-                                                setReRenderCart={setReRenderCart}
-                                                value={item.amount}
-                                                skuId={item.product.skuId}
-                                            />
+                                            <Skeleton />
                                         </Grid>
-                                        <Grid xs={12} md={2} item> {item.totalPrice?.toLocaleString()} </Grid>
+                                        <Grid xs={12} md={2} item>
+                                            <Skeleton />
+                                        </Grid>
+                                        <Grid xs={12} md={2} item>
+                                            <Skeleton />
+                                        </Grid>
                                         <Grid xs={12} md={1} item>
-                                            <IconButton
-                                                onClick={() => handleDeleteProduct(item.product.skuId)}
-                                            >
-                                                <DeleteIcon color='error' />
-                                            </IconButton>
+                                            <Skeleton />
                                         </Grid>
                                     </Grid>
                                 )
                             })
+                            :
+                            !cartList.productList?.length ?
+                                <Typography textAlign='center' sx={{ my: 10 }}> <b> "no product in your cart" </b> </Typography>
+                                :
+                                cartList.productList?.map(item => {
+                                    return (
+                                        <Grid container key={Math.random()} spacing={2} className='items-center mb-4'>
+                                            <Grid xs={12} md={5} item>
+                                                <Stack alignItems='start' justifyContent='start' >
+                                                    <figure className='relative mr-4' style={{ width: '100px', height: '100px' }}>
+                                                        <img className='fit-img' src={`${import.meta.env.VITE_BASE_API}/${item.product.thumbnail}`} />
+                                                    </figure>
+                                                    <Typography color='dark' style={{ width: 'calc(100% - 100px)' }}>
+                                                        {item.product.name}
+                                                    </Typography>
+                                                </Stack>
+                                            </Grid>
+                                            <Grid xs={12} md={2} item> {item.product.price?.toLocaleString()} </Grid>
+                                            <Grid xs={12} md={2} item>
+                                                <SnippetInput
+                                                    setReRenderCart={setReRenderCart}
+                                                    value={item.amount}
+                                                    skuId={item.product.skuId}
+                                                />
+                                            </Grid>
+                                            <Grid xs={12} md={2} item> {item.totalPrice?.toLocaleString()} </Grid>
+                                            <Grid xs={12} md={1} item>
+                                                <IconButton
+                                                    onClick={() => handleDeleteProduct(item.product.skuId)}
+                                                >
+                                                    <DeleteIcon color='error' />
+                                                </IconButton>
+                                            </Grid>
+                                        </Grid>
+                                    )
+                                })
                     }
                 </Paper>
 
