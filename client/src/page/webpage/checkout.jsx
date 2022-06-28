@@ -6,22 +6,26 @@ import PersonPinCircleIcon from '@mui/icons-material/PersonPinCircle';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import { PageWrapper } from "../../style/util.style";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { StyledCartFooter } from './../../style/product.style';
 import { useState, useEffect } from 'react';
 import axios from './../../api/axios';
 import { useAuthContext } from './../../context/auth-context';
 import providerList from './../../data/provider.json';
+import DialogConfirm from './../../components/util/dialog-confirm';
 
 const Checkout = () => {
     const [productList, setProductList] = useState([]);
     const [currentAddress, setCurrentAddress] = useState({});
     const [isLoading, setIsLoading] = useState(false);
+    const [isDialogConfirmOpen, setIsDialogConfirmOpen] = useState(false);
+
     const [selectProvider, setSelectProvider] = useState('');
     const [paymentMethod, setPaymentMethod] = useState('');
     const [deliveryPrice, setDeliveryPrice] = useState(' - ');
     const [form, setForm] = useState();
 
+    const navigate = useNavigate();
     const { auth } = useAuthContext();
 
     useEffect(() => {
@@ -48,19 +52,25 @@ const Checkout = () => {
             totalProduct: productList.totalProduct,
             totalPrice: productList.totalPrice,
             provider: selectProvider,
+            paymentMethod: paymentMethod,
             deliveryPrice: deliveryPrice,
-            paymentMethod: paymentMethod
         })
     }, [auth, selectProvider, productList, paymentMethod])
 
     const handleOrderConfirm = () => {
         console.log(form);
-        // console.log(auth);
-        // console.log(productList);
+        axios('post', '/order', form, resp => {
+            navigate(`/order-history/${resp.data.order.orderNumber}`)
+        })
     }
 
     return (
         <PageWrapper >
+            <DialogConfirm
+                isOpen={isDialogConfirmOpen}
+                setIsOpen={setIsDialogConfirmOpen}
+                callback={handleOrderConfirm}
+            />
             <Container sx={{ pb: 4, pt: 3 }} >
                 <Button
                     component={Link}
@@ -77,10 +87,16 @@ const Checkout = () => {
                     </Stack>
                     <Grid container alignItems='center' sx={{ mt: 2 }}>
                         <Grid xs={12} md={2} item>
-                            <b> {currentAddress?.name} </b>
+                            <b> {currentAddress?.name || '-'} </b>
                         </Grid>
                         <Grid xs={12} md={8} item>
-                            {`${currentAddress?.province} ${currentAddress?.district} ${currentAddress?.subDistrict} ${currentAddress?.zipCode} ${currentAddress?.detail}`}
+                            {
+                                !currentAddress ?
+                                    <Typography textAlign='center'> "no have any default address, <br /> please select default address before order" </Typography>
+                                    :
+                                    `${currentAddress?.province} ${currentAddress?.district} ${currentAddress?.subDistrict} ${currentAddress?.zipCode} ${currentAddress?.detail}`
+                            }
+
                         </Grid>
                         <Grid xs={12} md={2} item>
                             <Button
@@ -173,7 +189,7 @@ const Checkout = () => {
                                 </Typography>
                                 <br />
                                 <LoadingButton
-                                    onClick={handleOrderConfirm}
+                                    onClick={() => setIsDialogConfirmOpen(true)}
                                     loading={isLoading}
                                     variant='contained'
                                     size='small'

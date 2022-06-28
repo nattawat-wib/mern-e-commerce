@@ -16,7 +16,7 @@ exports.register = async (req, res) => {
 
         const newMember = await Member.create(req.body);
 
-        await Cart.create({ owner: newMember._id });
+        await Cart.create({ owner: newMember._id, totalProduct: 0, totalPrice: 0 })
 
         const token = jwt.sign({ username: newMember.username }, process.env.JWT_SECRET);
         newMember.accessToken = token;
@@ -51,6 +51,7 @@ exports.login = async (req, res) => {
 
         const member = await Member
             .findOne({ email: req.body.email })
+            .select('+password')
             .populate('addressDefault', '-owner');
         if (!member) throw 'password or email is not correct';
 

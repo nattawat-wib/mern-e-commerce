@@ -23,14 +23,19 @@ const orderSchema = new mongoose.Schema({
         required: true
     },
     productList: {
-        type: [{
-            _id: String,
-            name: String,
-            category: String,
-            price: Number,
-            skuId: String,
-            thumbnail: String
-        }],
+        type: [
+            new mongoose.Schema({
+                product: {
+                    _id: String,
+                    name: String,
+                    category: String,
+                    price: Number,
+                    skuId: String,
+                    thumbnail: String
+                },
+                amount: Number,
+                totalPrice: Number
+            })],
         required: true
     },
     totalProduct: {
