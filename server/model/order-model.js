@@ -69,12 +69,15 @@ const orderSchema = new mongoose.Schema({
             dateTime: String
         },
     },
-    isReview: Boolean,
+    isReview: {
+        type: Boolean,
+        default: false
+    },
     paymentConfirmAt: Number,
     paymentConfirmAtDateTime: String,
     shippingConfirmAt: Number,
     shippingConfirmAtDateTime: String,
-    shippingDetail : {
+    shippingDetail: {
         provider: String,
         deliveryPrice: Number,
         trackingId: String,

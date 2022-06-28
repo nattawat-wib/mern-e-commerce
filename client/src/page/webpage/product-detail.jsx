@@ -109,12 +109,12 @@ const ProductDetail = () => {
                             <Typography variant='h6'>
                                 {currentProduct.name}
                             </Typography>
-                            <Stack spacing={1} justifyContent='flex-start'>
+                            {/* <Stack spacing={1} justifyContent='flex-start'>
                                 <Rating name="half-rating-read" defaultValue={4.7} readOnly />
                                 <Typography variant='subtitle1'>
                                     4.7
                                 </Typography>
-                            </Stack>
+                            </Stack> */}
 
                             <Typography
                                 variant='h4'
@@ -125,7 +125,7 @@ const ProductDetail = () => {
                                 ฿{currentProduct.price?.toLocaleString()}
                             </Typography>
 
-                            <Grid container spacing={2} sx={{ mt: 2 }} >
+                            {/* <Grid container spacing={2} sx={{ mt: 2 }} >
                                 <Grid item xs={9}>
                                     <Grid container spacing={1}>
                                         <Grid xs={2} item>
@@ -142,7 +142,7 @@ const ProductDetail = () => {
                                         </Grid>
                                     </Grid>
                                 </Grid>
-                            </Grid>
+                            </Grid> */}
 
                             <Grid container spacing={2} sx={{ mt: 2 }} >
                                 <Grid item xs={3}>
@@ -185,7 +185,7 @@ const ProductDetail = () => {
                     <Typography dangerouslySetInnerHTML={{ __html: currentProduct.detail }} />
                 </Paper>
 
-                <Paper sx={{ my: 4, p: 4 }}>
+                {/* <Paper sx={{ my: 4, p: 4 }}>
                     <Typography variant='h5' color='primary' sx={{ mb: 2 }}> Rating & Review </Typography>
                     {
                         new Array(10).fill(1).map((review, i) => {
@@ -194,7 +194,7 @@ const ProductDetail = () => {
                             )
                         })
                     }
-                </Paper>
+                </Paper> */}
 
                 <Paper sx={{ my: 4, p: 4 }}>
                     <Typography> Other Products </Typography>

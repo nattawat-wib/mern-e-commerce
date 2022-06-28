@@ -6,27 +6,39 @@ import UploadIcon from '@mui/icons-material/Upload';
 import { useState } from 'react';
 import { useAuthContext } from './../../context/auth-context';
 import { useEffect } from 'react';
+import axios from '../../api/axios';
 
 
 export default function MemberProfile() {
-    const { auth } = useAuthContext();
-
+    const { auth, authDispatch } = useAuthContext();
     const [form, setForm] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         setForm({
+            avatar: auth?.member?.avatar,
             firstName: auth?.member?.firstName,
             lastName: auth?.member?.lastName,
             tel: auth?.member?.tel,
-            email: auth?.member?.email,
         });
     }, [auth])
 
     const handleFormChange = e => {
         setForm(prev => ({
             ...prev,
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.type === 'file' ? e.target.files[0] : e.target.value
         }))
+    }
+
+    const handleFormSubmit = e => {
+        e.preventDefault();
+
+        const formData = new FormData();
+        for (const key in form) formData.append(key, form[key]);
+
+        axios('patch', '/member', formData, resp => {
+            authDispatch({ type: 'update', payload: resp.data })
+        }, null, true, [setIsLoading])
     }
 
     return (
@@ -34,11 +46,17 @@ export default function MemberProfile() {
             <Typography> <b> My Profile </b> </Typography>
             <span>  Manage your personal information for the security of this account. </span>
             <Divider sx={{ my: 3 }} />
-            <Grid spacing={2} container>
+            <Grid
+                component='form'
+                onSubmit={handleFormSubmit}
+                spacing={2}
+                container
+            >
                 <Grid xs={12} sm={8} item>
                     <TextField
                         value={form.firstName || ''}
                         onChange={handleFormChange}
+                        name='firstName'
                         size='small'
                         label='Firstname'
                         fullWidth
@@ -47,6 +65,7 @@ export default function MemberProfile() {
                     <TextField
                         value={form.lastName || ''}
                         onChange={handleFormChange}
+                        name='lastName'
                         size='small'
                         label='Lastname'
                         fullWidth
@@ -55,6 +74,7 @@ export default function MemberProfile() {
                     <TextField
                         value={form.tel || ''}
                         onChange={handleFormChange}
+                        name='tel'
                         size='small'
                         label='Tel'
                         fullWidth
@@ -62,7 +82,7 @@ export default function MemberProfile() {
                         sx={{ mb: 3 }}
                     />
                     <TextField
-                        value={form.email || ''}
+                        value={auth?.member?.email || ''}
                         disabled={true}
                         size='small'
                         label='Email'
@@ -70,6 +90,8 @@ export default function MemberProfile() {
                         sx={{ mb: 3 }}
                     />
                     <LoadingButton
+                        loading={isLoading}
+                        type='submit'
                         variant='contained'
                         size='small'
                     >
@@ -77,13 +99,22 @@ export default function MemberProfile() {
                     </LoadingButton>
                 </Grid>
                 <Grid xs={12} sm={4} item className='text-center'>
-                    <Avatar className='mx-auto' sx={{ width: 100, height: 100 }} />
+                    <Avatar
+                        src={
+                            form?.avatar && typeof form?.avatar !== 'string' ?
+                                URL.createObjectURL(form.avatar)
+                                :
+                                `${import.meta.env.VITE_BASE_API}/${form.avatar}`
+                        }
+                        className='mx-auto'
+                        sx={{ width: 100, height: 100 }}
+                    />
                     <Button
                         component='label'
                         className='block mx-auto mt-4 w-fit'
                     >
                         upload image
-                        <input type='file' hidden />
+                        <input name='avatar' onChange={handleFormChange} type='file' hidden />
                     </Button>
                     <small>
                         only image file is allow

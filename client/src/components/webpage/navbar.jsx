@@ -51,7 +51,7 @@ const Navbar = () => {
                 setIsLoginDialogOpen={setIsLoginDialogOpen}
             />
             <LoginDialog
-                isLoginDialogOpen={isLoginDialogOpen}s
+                isLoginDialogOpen={isLoginDialogOpen} s
                 setIsLoginDialogOpen={setIsLoginDialogOpen}
                 setIsRegisterDialogOpen={setIsRegisterDialogOpen}
             />
@@ -75,7 +75,10 @@ const Navbar = () => {
                                         size='small'
                                         sx={{ color: 'light' }}
                                     >
-                                        <Avatar sx={{ width: 20, height: 20, mr: 1 }} />
+                                        <Avatar
+                                            src={`${import.meta.env.VITE_BASE_API}/${auth.member?.avatar}`}
+                                            sx={{ width: 20, height: 20, mr: 1 }}
+                                        />
                                         {auth.member.firstName}
                                     </Button>
                                 </Tooltip>
