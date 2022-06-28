@@ -69,6 +69,7 @@ const orderSchema = new mongoose.Schema({
             dateTime: String
         },
     },
+    isReview: Boolean,
     paymentConfirmAt: Number,
     paymentConfirmAtDateTime: String,
     shippingConfirmAt: Number,
@@ -112,10 +113,10 @@ const orderSchema = new mongoose.Schema({
         updatedAt: 'updatedAt'
     }
 })
+
 orderSchema.pre('save', async function (next) {
     this.updatedAtDateTime = new Date(this.updatedAt).toLocaleString('en-GB').split(', ').join(' ');
     this.updatedAtTimestamp = new Date(this.updatedAt).getTime();
-    // this.updatedAtTimestamp = 'awd'
 
     if (this.isNew) {
         this.createdAtDateTime = this.updatedAtDateTime

@@ -12,6 +12,7 @@ const productRouter = require('./routes/product-route');
 const cartRouter = require('./routes/cart-route');
 const addressRouter = require('./routes/address-route');
 const orderRouter = require('./routes/order-route');
+const reviewRouter = require('./routes/review-route');
 
 require('dotenv').config();
 require('./db');
@@ -44,6 +45,7 @@ app.use('/product', productRouter);
 app.use('/cart', cartRouter);
 app.use('/address', addressRouter);
 app.use('/order', orderRouter);
+app.use('/review', reviewRouter);
 
 app.listen(port, () => {
     console.log(`server is starting in port ${port} ...`);
