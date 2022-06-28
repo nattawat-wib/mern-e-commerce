@@ -11,13 +11,16 @@ import { StyledCartFooter } from './../../style/product.style';
 import { useState, useEffect } from 'react';
 import axios from './../../api/axios';
 import { useAuthContext } from './../../context/auth-context';
+import providerList from './../../data/provider.json';
 
 const Checkout = () => {
     const [productList, setProductList] = useState([]);
     const [currentAddress, setCurrentAddress] = useState({});
-    const [selectProvider, setSelectProvider] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const [form, setForm] = useState({});
+    const [selectProvider, setSelectProvider] = useState('');
+    const [paymentMethod, setPaymentMethod] = useState('');
+    const [deliveryPrice, setDeliveryPrice] = useState(' - ');
+    const [form, setForm] = useState();
 
     const { auth } = useAuthContext();
 
@@ -27,7 +30,34 @@ const Checkout = () => {
         }, null, false)
     }, [])
 
-    useEffect(() => setCurrentAddress(auth?.member?.addressDefault), [auth])
+    useEffect(() => {
+        setCurrentAddress(auth?.member?.addressDefault);
+
+        setForm({
+            owner: auth?.member?._id,
+            address: {
+                name: auth?.member?.addressDefault?.name,
+                tel: auth?.member?.addressDefault?.tel,
+                province: auth?.member?.addressDefault?.province,
+                district: auth?.member?.addressDefault?.district,
+                subDistrict: auth?.member?.addressDefault?.subDistrict,
+                zipCode: auth?.member?.addressDefault?.zipCode,
+                detail: auth?.member?.addressDefault?.detail,
+            },
+            productList: productList.productList,
+            totalProduct: productList.totalProduct,
+            totalPrice: productList.totalPrice,
+            provider: selectProvider,
+            deliveryPrice: deliveryPrice,
+            paymentMethod: paymentMethod
+        })
+    }, [auth, selectProvider, productList, paymentMethod])
+
+    const handleOrderConfirm = () => {
+        console.log(form);
+        // console.log(auth);
+        // console.log(productList);
+    }
 
     return (
         <PageWrapper >
@@ -107,15 +137,24 @@ const Checkout = () => {
                                 fullWidth
                                 size='small'
                             >
-                                <MenuItem value='Kerry Express'> Kerry Express </MenuItem>
-                                <MenuItem value='Thai Post'> Thai Post </MenuItem>
-                                <MenuItem value='Flash'> Flash </MenuItem>
+                                {
+                                    providerList.map(provider => {
+                                        return (
+                                            <MenuItem
+                                                onClick={() => setDeliveryPrice(provider.price)}
+                                                value={provider.name}
+                                                key={provider.name}
+                                            >
+                                                price {provider.price === 0 ? 'Free' : provider.price} - {provider.name}
+                                            </MenuItem>)
+                                    })
+                                }
                             </TextField>
                         </Grid>
                         <Grid xs={1} item></Grid>
                         <Grid xs={3} item>
                             <FormLabel> Payment Method </FormLabel>
-                            <RadioGroup>
+                            <RadioGroup onChange={e => setPaymentMethod(e.target.value)}>
                                 <FormControlLabel name='paymentMethod' value='Bank Transfer' control={<Radio />} label='Bank Transfer' />
                                 <FormControlLabel name='paymentMethod' disabled value='Credit Card' control={<Radio />} label='Credit Card' />
                                 <FormControlLabel name='paymentMethod' disabled value='Crash On Delivery' control={<Radio />} label='Crash On Delivery' />
@@ -130,10 +169,11 @@ const Checkout = () => {
                                     <b> All Price </b>: {productList.totalPrice?.toLocaleString()}
                                 </Typography>
                                 <Typography sx={{ mb: 1 }}>
-                                    <b> Delivery Price </b>: 40
+                                    <b> Delivery Price </b>: {deliveryPrice === 0 ? 'Free' : deliveryPrice}
                                 </Typography>
                                 <br />
                                 <LoadingButton
+                                    onClick={handleOrderConfirm}
                                     loading={isLoading}
                                     variant='contained'
                                     size='small'

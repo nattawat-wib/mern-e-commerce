@@ -1,0 +1,28 @@
+
+[
+    {
+        "_id": "pro01",
+        "name": "DHL",
+        "price": 20
+    },
+    {
+        "_id": "pro02",
+        "name": "Fed Ex",
+        "price": 30
+    },
+    {
+        "_id": "pro03",
+        "name": "Flash Express",
+        "price": 40
+    },
+    {
+        "_id": "pro04",
+        "name": "Kerry Express",
+        "price": 50
+    },
+    {
+        "_id": "pro05",
+        "name": "Thailand Post",
+        "price": 0
+    }
+]

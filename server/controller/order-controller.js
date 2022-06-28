@@ -1,6 +1,6 @@
 const Order = require('./../model/order-model');
 
-exports.create = async (res, res) => {
+exports.create = async (req, res) => {
     try {
 
         res.status(200).json({

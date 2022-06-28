@@ -86,7 +86,7 @@ exports.getAll = async (req, res) => {
 
         cart = await Cart
             .findOne({ owner: req.member._id })
-            .populate('productList.product', 'thumbnail name skuId price amount -_id')
+            .populate('productList.product', 'thumbnail name skuId category price amount')
 
         if (!cart) cart = await Cart.create({ owner: req.member._id, totalProduct: 0, totalPrice: 0 });
 
