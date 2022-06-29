@@ -4,23 +4,28 @@ const validate = require('./../middleware/validate');
 const authController = require('./../controller/auth-controller');
 const multer = require('./../middleware/multer');
 
-router.use(authController.getLoginMember)
-
 router.route('/')
     .post(
+        authController.getLoginMember,
         validate.order,
         orderController.create
     )
     .get(orderController.getAll)
 
+router.get('/member',
+    authController.getLoginMember,
+    orderController.getByMember
+)
+
 router.route('/:orderNumber')
     .get(orderController.getOne)
 
 router.patch('/upload-slip/:orderNumber',
+    authController.getLoginMember,
     multer.config.single('slip'),
     orderController.uploadSlip
 )
-router.patch('/confirm-payment/:orderNumber',orderController.confirmPayment)
-router.patch('/confirm-shipping/:orderNumber',orderController.confirmShipping)
+router.patch('/confirm-payment/:orderNumber', orderController.confirmPayment)
+router.patch('/confirm-shipping/:orderNumber', orderController.confirmShipping)
 
 module.exports = router

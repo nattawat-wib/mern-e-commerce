@@ -9,7 +9,7 @@ export default function OrderHistory() {
     const [orderList, setOrderList] = useState([]);
 
     useEffect(() => {
-        axios('get', '/order', null, resp => {
+        axios('get', '/order/member', null, resp => {
             setOrderList(resp.data.order)
         }, null, false)
     }, [])

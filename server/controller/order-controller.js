@@ -91,7 +91,29 @@ exports.create = async (req, res) => {
 
 exports.getAll = async (req, res) => {
     try {
-        const order = await Order.find({ owner: req.member._id }).sort({ createdAt: -1 }).populate('owner', 'firstName lastName');
+        const order = await Order.find().sort({ createdAt: -1 }).populate('owner', 'firstName lastName');
+
+        res.status(200).json({
+            status: 'success',
+            msg: 'all order with this member id',
+            data: {
+                order
+            }
+        })
+    } catch (err) {
+        console.log(err);
+
+        res.status(400).json({
+            status: 'error',
+            msg: err
+        })
+
+    }
+}
+
+exports.getByMember = async (req, res) => {
+    try {
+        const order = await Order.find({ owner: req.member._id }).sort({ createdAt: -1 });
 
         res.status(200).json({
             status: 'success',

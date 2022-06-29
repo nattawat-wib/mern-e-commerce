@@ -5,7 +5,7 @@ import { useThemeContext } from './../../context/them-context';
 
 export default function CustomTable({ data, bodyRow, headColumn }) {
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
     const { isDarkTheme } = useThemeContext();
 
     const handleChangePage = (e, newPage) => {
