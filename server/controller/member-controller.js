@@ -22,9 +22,6 @@ exports.getAll = async (req, res) => {
 
 exports.update = async (req, res) => {
     try {
-        console.log(req.file);
-        console.log(req.body);
-        // throw 'test'
         cleanForm(req.body, ['firstName', 'lastName', 'tel']);
 
         const member = await Member.findByIdAndUpdate(req.member._id, {

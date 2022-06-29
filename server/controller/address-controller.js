@@ -6,8 +6,6 @@ exports.create = async (req, res) => {
     try {
         cleanForm(req.body, ['name', 'tel', 'province', 'district', 'subDistrict', 'zipCode', 'detail'])
 
-        console.log(req.body);
-
         const address = await Address.create({
             owner: req.member._id,
             ...req.body
@@ -102,8 +100,6 @@ exports.update = async (req, res) => {
             { ...req.body },
             { new: true }
         );
-
-        console.log(address);
 
         res.status(200).json({
             status: 'success',
