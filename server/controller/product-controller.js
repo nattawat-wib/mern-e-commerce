@@ -80,13 +80,24 @@ exports.getOne = async (req, res) => {
 
 exports.update = async (req, res) => {
     try {
-        const product = await Product
-            .findOne({ skuId: req.params.skuId })
-            .sort({ createdAt: -1 });
+        // console.log('req.body.imageList', req.body.imageList);
+        // console.log('req.files.imageList', req.files.imageList);
+
+        delete req.body.imageList;
+        // for (const key in req.files) {
+        //     req.files[key] = req.files[key].map(file => file.filename)
+        // }
+
+        const product = await Product.findByIdAndUpdate(req.body._id, {
+            ...req.body,
+            thumbnail: req.body.thumbnail || req.files.thumbnail[0].filename,
+            // imageList: [],
+            // imageList: req.files.imageList
+        }, { new: true });
 
         res.status(200).json({
             status: 'success',
-            msg: 'product that match with this skuid',
+            msg: 'product update successfully',
             data: {
                 product
             }

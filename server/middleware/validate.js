@@ -34,17 +34,24 @@ exports.productCreate = async (req, res, next) => {
 
 exports.productUpdate = async (req, res, next) => {
     try {
-        console.log(req.body);
+        // clean form 
+        for (const key in req.body) {
+            if (!['_id', 'name', 'detail', 'category', 'url', 'price', 'skuId', 'thumbnail', 'imageList'].includes(key)) {
+                delete req.body[key]
+            }
+        }
 
-        // if (!req.files.thumbnail && !req.body.thumbnail) throw 'thumbnail is require!';
-        // if (req.files.imageList?.length < 1 || req.body.imageList?.length < 1) throw 'gallery is require at lease 1 image';;
+        // check is key contain value
+        ['_id', 'name', 'detail', 'category', 'url', 'price', 'skuId'].forEach(key => {
+            if(!req.body[key]) throw key + ' is require'
+        })
 
-        cleanForm(req.body, [
-            'name', 'detail', 'category', 'url', 'price', 'skuId'
-        ])
+        // check is image contain value
+        if(!req.files.thumbnail && !req.body.thumbnail) throw 'thumbnail is require';
+        if(!req.files.imageList && !req.body.imageList) throw 'gallery is require at least 1 image';
 
-        const isUrlExist = await Product.findOne({ url: req.body.url });
-        const isSkuIdExist = await Product.findOne({ skuId: req.body.skuId });
+        const isUrlExist = await Product.findOne({ url: req.body.url, _id: { $ne: req.body._id } });
+        const isSkuIdExist = await Product.findOne({ skuId: req.body.skuId, _id: { $ne: req.body._id } });
 
         if (isUrlExist) throw 'this url is already taken';
         if (isSkuIdExist) throw 'this sku id is already taken';

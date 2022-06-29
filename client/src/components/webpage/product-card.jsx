@@ -30,7 +30,7 @@ const ProductCard = ({ product = {}, loading }) => {
                         :
                         <>
                             <Typography variant='subtitle2' color='primary'>
-                                {`฿${product.price.toLocaleString()}`}
+                                <b> {`฿${product.price.toLocaleString()}`} </b>
                             </Typography>
                             <Typography variant='subtitle2'>
                                 {product.category}

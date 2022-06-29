@@ -20,8 +20,8 @@ export default function ProductAdd() {
 
     useEffect(() => {
         axios('get', `/product/${productSku}`, null, resp => {
-            const { thumbnail, imageList, name, detail, category, url, price, skuId } = resp.data.product;
-            setForm({ thumbnail, imageList, name, detail, category, url, price, skuId });
+            const { _id, thumbnail, imageList, name, detail, category, url, price, skuId } = resp.data.product;
+            setForm({ _id, thumbnail, imageList, name, detail, category, url, price, skuId });
             setTempImage({ thumbnail, imageList })
         }, null, false)
     }, [])
@@ -43,13 +43,16 @@ export default function ProductAdd() {
         return (
             <figure className='relative w-[64px] h-[64px]' >
                 <img className='fit-img rounded-md' src={src} />
-                <IconButton
-                    onClick={() => handleImageRemove(name, id)}
-                    className='absolute'
-                    sx={{ bgcolor: '#fff', color: '#121212', width: 23, height: 23, top: -10, right: -10, boxShadow: '0 0 12px rgba(0,0,0,.2)', '&:hover': { bgcolor: '#dce4e8' } }}
-                >
-                    <DeleteIcon sx={{ fontSize: 16, color: '#e33d27' }} />
-                </IconButton>
+                {
+                    name === 'thumbnail' &&
+                    <IconButton
+                        onClick={() => handleImageRemove(name, id)}
+                        className='absolute'
+                        sx={{ bgcolor: '#fff', color: '#121212', width: 23, height: 23, top: -10, right: -10, boxShadow: '0 0 12px rgba(0,0,0,.2)', '&:hover': { bgcolor: '#dce4e8' } }}
+                    >
+                        <DeleteIcon sx={{ fontSize: 16, color: '#e33d27' }} />
+                    </IconButton>
+                }
             </figure >
         )
     };
@@ -57,13 +60,12 @@ export default function ProductAdd() {
     const handleFormSubmit = e => {
         e.preventDefault();
 
-        console.log(form);
-
         setIsBtnLoading(true);
         const formData = new FormData();
+        const myArr = ['dd'];
 
         for (const key in form) {
-            if (key === 'imageList') {
+            if (form[key] && key === 'imageList') {
                 form[key].forEach(file => {
                     formData.append('imageList', file)
                 })
@@ -95,14 +97,14 @@ export default function ProductAdd() {
 
     const handleImageRemove = (name, id) => {
         console.log(name, id);
-        let value = undefined;
-        let tempValue = undefined;
+        let value = '';
+        let tempValue = '';
 
         if (id) {
             value = [...form.imageList];
-            value[id] = undefined
+            value[id] = ''
             tempValue = [...tempImage.imageList];
-            tempValue[id] = undefined
+            tempValue[id] = ''
         };
 
         setForm(prev => ({ ...prev, [name]: value }));
@@ -158,7 +160,8 @@ export default function ProductAdd() {
                                                     form.imageList && form.imageList[i] ?
                                                         <ImagePreview src={URL.createObjectURL(form.imageList[i])} id={i} name='imageList' />
                                                         :
-                                                        <SelectImage id={i} name='imageList' />
+                                                        <div></div>
+                                                        // <SelectImage id={i} name='imageList' />
                                             }
                                         </Grid>
                                     )

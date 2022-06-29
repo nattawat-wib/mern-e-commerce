@@ -39,7 +39,6 @@ export default function OrderManagement() {
 
     useEffect(() => {
         axios('get', `/order/${orderNumber}`, null, resp => {
-            console.log(resp.data.order);
             setOrder(resp.data.order)
         }, null, false)
     }, [])
@@ -72,7 +71,6 @@ export default function OrderManagement() {
     }
 
     const handleConfirmShipping = () => {
-        console.log(shippingConfirmForm);
         axios('patch', `/order/confirm-shipping/${orderNumber}`, shippingConfirmForm, resp => {
             setOrder(resp.data.order)
         }, null, true, [setIsLoading])
