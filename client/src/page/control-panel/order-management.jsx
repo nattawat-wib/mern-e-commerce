@@ -8,8 +8,7 @@ import InventoryIcon from '@mui/icons-material/Inventory';
 import PaidIcon from '@mui/icons-material/Paid';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 
-import { StyledResponsiveStepper } from '../../style/product.style';
-import { StyledStepIcon } from '../../style/product.style';
+import { StyledResponsiveStepper, StyledStepIcon } from '../../style/product.style';
 import { Link, useParams } from 'react-router-dom';
 import FsLightbox from 'fslightbox-react';
 import { useState, useEffect } from 'react';
