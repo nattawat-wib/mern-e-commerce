@@ -1,3 +1,5 @@
+console.log("import.meta.env.VITE_BASE_API", import.meta.env.VITE_BASE_API);
+
 import './style/app.scss';
 
 import { StyledEngineProvider } from '@mui/material/styles';
@@ -32,8 +34,6 @@ import ProductEdit from './page/control-panel/product-edit';
 import OrderManagement from './page/control-panel/order-management';
 
 import NotFound from './page/not-found';
-
-console.log("import.meta.env.VITE_BASE_API", import.meta.env.VITE_BASE_API);
 
 const App = () => {
     return (

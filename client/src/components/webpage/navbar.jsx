@@ -35,7 +35,6 @@ const Navbar = () => {
 
     useEffect(() => {
         axios('get', `/product/search/key`, null, resp => {
-            console.log(resp.data.result);
             setSearchResultList(resp.data.result)
         }, null, false)
     }, [])
