@@ -47,6 +47,14 @@ app.use('/address', addressRouter);
 app.use('/order', orderRouter);
 app.use('/review', reviewRouter);
 
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, "../client/dist")));
+
+    app.use("/", (req, res) => {
+        res.sendFile(path.join(__dirname, "../client/dist/index.html"));
+    });
+}
+
 app.listen(port, () => {
     console.log(`server is starting in port ${port} ...`);
 });

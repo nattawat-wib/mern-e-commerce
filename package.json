@@ -1,0 +1,12 @@
+{
+    "name": "mern-e-commerce",
+    "description": "a really cool app",
+    "scripts": {
+        "start": "cd server && npm i && node app.js",
+        "heroku-postbuild": "cd client && npm i --force"
+    },
+    "version": "1.0.0",
+    "engines": {
+        "node": "16"
+    }
+}
