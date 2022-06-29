@@ -22,4 +22,6 @@ router
     )
     .delete(productController.delete)
 
+router.get('/search/:key', productController.search);
+
 module.exports = router

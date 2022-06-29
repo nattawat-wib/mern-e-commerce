@@ -1,20 +1,10 @@
 import styled from '@emotion/styled';
-import { AppBar, Drawer, TextField } from '@mui/material';
+import { AppBar, Drawer, TextField, Autocomplete } from '@mui/material';
 
-export const StyledSearchBar = styled(TextField)`
+export const StyledSearchBar = styled(Autocomplete)`
     background-color: ${({ theme }) => theme.inputBg};
     border-radius: 4px;
-    padding: 0;
     max-width: 700px;
-    
-    & .MuiFilledInput-input {
-        padding-top: 17px;
-        font-size: 14px;
-    }
-
-    & label.MuiInputLabel-formControl {
-        top: -4px
-    }
 `
 
 export const StyledControlPanelNavbar = styled(AppBar)`

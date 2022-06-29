@@ -121,3 +121,28 @@ exports.delete = async (req, res) => {
         })
     }
 }
+
+exports.search = async (req, res) => {
+    try {
+        // const result = await Product.find({ name: { $regex: req.params.key } }).select('name -_id');
+        const result = await Product.find().select('name skuId category');
+
+        console.log(result);
+
+        res.status(200).json({
+            status: 'success',
+            msg: 'search result',
+            data: {
+                result
+            }
+        })
+
+    } catch (err) {
+        console.log(err);
+
+        res.status(400).json({
+            status: 'error',
+            msg: err
+        })
+    }
+}

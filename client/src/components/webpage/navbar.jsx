@@ -1,4 +1,4 @@
-import { AppBar, Container, Box, Stack, Button, Typography, IconButton, InputAdornment, Tooltip, Menu, MenuItem, Avatar, ListItemIcon, Badge } from '@mui/material';
+import { AppBar, Container, Box, Stack, Button, Typography, IconButton, InputAdornment, Tooltip, Menu, MenuItem, Avatar, ListItemIcon, Badge, TextField } from '@mui/material';
 
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import SearchIcon from '@mui/icons-material/Search';
@@ -9,11 +9,11 @@ import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PaymentIcon from '@mui/icons-material/Payment';
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { StyledSearchBar } from './../../style/navbar.style';
 import RegisterDialog from './register-dialog';
 import LoginDialog from './login-dialog';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import DialogConfirm from './../util/dialog-confirm';
 import { useAuthContext } from '../../context/auth-context';
 import { useThemeContext } from './../../context/them-context';
@@ -29,6 +29,16 @@ const Navbar = () => {
     const { isDarkTheme, setIsDarkTheme } = useThemeContext();
     const { auth, authDispatch } = useAuthContext();
     const { navCartItem } = useToggleContext();
+
+    const [searchResultList, setSearchResultList] = useState([]);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        axios('get', `/product/search/key`, null, resp => {
+            console.log(resp.data.result);
+            setSearchResultList(resp.data.result)
+        }, null, false)
+    }, [])
 
     const handleLogout = () => {
         axios('delete', '/auth/logout', null, () => {
@@ -144,22 +154,15 @@ const Navbar = () => {
                         <Typography sx={{ mt: 1 }} variant='h5' color='light'> Shobhee </Typography>
                     </Stack>
                     <StyledSearchBar
-                        size='small'
-                        variant='filled'
-                        label='search'
-                        fullWidth
-                        InputProps={{
-                            endAdornment: (
-                                <InputAdornment position='end'>
-                                    <Button
-                                        size='small'
-                                        variant='contained'
-                                    >
-                                        <SearchIcon color='light' />
-                                    </Button>
-                                </InputAdornment>
-                            )
+                        // disablePortal
+                        onChange={(e, product) => {
+                            if (product) navigate(`/product/${product.category}/${product.skuId}`)
                         }}
+                        options={searchResultList}
+                        getOptionLabel={option => option.name || ""}
+                        renderInput={params => <TextField variant='filled' label='search' {...params} />}
+                        size='small'
+                        fullWidth
                     />
                     <div>
                         <IconButton
