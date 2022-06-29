@@ -195,10 +195,10 @@ exports.uploadSlip = async (req, res) => {
 
 exports.confirmPayment = async (req, res) => {
     try {
-        const { status } = await Order.findOne({ owner: req.member._id, orderNumber: req.params.orderNumber });
+        const { status } = await Order.findOne({ orderNumber: req.params.orderNumber });
         if (status !== 'waiting for review') throw "can't process, status with this order is not correctly";
 
-        const order = await Order.findOneAndUpdate({ owner: req.member._id, orderNumber: req.params.orderNumber }, {
+        const order = await Order.findOneAndUpdate({ orderNumber: req.params.orderNumber }, {
             status: 'waiting for shipping',
             paymentConfirmAt: Date.now(),
             paymentConfirmAtDateTime: new Date().toLocaleString('en-GB').split(', ').join(' ')
@@ -226,10 +226,10 @@ exports.confirmShipping = async (req, res) => {
     try {
         cleanForm(req.body, ['provider', 'deliveryPrice', 'trackingId']);
 
-        const { status } = await Order.findOne({ owner: req.member._id, orderNumber: req.params.orderNumber });
+        const { status } = await Order.findOne({ orderNumber: req.params.orderNumber });
         if (status !== 'waiting for shipping') throw "can't process, status with this order is not correctly";
 
-        const order = await Order.findOneAndUpdate({ owner: req.member._id, orderNumber: req.params.orderNumber }, {
+        const order = await Order.findOneAndUpdate({ orderNumber: req.params.orderNumber }, {
             status: 'success',
             shippingDetail: {
                 provider: req.body.provider,

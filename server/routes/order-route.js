@@ -17,14 +17,17 @@ router.get('/member',
     orderController.getByMember
 )
 
-router.route('/:orderNumber')
-    .get(orderController.getOne)
+router.get('/:orderNumber',
+    authController.getLoginMember,
+    orderController.getOne
+)
 
 router.patch('/upload-slip/:orderNumber',
     authController.getLoginMember,
     multer.config.single('slip'),
     orderController.uploadSlip
 )
+
 router.patch('/confirm-payment/:orderNumber', orderController.confirmPayment)
 router.patch('/confirm-shipping/:orderNumber', orderController.confirmShipping)
 
