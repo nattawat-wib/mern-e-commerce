@@ -6,6 +6,8 @@ const xss = require('xss-clean');
 const sanitize = require('express-mongo-sanitize');
 const session = require('express-session');
 
+const path = require('path');
+
 const memberRouter = require('./routes/member-route');
 const authRouter = require('./routes/auth-route');
 const productRouter = require('./routes/product-route');
