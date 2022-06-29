@@ -4,15 +4,20 @@ const Cart = require('./../model/cart-model');
 
 exports.create = async (req, res) => {
     try {
-        console.log(req.body);
+        // generate order number
+        const date = new Date().toLocaleString('en-GB').split(', ')[0].split('/').join('');
+        let todayOrderList = await Order.find({ orderNumber: { $regex: date } });
+        todayOrderList = ("00" + String(todayOrderList.length+1)).slice(-3);
+
         const order = await Order.create({
             owner: req.member._id,
-            orderNumber: Math.random().toString(32).slice(2),
+            orderNumber: date + todayOrderList,
             productList: [...req.body.productList],
             status: 'waiting for payment',
             ...req.body
         });
 
+        // clear cart item
         await Cart.findOneAndDelete({ owner: req.member._id }, {
             $unset: { productList: 1 }
         })
