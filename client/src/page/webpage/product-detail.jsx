@@ -222,7 +222,7 @@ const ProductDetail = () => {
                                 <Skeleton />
                             </>
                             :
-                            <Typography dangerouslySetInnerHTML={{ __html: currentProduct.detail }} />
+                            <Typography dangerouslySetInnerHTML={{ __html: currentProduct?.detail?.replaceAll('\n', '<br />') }} />
                     }
                 </Paper>
 
