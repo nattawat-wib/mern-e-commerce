@@ -34,8 +34,10 @@ exports.productCreate = async (req, res, next) => {
 
 exports.productUpdate = async (req, res, next) => {
     try {
-        if (!req.files.thumbnail) throw 'thumbnail is require!';
-        if (!req.files.imageList || req.files.imageList < 1) throw 'gallery is require at lease 1 image';
+        console.log(req.body);
+
+        // if (!req.files.thumbnail && !req.body.thumbnail) throw 'thumbnail is require!';
+        // if (req.files.imageList?.length < 1 || req.body.imageList?.length < 1) throw 'gallery is require at lease 1 image';;
 
         cleanForm(req.body, [
             'name', 'detail', 'category', 'url', 'price', 'skuId'
@@ -62,8 +64,8 @@ exports.productUpdate = async (req, res, next) => {
 
 exports.order = async (req, res, next) => {
     try {
-        if(!Object.keys(req.body.address).length) throw 'please select address'
-        if(!req.body.productList.length) throw "you don't have any product in cart";
+        if (!Object.keys(req.body.address).length) throw 'please select address'
+        if (!req.body.productList.length) throw "you don't have any product in cart";
 
         cleanForm(req.body, ['address', 'productList', 'totalProduct', 'totalPrice', 'provider', 'paymentMethod', 'deliveryPrice']);
         cleanForm(req.body.address, ['name', 'tel', 'province', 'district', 'subDistrict', 'zipCode', 'detail']);

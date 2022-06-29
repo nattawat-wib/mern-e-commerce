@@ -90,9 +90,10 @@ export default function OrderManagement() {
                 setIsOpen={setIsDialogConfirmShippingOpen}
                 callback={handleConfirmShipping}
             />
+            {console.log(`${import.meta.env.VITE_BASE_API}/${order?.transaction?.slip}`)}
             <FsLightbox
                 toggler={isLightBoxOpen}
-                sources={[order.transaction ? `${import.meta.env.VITE_BASE_API}/${order.transaction.slip}` : 'https://via.placeholder.com/500']}
+                sources={[<img src={`${import.meta.env.VITE_BASE_API}/${order?.transaction?.slip}`} />]}
             />
             <Stack justifyContent='space-between'>
                 <Typography variant='h6'> Order Management </Typography>
