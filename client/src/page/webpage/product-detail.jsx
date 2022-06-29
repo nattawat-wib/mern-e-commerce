@@ -53,9 +53,10 @@ const ProductDetail = () => {
         )
     }, [location])
 
-    const addProductToCart = () => {
+    const addProductToCart = e => {
         axios('patch', `/cart/${currentProduct.skuId}/${quantity}`, { action: 'update' }, resp => {
             setNavCartItem(resp.data.cart.totalProduct)
+            if(e === 'buy now') navigate('/cart')
         }, null, true, [setIsLoading])
     }
 
@@ -195,8 +196,7 @@ const ProductDetail = () => {
                                 <LoadingButton
                                     disabled={!auth.isAuth}
                                     onClick={() => {
-                                        addProductToCart()
-                                        if (auth.isAuth) navigate('/cart')
+                                        addProductToCart('buy now')
                                     }}
                                     loading={isPageLoading || isLoading}
                                     variant='contained'
