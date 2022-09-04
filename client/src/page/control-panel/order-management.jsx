@@ -10,7 +10,7 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 
 import { StyledResponsiveStepper, StyledStepIcon } from '../../style/product.style';
 import { Link, useParams } from 'react-router-dom';
-// import FsLightbox from 'fslightbox-react';
+import FsLightbox from 'fslightbox-react';
 import { useState, useEffect } from 'react';
 import axios from '../../api/axios';
 import DialogConfirm from '../../components/util/dialog-confirm';
@@ -87,10 +87,10 @@ export default function OrderManagement() {
                 setIsOpen={setIsDialogConfirmShippingOpen}
                 callback={handleConfirmShipping}
             />
-            {/* <FsLightbox
+            <FsLightbox
                 toggler={isLightBoxOpen}
                 sources={[<img src={`${import.meta.env.VITE_BASE_API}/${order?.transaction?.slip}`} />]}
-            /> */}
+            />
             <Stack justifyContent='space-between'>
                 <Typography variant='h6'> Order Management </Typography>
                 <Button

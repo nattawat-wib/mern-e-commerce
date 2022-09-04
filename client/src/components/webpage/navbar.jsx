@@ -150,7 +150,7 @@ const Navbar = () => {
                 <Stack justifyContent='space-between' spacing={1} className='pb-1' >
                     <Stack component={Link} to='/'>
                         <img src="/image/favicon.png" alt="" width={60} height={60} />
-                        <Typography sx={{ mt: 1 }} variant='h5' color='light'> Shobhee </Typography>
+                        <Typography sx={{ mt: 1 }} variant='h5' color='light'> Shobpee </Typography>
                     </Stack>
                     <StyledSearchBar
                         // disablePortal
