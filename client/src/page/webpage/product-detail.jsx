@@ -241,7 +241,8 @@ const ProductDetail = () => {
                     <Typography variant='h5' color='primary' sx={{ mb: 2 }}> Other Products </Typography>
                     <Grid container spacing={2} >
                         {
-                            otherProductList.map(product => {
+                            otherProductList.slice(0, 4).map(product => {
+                            // otherProductList.map(product => {
                                 return (
                                     product.skuId !== currentProduct.skuId &&
                                     <Grid item xs={12} sm={6} md={3} key={product.skuId} >

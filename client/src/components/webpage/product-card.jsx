@@ -19,7 +19,7 @@ const ProductCard = ({ product = {}, loading }) => {
                 loading ?
                     <Skeleton />
                     :
-                    <Typography align='center' className='line-clamp-2 font-medium my-4'>
+                    <Typography className='line-clamp-2 font-medium my-4'>
                         {product.name}
                     </Typography>
             }
